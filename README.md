@@ -1,4 +1,4 @@
-# posgrad
+# PosGraduacao
 
 ## Features
 
@@ -130,6 +130,16 @@ Or for a specific service:
 docker-compose logs -f name_of_service # frontend|backend|db
 ```
 
+## API Sistemas UFRN
+
+
+```
+mv api_fake_keys.json api_keys.json
+```
+
+And fill the empty spaces with your own keys, optained in <https://api.ufrn.br/>
+
+
 ## Project Layout
 
 ```
@@ -141,7 +151,9 @@ backend
     │   └── api_v1
     │       └── endpoints
     ├── core    # config
+    │   └── utils
     ├── db      # db models
+    ├── schemas # schemas
     ├── tests   # pytest
     └── main.py # entrypoint to backend
 
