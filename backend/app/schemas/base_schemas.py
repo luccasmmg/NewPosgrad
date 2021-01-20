@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from app.db.models import CourseType
 import typing as t
 
 # User schemes
@@ -53,6 +54,26 @@ class SinfoKeys(BaseModel):
 class GoogleMapsKeys(BaseModel):
     key: str
 
+# Course schemes
+
+class CourseBase(BaseModel):
+    owner_id: int
+    name: str
+    id_sigaa: int
+    course_type: CourseType
+
+class CourseCreate(CourseBase):
+    pass
+
+class CourseEdit(CourseBase):
+    pass
+
+class Course(CourseBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+
 # PostGraduation schemes
 
 class PostGraduationBase(BaseModel):
@@ -74,6 +95,7 @@ class PostGraduationEdit(PostGraduationBase):
 class PostGraduation(PostGraduationBase):
     id: int
     users: t.List[User] = []
+    courses: t.List[Course] = []
 
     class Config:
         orm_mode = True

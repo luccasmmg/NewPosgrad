@@ -1,2 +1,3 @@
 *backend/app/core/utils/api_keys.json
 *.env
+*.pyc

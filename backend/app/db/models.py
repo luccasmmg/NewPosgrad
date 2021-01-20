@@ -1,4 +1,6 @@
-from sqlalchemy import Boolean, Column, Integer, String, Text, ForeignKey
+import enum
+
+from sqlalchemy import Boolean, Column, Integer, String, Text, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 
 from .session import Base
@@ -17,6 +19,7 @@ class PostGraduation(Base):
     description_big = Column(Text, default="")
 
     users = relationship("User", back_populates="post_graduation_owner")
+    courses = relationship("Course", back_populates="post_graduation_owner")
 
 class User(Base):
     __tablename__ = "user"
@@ -31,3 +34,18 @@ class User(Base):
     owner_id = Column(Integer, ForeignKey("post_graduation.id"))
 
     post_graduation_owner = relationship("PostGraduation", back_populates="users")
+
+class CourseType(str, enum.Enum):
+    masters = 'masters'
+    doctorate = 'masters'
+
+class Course(Base):
+    __tablename__ = "course"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    name = Column(String, nullable=False)
+    id_sigaa = Column(Integer, unique=True, nullable=False)
+    course_type = Column(Enum(CourseType), nullable=False)
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="courses")
