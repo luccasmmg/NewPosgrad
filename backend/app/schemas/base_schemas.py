@@ -60,12 +60,15 @@ class PostGraduationBase(BaseModel):
     name: str
     initials: str
     sigaa_code: str
-    is_signed_in: str = True
+    is_signed_in: bool = True
     old_url: str = ""
     description_small: str = ""
     description_big: str = ""
 
 class PostGraduationCreate(PostGraduationBase):
+    pass
+
+class PostGraduationEdit(PostGraduationBase):
     pass
 
 class PostGraduation(PostGraduationBase):
