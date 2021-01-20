@@ -4,7 +4,7 @@ from jwt import PyJWTError
 
 from app.db import models, session
 from app.schemas import base_schemas
-from app.db.crud import get_user_by_email, create_user
+from app.db.crud.users import get_user_by_email, create_user
 from app.core import security
 
 

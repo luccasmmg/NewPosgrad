@@ -4,6 +4,7 @@ import uvicorn
 
 from app.api.api_v1.routers.users import users_router
 from app.api.api_v1.routers.auth import auth_router
+from app.api.api_v1.routers.api_ufrn import api_sistemas_router
 from app.core import config
 from app.db.session import SessionLocal
 from app.core.auth import get_current_active_user
@@ -29,10 +30,6 @@ async def db_session_middleware(request: Request, call_next):
 async def root():
     return {"message": "Hello World"}
 
-@app.get("/api/ufrn")
-async def ufrn():
-    return get_public_data("https://api.info.ufrn.br/curso/v1/modalidades-educacao")
-
 @app.get("/api/v1/task")
 async def example_task():
     celery_app.send_task("app.tasks.example_task", args=["Hello World"])
@@ -48,6 +45,7 @@ app.include_router(
     dependencies=[Depends(get_current_active_user)],
 )
 app.include_router(auth_router, prefix="/api", tags=["auth"])
+app.include_router(api_sistemas_router, prefix="/api", tags=["ufrn_sistemas"])
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", reload=True, port=8888)
