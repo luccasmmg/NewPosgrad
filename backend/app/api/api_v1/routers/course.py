@@ -11,7 +11,7 @@ from app.core.auth import get_current_active_superuser
 
 course_router = c = APIRouter()
 
-@c.post("/course", response_model=Course, response_model_exclude_none=True)
+@c.post("/curso", response_model=Course, response_model_exclude_none=True)
 async def course_create(
     request: Request,
     course: CourseCreate,

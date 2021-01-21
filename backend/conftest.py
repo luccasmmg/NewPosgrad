@@ -187,3 +187,18 @@ def superuser_token_headers(
     a_token = tokens["access_token"]
     headers = {"Authorization": f"Bearer {a_token}"}
     return headers
+
+@pytest.fixture
+def test_course(test_db, test_pg) -> models.Course:
+    """
+    Course for testing
+    """
+    course = models.Course(
+        owner_id=test_pg.id,
+        name="Musica",
+        id_sigaa=284,
+        course_type=models.CourseType.masters
+    )
+    test_db.add(course)
+    test_db.commit()
+    return course

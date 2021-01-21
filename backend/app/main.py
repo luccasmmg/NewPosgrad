@@ -47,7 +47,7 @@ app.include_router(
 )
 app.include_router(auth_router, prefix="/api", tags=["auth"])
 app.include_router(post_graduation_router, prefix="/api/v1", tags=["postgraduation"])
-app.include_router(course_router, prefix="/api", tags=["courses"])
+app.include_router(course_router, prefix="/api/v1", tags=["courses"])
 app.include_router(api_sistemas_router, prefix="/api", tags=["api_sistemas"])
 
 if __name__ == "__main__":
