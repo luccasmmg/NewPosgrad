@@ -17,8 +17,8 @@ class UrlEnum(str, Enum):
     published_articles = f'{API_URL_ROOT}curriculo-pesquisador/v1/artigos-publicados?'
     published_chapters = f'{API_URL_ROOT}curriculo-pesquisador/v1/capitulos-livros?'
     organized_books = f'{API_URL_ROOT}curriculo-pesquisador/v1/livros-publicados-organizados?'
-    students = f'{API_URL_ROOT}discente/v1/discentes?'
-    classes = f'{API_URL_ROOT}turma/v1/turmas?'
+    students = f'{API_URL_ROOT}discente/v1/discentes'
+    classes = f'{API_URL_ROOT}turma/v1/turmas'
 
 class PublishedArticle(BaseModel):
     ano_producao: int
@@ -76,6 +76,29 @@ class Student(BaseModel):
     nome_discente: str = None
     periodo_ingresso: int =  None
     sigla_nivel: str = None
+
+    class Config:
+        alias_generator = to_kebab
+
+class Class(BaseModel):
+    ano: int = None
+    capacidade_aluno: int = None
+    codigo_componente: str = None
+    codigo_turma: str = None
+    descricao_horario: str = None
+    id_componente: int = None
+    id_discente: int = None
+    id_docente: int = None
+    id_docente_externo: int = None
+    id_situacao_turma: int = None
+    id_turma: int = None
+    id_turma_agrupadora: int = None
+    id_unidade: int = None
+    local: str = None
+    nome_componente: str = None
+    periodo: int = None
+    sigla_nivel: str = None
+    subturma: bool = None
 
     class Config:
         alias_generator = to_kebab

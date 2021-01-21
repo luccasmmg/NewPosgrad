@@ -14,7 +14,6 @@ from app.main import app
 def get_test_db_url() -> str:
     return f"{config.SQLALCHEMY_DATABASE_URI}_test"
 
-
 @pytest.fixture
 def test_db():
     """
@@ -100,13 +99,34 @@ def get_password_hash() -> str:
 
 
 @pytest.fixture
-def test_user(test_db) -> models.User:
+def test_pg(test_db) -> models.PostGraduation:
+    """
+    Make a test postgraduation in the database
+    """
+
+    pg = models.PostGraduation(
+        id_unit=5679,
+        name="Gestão Pública",
+        initials="PPGP",
+        sigaa_code="1672",
+        is_signed_in=True,
+        old_url="",
+        description_small="",
+        description_big="",
+    )
+    test_db.add(pg)
+    test_db.commit()
+    return pg
+
+@pytest.fixture
+def test_user(test_db, test_pg) -> models.User:
     """
     Make a test user in the database
     """
 
     user = models.User(
         email="fake@email.com",
+        owner_id=test_pg.id,
         hashed_password=get_password_hash(),
         is_active=True,
     )
@@ -114,15 +134,15 @@ def test_user(test_db) -> models.User:
     test_db.commit()
     return user
 
-
 @pytest.fixture
-def test_superuser(test_db) -> models.User:
+def test_superuser(test_db, test_pg) -> models.User:
     """
     Superuser for testing
     """
 
     user = models.User(
         email="fakeadmin@email.com",
+        owner_id=test_pg.id,
         hashed_password=get_password_hash(),
         is_superuser=True,
     )
@@ -137,7 +157,7 @@ def verify_password_mock(first: str, second: str) -> bool:
 
 @pytest.fixture
 def user_token_headers(
-    client: TestClient, test_user, test_password, monkeypatch
+        client: TestClient, test_user, test_password, monkeypatch
 ) -> t.Dict[str, str]:
     monkeypatch.setattr(security, "verify_password", verify_password_mock)
 
@@ -154,7 +174,7 @@ def user_token_headers(
 
 @pytest.fixture
 def superuser_token_headers(
-    client: TestClient, test_superuser, test_password, monkeypatch
+        client: TestClient, test_superuser, test_password, monkeypatch
 ) -> t.Dict[str, str]:
     monkeypatch.setattr(security, "verify_password", verify_password_mock)
 

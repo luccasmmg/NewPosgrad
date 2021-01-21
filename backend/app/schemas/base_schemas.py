@@ -80,7 +80,7 @@ class PostGraduationBase(BaseModel):
     id_unit: int
     name: str
     initials: str
-    sigaa_code: str
+    sigaa_code: int
     is_signed_in: bool = True
     old_url: str = ""
     description_small: str = ""
