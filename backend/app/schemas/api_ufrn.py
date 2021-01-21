@@ -5,14 +5,20 @@ from pydantic import BaseModel
 
 from app.core.config import API_URL_ROOT
 
+import typing as t
+
 def to_camel(string: str) -> str:
-    first, *others = string.split('_')
-    return ''.join([first.lower()], *map(str.title, others))
+    return ''.join(x.capitalize() or '_' for x in string.split('_'))
+
+def to_kebab(string: str) -> str:
+    return string.replace('_', '-')
 
 class UrlEnum(str, Enum):
     published_articles = f'{API_URL_ROOT}curriculo-pesquisador/v1/artigos-publicados?'
     published_chapters = f'{API_URL_ROOT}curriculo-pesquisador/v1/capitulos-livros?'
     organized_books = f'{API_URL_ROOT}curriculo-pesquisador/v1/livros-publicados-organizados?'
+    students = f'{API_URL_ROOT}discente/v1/discentes?'
+    classes = f'{API_URL_ROOT}turma/v1/turmas?'
 
 class PublishedArticle(BaseModel):
     ano_producao: int
@@ -27,7 +33,7 @@ class PublishedArticle(BaseModel):
     volume: str
 
     class Config:
-        alias_generator = to_camel
+        alias_generator = to_kebab
 
 class Book(BaseModel):
     ano_producao: int
@@ -44,10 +50,32 @@ class Book(BaseModel):
     tipo_producao: str
 
     class Config:
-        alias_generator = to_camel
+        alias_generator = to_kebab
 
 class PublishedBook(Book):
     pass
 
 class PublishedBook(Book):
     pass
+
+class Student(BaseModel):
+    ano_ingresso: int = None
+    cpf_cnpj: str = None
+    descricao_forma_ingresso: str = None
+    email: str = None
+    id_curso: int =  None
+    id_discente: int =  None
+    id_forma_ingresso: int =  None
+    id_gestora_academica: int =  None
+    id_institucional: int =  None
+    id_situacao_discente: int =  None
+    id_tipo_discente: int =  None
+    id_unidade: int =  None
+    matricula: int =  None
+    nome_curso: str = None
+    nome_discente: str = None
+    periodo_ingresso: int =  None
+    sigla_nivel: str = None
+
+    class Config:
+        alias_generator = to_kebab

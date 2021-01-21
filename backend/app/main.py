@@ -5,6 +5,7 @@ import uvicorn
 from app.api.api_v1.routers.users import users_router
 from app.api.api_v1.routers.auth import auth_router
 from app.api.api_v1.routers.post_graduation import post_graduation_router
+from app.api.api_v1.routers.api_sistemas import api_sistemas_router
 from app.api.api_v1.routers.course import course_router
 from app.core import config
 from app.db.session import SessionLocal
@@ -37,7 +38,6 @@ async def example_task():
 
     return {"message": "success"}
 
-
 # Routers
 app.include_router(
     users_router,
@@ -48,6 +48,7 @@ app.include_router(
 app.include_router(auth_router, prefix="/api", tags=["auth"])
 app.include_router(post_graduation_router, prefix="/api", tags=["postgraduation"])
 app.include_router(course_router, prefix="/api", tags=["courses"])
+app.include_router(api_sistemas_router, prefix="/api", tags=["api_sistemas"])
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", reload=True, port=8888)

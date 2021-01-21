@@ -5,18 +5,11 @@ from app.schemas.base_schemas import TokenUFRN, SinfoKeys
 from app.core.config import API_URL_ROOT, API_TOKEN_ROOT, AUTHORIZATION_ENDPOINT, TOKEN_ENDPOINT
 from .utils.keyring import get_model, SINFO_API
 
-def get_public_data(resource_url: str):
-    if get_token_from_os() is not None:
-        token = get_token_from_os()
-    else:
-        token = retrieve_token().access_token
-    headers = {
-        'Authorization' : 'Bearer ' + token,
-        'x-api-key': get_model(SINFO_API).x_api_key
-    }
+from aiohttp import ClientSession
 
+def get_public_data(resource_url: str):
     try:
-        data = requests.get(resource_url, headers=headers).json()
+        data = requests.get(resource_url, headers=create_headers()).json()
         return data
     except:
         raise HTTPException(
@@ -24,7 +17,28 @@ def get_public_data(resource_url: str):
             detail=f"Couldn't access the API Sistemas({resource_url}), that probably means that the error is on SINFO servers"
         )
 
+def create_headers():
+    return {
+        'Authorization' : 'Bearer ' + retrieve_token().access_token,
+        'x-api-key': get_model(SINFO_API).x_api_key
+    }
+
+async def get_json(client: ClientSession, url: str, headers: dict) -> bytes:
+    async with client.get(url, headers=headers) as response:
+        if response.status != 200:
+            raise HTTPException(
+                status_code=response.status,
+                detail=f"Couldn't access the API Sistemas({url}), that probably means that the error is on SINFO servers"
+            )
+        return await response.read()
+
+async def get_public_data_async(url: str, client: ClientSession, headers: dict):
+    response = await get_json(client, url, headers)
+    return json.loads(response.decode('utf-8'))
+
 def retrieve_token():
+    if get_token_from_os() is not None:
+        return get_token_from_os()
     try:
         token = TokenUFRN(**requests.post(user_authorization_url()).json())
 
