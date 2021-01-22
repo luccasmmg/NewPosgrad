@@ -17,7 +17,8 @@ from app.core.api_ufrn import get_public_data, create_headers, get_public_data_a
 api_sistemas_router = a = APIRouter()
 
 async def get_teacher(class_dict: dict, client: aiohttp.ClientSession, headers: dict):
-    return dict(class_dict.keys() + get_public_data_async(f'{UrlEnum.classes}/{class_dict["id-turma"]}/docentes', client, headers).keys())
+    class_dict['docentes'] = await get_public_data_async(f'{UrlEnum.classes}/{class_dict["id-turma"]}/docentes', client, headers)
+    return parse_obj_as(Class, class_dict)
 
 @a.get(
     "/posgraduacao/{initials}/discentes",
@@ -59,9 +60,8 @@ async def classes(
     client: ClientSession = aiohttp.ClientSession()
     headers: dict = create_headers()
 
-    classes_without_teachers = list(get_public_data(f'{UrlEnum.classes}id-unidade={id_course}&ano={year}'))
+    classes_without_teachers = list(get_public_data(f'{UrlEnum.classes}?id-unidade={id_course}&ano={year}'))
     list_of_corroutines = [get_teacher(i, client, headers) for i in classes_without_teachers]
 
-    classes = [val for sublist in (await asyncio.gather(*list_of_corroutines)) for val in sublist]
-
-    return parse_obj_as(t.List[Class], classes)
+    classes = await asyncio.gather(*list_of_corroutines)
+    return list(classes)

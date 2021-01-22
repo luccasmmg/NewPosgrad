@@ -80,6 +80,16 @@ class Student(BaseModel):
     class Config:
         alias_generator = to_kebab
 
+class Teacher(BaseModel):
+  ch_dedicada_periodo: int = None
+  cpf: int = None
+  id_docente: int = None
+  id_docente_externo: int = None
+  nome_docente: str = None
+
+  class Config:
+    alias_generator = to_kebab
+
 class Class(BaseModel):
     ano: int = None
     capacidade_aluno: int = None
@@ -99,6 +109,7 @@ class Class(BaseModel):
     periodo: int = None
     sigla_nivel: str = None
     subturma: bool = None
+    docentes: t.List[Teacher] = []
 
     class Config:
         alias_generator = to_kebab
