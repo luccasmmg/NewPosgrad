@@ -15,5 +15,4 @@ def test_create_course(client, test_superuser, superuser_token_headers):
         headers=superuser_token_headers
     )
     assert response.status_code == 200
-    print(response.json())
     assert all(item in response.json().items() for item in new_course.items())

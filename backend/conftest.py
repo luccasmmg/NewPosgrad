@@ -196,7 +196,7 @@ def test_course(test_db, test_pg) -> models.Course:
     course = models.Course(
         owner_id=test_pg.id,
         name="Musica",
-        id_sigaa=284,
+        id_sigaa=84798578,
         course_type=models.CourseType.masters
     )
     test_db.add(course)
