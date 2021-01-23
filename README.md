@@ -141,7 +141,7 @@ And fill the empty spaces with your own keys, optained in <https://api.ufrn.br/>
 
 ## Database Layout
 
-![The Database Layout can be viewed here](https://github.com/[username]/[reponame]/blob/[branch]/db.png?raw=true)
+![The Database Layout can be viewed here](https://github.com/luccasmmg/NewPosgrad/blob/master/db.png?raw=true)
 
 ## Project Layout
 
