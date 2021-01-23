@@ -21,12 +21,13 @@ async def get_teacher(class_dict: dict, client: aiohttp.ClientSession, headers: 
     return parse_obj_as(Class, class_dict)
 
 @a.get(
-    "/posgraduacao/{initials}/discentes",
+    "/posgraduacao/{initials}/discentes/{id_course}",
     response_model=t.List[Student],
 )
 async def students(
         response: Response,
         initials: str,
+        id_course: int,
         db=Depends(get_db)
 ):
     """
@@ -34,12 +35,7 @@ async def students(
     """
     client: ClientSession = aiohttp.ClientSession()
     headers: dict = create_headers()
-
-    post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    url_list = list(map(lambda p : f'{UrlEnum.students}?id-curso={p.id_sigaa}', post_graduation.courses))
-    list_of_corroutines = [get_public_data_async(i, client, headers) for i in url_list]
-
-    students = [val for sublist in (await asyncio.gather(*list_of_corroutines)) for val in sublist]
+    students = get_public_data(f'{UrlEnum.students}?id-curso={id_course}')
 
     return parse_obj_as(t.List[Student], students)
 

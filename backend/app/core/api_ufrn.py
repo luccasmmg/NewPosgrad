@@ -8,6 +8,7 @@ from .utils.keyring import get_model, SINFO_API
 from aiohttp import ClientSession
 
 def get_public_data(resource_url: str):
+    print(resource_url, flush=True)
     try:
         data = requests.get(resource_url, headers=create_headers()).json()
         return data
