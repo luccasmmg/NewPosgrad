@@ -36,4 +36,4 @@ def test_delete_researcher(client, test_user, test_researcher, user_token_header
         headers=user_token_headers
     )
     assert response.status_code == 200
-    assert test_db.query(models.Researcher).all() == []
+    assert list(test_db.query(models.Researcher).filter(models.Researcher.deleted == False)) == []

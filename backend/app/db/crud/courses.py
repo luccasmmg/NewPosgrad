@@ -24,3 +24,24 @@ def create_course(db: Session, course: base_schemas.CourseCreate):
     db.commit()
     db.refresh(db_course)
     return db_course
+
+def delete_course(db: Session, course_id: int):
+    course = get_course(db, course_id)
+    if not course:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Course not found")
+    db.delete(course)
+    db.commit()
+    return course
+
+def edit_course(
+        db: Session, course_id: int, course: base_schemas.CourseEdit
+) -> base_schemas.Course:
+    db_course = get_course(db, course_id)
+    update_data = course.dict(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(db_course, key, value)
+
+    db.add(db_course)
+    db.commit()
+    db.refresh(db_course)
+    return db_course

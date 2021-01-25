@@ -7,11 +7,11 @@ from app.schemas import pg_information_schemas
 
 
 def get_researchers(db: Session, pg_id: int):
-    researchers = db.query(models.Researcher).filter(models.Researcher.owner_id == pg_id and models.Researcher.deleted == False)
+    researchers = db.query(models.Researcher).filter(models.Researcher.owner_id == pg_id).filter(models.Researcher.deleted == False)
     return researchers
 
 def get_researcher(db: Session, researcher_id: int):
-    researcher = db.query(models.Researcher).filter(models.Researcher.id == researcher_id).first()
+    researcher = db.query(models.Researcher).filter(models.Researcher.id == researcher_id).filter(models.Researcher.deleted == False).first()
     return researcher
 
 def create_researcher(db: Session, pg_id: int, researcher: pg_information_schemas.ResearcherCreate):
@@ -29,8 +29,10 @@ def delete_researcher(db: Session, researcher_id: int):
     researcher = get_researcher(db, researcher_id)
     if not researcher:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Researcher not found")
-    db.delete(researcher)
+    setattr(researcher, "deleted", True)
+    db.add(researcher)
     db.commit()
+    db.refresh(researcher)
     return researcher
 
 def edit_researcher(
