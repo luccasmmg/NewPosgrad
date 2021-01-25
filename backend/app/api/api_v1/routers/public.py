@@ -14,7 +14,7 @@ from app.db.crud.post_graduations import (
 from app.db.crud.researchers import (
     get_researchers
 )
-from app.schemas.api_ufrn import Student, UrlEnum, Class
+from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter
 from app.schemas.base_schemas import PostGraduation
 from app.schemas.pg_information_schemas import Researcher
 from app.core.api_ufrn import get_public_data, create_headers, get_public_data_async
@@ -24,6 +24,16 @@ public_router = p = APIRouter()
 async def get_teacher(class_dict: dict, client: aiohttp.ClientSession, headers: dict):
     class_dict['docentes'] = await get_public_data_async(f'{UrlEnum.classes}/{class_dict["id-turma"]}/docentes', client, headers)
     return parse_obj_as(Class, class_dict)
+
+async def get_publications(initials: str, enum_to_use: UrlEnum, db):
+    client: ClientSession = aiohttp.ClientSession()
+    headers: dict = create_headers()
+
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    researchers = list(get_researchers(db, post_graduation.id))
+    list_of_corroutines = [get_public_data_async(f"{enum_to_use}cpf-cnpj={i.cpf}", client, headers) for i in researchers]
+
+    return [item for sublist in await asyncio.gather(*list_of_corroutines) for item in sublist]
 
 @p.get(
     "/{initials}",
@@ -39,6 +49,51 @@ async def post_graduation_details(
     """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return post_graduation
+
+@p.get(
+    "/{initials}/artigos",
+    response_model=t.List[PublishedArticle]
+)
+async def articles(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get the articles published by researchers of a given course
+    """
+    articles = await get_publications(initials, UrlEnum.published_articles, db)
+    return parse_obj_as(t.List[PublishedArticle], articles)
+
+@p.get(
+    "/{initials}/livros",
+    response_model=t.List[OrganizedBook]
+)
+async def books(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get the books published by researchers of a given course
+    """
+    books = await get_publications(initials, UrlEnum.organized_books, db)
+    return parse_obj_as(t.List[OrganizedBook], books)
+
+@p.get(
+    "/{initials}/capitulos",
+    response_model=t.List[OrganizedBook]
+)
+async def chapters(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get the chapters of books published by researchers of a given course
+    """
+    chapters = await get_publications(initials, UrlEnum.published_chapters , db)
+    return parse_obj_as(t.List[PublishedChapter], chapters)
 
 @p.get(
     "/{initials}/discentes/{id_course}",
@@ -69,7 +124,6 @@ async def classes(
         initials: str,
         id_course: int,
         year: int = datetime.datetime.now().year,
-        db=Depends(get_db)
 ):
     """
     Get the classes of a given course

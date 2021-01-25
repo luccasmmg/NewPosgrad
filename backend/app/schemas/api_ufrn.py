@@ -21,41 +21,41 @@ class UrlEnum(str, Enum):
     classes = f'{API_URL_ROOT}turma/v1/turmas'
 
 class PublishedArticle(BaseModel):
-    ano_producao: int
-    issn: str
-    local_publicacao: str
-    natureza_producao: str
-    nome_producao: str
-    pais_producao: str
-    pais_publicacao: str
-    sequencia_producao: int
-    titulo_periodico_revista: str
-    volume: str
+    ano_producao: int = None
+    issn: str = None
+    local_publicacao: str = None
+    natureza_producao: str = None
+    nome_producao: str = None
+    pais_producao: str = None
+    pais_publicacao: str = None
+    sequencia_producao: int = None
+    titulo_periodico_revista: str = None
+    volume: str = None
 
     class Config:
         alias_generator = to_kebab
 
 class Book(BaseModel):
-    ano_producao: int
-    cidade_editora: str
-    isbn: str
-    natureza_producao: str
-    nome_editora: str
-    nome_producao: str
-    numero_edicao_revisao: str
-    numero_volumes: str
-    pais_producao: str
-    pais_publicacao: str
-    sequencia_producao: int
-    tipo_producao: str
+    ano_producao: int = None
+    cidade_editora: str = None
+    isbn: str = None
+    natureza_producao: str = None
+    nome_editora: str = None
+    nome_producao: str = None
+    numero_edicao_revisao: str = None
+    numero_volumes: str = None
+    pais_producao: str = None
+    pais_publicacao: str = None
+    sequencia_producao: int = None
+    tipo_producao: str = None
 
     class Config:
         alias_generator = to_kebab
 
-class PublishedBook(Book):
+class OrganizedBook(Book):
     pass
 
-class PublishedBook(Book):
+class PublishedChapter(Book):
     pass
 
 class Student(BaseModel):
