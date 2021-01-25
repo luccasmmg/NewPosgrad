@@ -11,17 +11,37 @@ from app.db.session import get_db
 from app.db.crud.post_graduations import (
     get_post_graduation_by_initials,
 )
+from app.db.crud.researchers import (
+    get_researchers
+)
 from app.schemas.api_ufrn import Student, UrlEnum, Class
+from app.schemas.base_schemas import PostGraduation
+from app.schemas.pg_information_schemas import Researcher
 from app.core.api_ufrn import get_public_data, create_headers, get_public_data_async
 
-api_sistemas_router = a = APIRouter()
+public_router = p = APIRouter()
 
 async def get_teacher(class_dict: dict, client: aiohttp.ClientSession, headers: dict):
     class_dict['docentes'] = await get_public_data_async(f'{UrlEnum.classes}/{class_dict["id-turma"]}/docentes', client, headers)
     return parse_obj_as(Class, class_dict)
 
-@a.get(
-    "/posgraduacao/{initials}/discentes/{id_course}",
+@p.get(
+    "/{initials}",
+    response_model=PostGraduation,
+    response_model_exclude_none=True,
+)
+async def post_graduation_details(
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get any post graduation details
+    """
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    return post_graduation
+
+@p.get(
+    "/{initials}/discentes/{id_course}",
     response_model=t.List[Student],
 )
 async def students(
@@ -35,12 +55,13 @@ async def students(
     """
     client: ClientSession = aiohttp.ClientSession()
     headers: dict = create_headers()
+
     students = get_public_data(f'{UrlEnum.students}?id-curso={id_course}')
 
     return parse_obj_as(t.List[Student], students)
 
-@a.get(
-    "/posgraduacao/{initials}/turmas/{id_course}",
+@p.get(
+    "/{initials}/turmas/{id_course}",
     response_model=t.List[Class]
 )
 async def classes(
@@ -61,3 +82,18 @@ async def classes(
 
     classes = await asyncio.gather(*list_of_corroutines)
     return list(classes)
+
+@p.get(
+    "/{initials}/pesquisadores",
+    response_model=t.List[Researcher]
+)
+async def researchers(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get the researchers
+    """
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    return list(get_researchers(db, post_graduation.id))

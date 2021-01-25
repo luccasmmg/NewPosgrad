@@ -24,16 +24,3 @@ def create_course(db: Session, course: base_schemas.CourseCreate):
     db.commit()
     db.refresh(db_course)
     return db_course
-
-# def edit_post_graduation(
-#         db: Session, post_graduation_id: int, course: base_schemas.PostGraduationEdit
-# ) -> base_schemas.Course:
-#     db_post_graduation = get_post_graduation(db, post_graduation_id)
-#     update_data = course.dict(exclude_unset=True)
-#     for key, value in update_data.items():
-#         setattr(db_post_graduation, key, value)
-
-#     db.add(db_post_graduation)
-#     db.commit()
-#     db.refresh(db_post_graduation)
-#     return db_post_graduation

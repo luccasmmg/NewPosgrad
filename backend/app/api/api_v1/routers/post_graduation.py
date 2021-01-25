@@ -14,21 +14,6 @@ from app.core.auth import get_current_active_superuser
 
 post_graduation_router = p = APIRouter()
 
-@p.get(
-    "/posgraduacao/{initials}",
-    response_model=PostGraduation,
-    response_model_exclude_none=True,
-)
-async def post_graduation_details(
-        initials: str,
-        db=Depends(get_db)
-):
-    """
-    Get any post graduation details
-    """
-    post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return post_graduation
-
 @p.post(
     "/posgraduacao",
     response_model=PostGraduation,

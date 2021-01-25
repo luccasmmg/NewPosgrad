@@ -20,7 +20,7 @@ def test_get_students(client, test_course):
         "periodo-ingresso": 0,
         "sigla-nivel": "string"
     }
-    response = client.get(f"/api/v1/posgraduacao/PPGP/discentes/{test_course.id_sigaa}")
+    response = client.get(f"/api/v1/publico/PPGP/discentes/{test_course.id_sigaa}")
     print(response.json(), flush=True)
     assert response.status_code == 200
     assert all(key in response.json()[0].keys() for key in dummy_dict.keys())
@@ -55,6 +55,6 @@ def test_get_classes(client):
         }
         ]
     }
-    response = client.get(f'api/v1/posgraduacao/PPGP/turmas/284?year=2020')
+    response = client.get(f'api/v1/publico/PPGP/turmas/284?year=2020')
     assert response.status_code == 200
     assert all(key in response.json()[0].keys() for key in dummy_dict.keys())

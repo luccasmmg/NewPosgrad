@@ -3,7 +3,7 @@
 from app.db import models
 
 def test_get_pg(client, test_pg, test_superuser):
-    response = client.get("/api/v1/posgraduacao/ppgp")
+    response = client.get("/api/v1/publico/ppgp")
     assert response.status_code == 200
     assert response.json() == {
         "id_unit": test_pg.id_unit,

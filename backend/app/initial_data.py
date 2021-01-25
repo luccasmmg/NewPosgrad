@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 from app.db.session import get_db
-from app.db.crud import create_user, create_post_graduation
+from app.db.crud.users import create_user
+from app.db.crud.post_graduations import create_post_graduation
 from app.schemas.base_schemas import UserCreate, PostGraduationCreate
 from app.db.session import SessionLocal
 

@@ -202,3 +202,17 @@ def test_course(test_db, test_pg) -> models.Course:
     test_db.add(course)
     test_db.commit()
     return course
+
+@pytest.fixture
+def test_researcher(test_db, test_pg) -> models.Researcher:
+    """
+    Researcher for testing
+    """
+    researcher = models.Researcher(
+        owner_id=test_pg.id,
+        name="Maria Arlete",
+        cpf="12345678910"
+    )
+    test_db.add(researcher)
+    test_db.commit()
+    return researcher

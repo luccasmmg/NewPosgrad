@@ -20,6 +20,7 @@ class PostGraduation(Base):
 
     users = relationship("User", back_populates="post_graduation_owner")
     courses = relationship("Course", back_populates="post_graduation_owner")
+    researchers = relationship("Researcher", back_populates="post_graduation_owner")
 
 class User(Base):
     __tablename__ = "user"
@@ -49,3 +50,14 @@ class Course(Base):
     course_type = Column(Enum(CourseType), nullable=False)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="courses")
+
+class Researcher(Base):
+    __tablename__ = "researcher"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    name = Column(String, nullable=False)
+    cpf = Column(String, unique=True, nullable=False)
+    deleted = Column(Boolean, default=False)
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="researchers")
