@@ -216,3 +216,18 @@ def test_researcher(test_db, test_pg) -> models.Researcher:
     test_db.add(researcher)
     test_db.commit()
     return researcher
+
+@pytest.fixture
+def test_covenant(test_db, test_pg) -> models.Covenant:
+    """
+    covenant for testing
+    """
+    covenant = models.Covenant(
+        owner_id=test_pg.id,
+        name="Covenant test",
+        logo_file="dummy.pdf",
+        initials="CT"
+    )
+    test_db.add(covenant)
+    test_db.commit()
+    return covenant
