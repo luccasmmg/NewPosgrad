@@ -149,16 +149,17 @@ And fill the empty spaces with your own keys, optained in <https://api.ufrn.br/>
 backend
 └── app
     ├── alembic
-    │   └── versions # where migrations are located
+    │   └── versions        # where migrations are located
     ├── api
     │   └── api_v1
     │       └── endpoints
-    ├── core    # config
-    │   └── utils
-    ├── db      # db models
-    ├── schemas # schemas
-    ├── tests   # pytest
-    └── main.py # entrypoint to backend
+    ├── core                # config
+    │   └── utils           # mainly external api access
+    ├── db                  # db models
+    │   └── crud            # crud operations
+    ├── schemas             # schemas
+    ├── tests               # pytest
+    └── main.py             # entrypoint to backend
 
 frontend
 └── public

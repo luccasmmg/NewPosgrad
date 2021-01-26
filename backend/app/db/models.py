@@ -21,6 +21,7 @@ class PostGraduation(Base):
     users = relationship("User", back_populates="post_graduation_owner")
     courses = relationship("Course", back_populates="post_graduation_owner")
     researchers = relationship("Researcher", back_populates="post_graduation_owner")
+    covenants = relationship("Covenant", back_populates="post_graduation_owner")
 
 class User(Base):
     __tablename__ = "user"
@@ -61,3 +62,15 @@ class Researcher(Base):
     deleted = Column(Boolean, default=False)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="researchers")
+
+class Covenant(Base):
+    __tablename__ = "covenant"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    name = Column(String, nullable=False)
+    initials = Column(String, nullable=False)
+    logo_file = Column(String)
+    deleted = Column(Boolean, default=False)
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="covenants")

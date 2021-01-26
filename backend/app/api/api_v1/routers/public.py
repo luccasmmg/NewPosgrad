@@ -8,15 +8,14 @@ import aiohttp
 import datetime
 
 from app.db.session import get_db
-from app.db.crud.post_graduations import (
-    get_post_graduation_by_initials,
-)
-from app.db.crud.researchers import (
-    get_researchers
-)
+
+from app.db.crud.post_graduations import get_post_graduation_by_initials
+from app.db.crud.researchers import get_researchers
+from app.db.crud.covenants import get_covenants
+
 from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter
 from app.schemas.base_schemas import PostGraduation
-from app.schemas.pg_information_schemas import Researcher
+from app.schemas.pg_information_schemas import Researcher, Covenant
 from app.core.api_ufrn import get_public_data, create_headers, get_public_data_async
 
 public_router = p = APIRouter()
@@ -151,3 +150,18 @@ async def researchers(
     """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_researchers(db, post_graduation.id))
+
+@p.get(
+    "/{initials}/convenios",
+    response_model=t.List[Covenant]
+)
+async def covenants(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get the covenants
+    """
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    return list(get_covenants(db, post_graduation.id))
