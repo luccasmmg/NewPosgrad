@@ -231,3 +231,19 @@ def test_covenant(test_db, test_pg) -> models.Covenant:
     test_db.add(covenant)
     test_db.commit()
     return covenant
+
+@pytest.fixture
+def test_attendance(test_db, test_pg) -> models.Attendance:
+    """
+    attendance for testing
+    """
+    attendance = models.Attendance(
+        owner_id=test_pg.id,
+        email="test@email.com",
+        location="Rua e tals",
+        schedule="Dia todo"
+    )
+    test_db.add(attendance)
+    test_db.commit()
+    test_db.refresh(attendance)
+    return attendance

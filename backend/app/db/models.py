@@ -22,6 +22,7 @@ class PostGraduation(Base):
     courses = relationship("Course", back_populates="post_graduation_owner")
     researchers = relationship("Researcher", back_populates="post_graduation_owner")
     covenants = relationship("Covenant", back_populates="post_graduation_owner")
+    attendance = relationship("Attendance", uselist=False, back_populates="post_graduation_owner")
 
 class User(Base):
     __tablename__ = "user"
@@ -51,6 +52,17 @@ class Course(Base):
     course_type = Column(Enum(CourseType), nullable=False)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="courses")
+
+class Attendance(Base):
+    __tablename__ = "attendance"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    email = Column(String)
+    location = Column(String)
+    schedule = Column(String)
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="attendance")
 
 class Researcher(Base):
     __tablename__ = "researcher"

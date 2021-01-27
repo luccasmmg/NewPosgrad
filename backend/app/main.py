@@ -7,6 +7,7 @@ from app.api.api_v1.routers.auth import auth_router
 from app.api.api_v1.routers.post_graduation import post_graduation_router
 from app.api.api_v1.routers.public import public_router
 from app.api.api_v1.routers.course import course_router
+from app.api.api_v1.routers.attendance import attendance_router
 from app.api.api_v1.routers.researcher import researcher_router
 from app.api.api_v1.routers.covenant import covenant_router
 
@@ -38,6 +39,7 @@ app.include_router(
 app.include_router(auth_router, prefix="/api", tags=["auth"])
 app.include_router(post_graduation_router, prefix="/api/v1", tags=["postgraduation"])
 app.include_router(course_router, prefix="/api/v1", tags=["courses"])
+app.include_router(attendance_router, prefix="/api/v1", tags=["attendances"])
 app.include_router(researcher_router, prefix="/api/v1", tags=["researchers"])
 app.include_router(covenant_router, prefix="/api/v1", tags=["covenants"])
 app.include_router(public_router, prefix="/api/v1/publico", tags=["public"])

@@ -74,6 +74,27 @@ class Course(CourseBase):
     class Config:
         orm_mode = True
 
+# Attendance schemes
+
+class AttendanceBase(BaseModel):
+    email: str
+    location: str
+    schedule: str
+
+class AttendanceCreate(AttendanceBase):
+    owner_id: int
+    pass
+
+class AttendanceEdit(AttendanceBase):
+    pass
+
+class Attendance(AttendanceBase):
+    owner_id: int
+    id: int
+
+    class Config:
+        orm_mode = True
+
 # PostGraduation schemes
 
 class PostGraduationBase(BaseModel):
@@ -96,6 +117,7 @@ class PostGraduation(PostGraduationBase):
     id: int
     users: t.List[User] = []
     courses: t.List[Course] = []
+    attendance: Attendance = None
 
     class Config:
         orm_mode = True
