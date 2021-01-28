@@ -22,6 +22,7 @@ class PostGraduation(Base):
     courses = relationship("Course", back_populates="post_graduation_owner")
     researchers = relationship("Researcher", back_populates="post_graduation_owner")
     covenants = relationship("Covenant", back_populates="post_graduation_owner")
+    participation = relationship("Participation", back_populates="post_graduation_owner")
     attendance = relationship("Attendance", uselist=False, back_populates="post_graduation_owner")
 
 class User(Base):
@@ -86,3 +87,16 @@ class Covenant(Base):
     deleted = Column(Boolean, default=False)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="covenants")
+
+class Participation(Base):
+    __tablename__ = "participation"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    title = Column(String, nullable=False)
+    description = Column(String)
+    year = Column(Integer)
+    international = Column(Boolean)
+    deleted = Column(Boolean, default=False)
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="participation")

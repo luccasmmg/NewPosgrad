@@ -15,7 +15,7 @@ from app.core.auth import get_current_active_user
 covenant_router = c = APIRouter()
 
 @c.post("/convenio", response_model=Covenant, response_model_exclude_none=True)
-async def course_create(
+async def covenant_create(
     request: Request,
     db=Depends(get_db),
     name: str = Form(...),

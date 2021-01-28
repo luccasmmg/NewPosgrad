@@ -21,6 +21,8 @@ class Researcher(ResearcherBase):
     class Config:
         orm_mode = True
 
+#Covenant schemas
+
 class CovenantBase(BaseModel):
     name: str
     initials: str
@@ -34,6 +36,27 @@ class CovenantEdit(CovenantBase):
 
 class Covenant(CovenantBase):
     logo_file: str
+    id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True
+
+#Participation schemas
+
+class ParticipationBase(BaseModel):
+    title: str
+    description: str = ""
+    year: int = None
+    international: bool = False
+
+class ParticipationCreate(ParticipationBase):
+    pass
+
+class ParticipationEdit(ParticipationBase):
+    pass
+
+class Participation(ParticipationBase):
     id: int
     owner_id: int
 

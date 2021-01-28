@@ -233,6 +233,22 @@ def test_covenant(test_db, test_pg) -> models.Covenant:
     return covenant
 
 @pytest.fixture
+def test_participation(test_db, test_pg) -> models.Participation:
+    """
+    participation for testing
+    """
+    participation = models.Participation(
+        owner_id=test_pg.id,
+        title="Teste",
+        description="Teste",
+        year=2020,
+        international=False,
+    )
+    test_db.add(participation)
+    test_db.commit()
+    return participation
+
+@pytest.fixture
 def test_attendance(test_db, test_pg) -> models.Attendance:
     """
     attendance for testing

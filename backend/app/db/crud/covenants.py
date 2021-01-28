@@ -7,11 +7,13 @@ from app.schemas import pg_information_schemas
 
 
 def get_covenants(db: Session, pg_id: int):
-    covenants = db.query(models.Covenant).filter(models.Covenant.owner_id == pg_id).filter(models.Covenant.deleted == False)
+    covenants = db.query(models.Covenant).filter(models.Covenant.owner_id == pg_id).filter(
+        models.Covenant.deleted == False)
     return covenants
 
 def get_covenant(db: Session, covenant_id: int):
-    covenant = db.query(models.Covenant).filter(models.Covenant.id == covenant_id).filter(models.Covenant.deleted == False).first()
+    covenant = db.query(models.Covenant).filter(models.Covenant.id == covenant_id).filter(
+        models.Covenant.deleted == False).first()
     return covenant
 
 def create_covenant(db: Session, pg_id: int, covenant: pg_information_schemas.CovenantCreate):

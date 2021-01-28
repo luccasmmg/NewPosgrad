@@ -10,6 +10,7 @@ from app.api.api_v1.routers.course import course_router
 from app.api.api_v1.routers.attendance import attendance_router
 from app.api.api_v1.routers.researcher import researcher_router
 from app.api.api_v1.routers.covenant import covenant_router
+from app.api.api_v1.routers.participation import participation_router
 
 from app.core import config
 from app.db.session import SessionLocal
@@ -42,6 +43,7 @@ app.include_router(course_router, prefix="/api/v1", tags=["courses"])
 app.include_router(attendance_router, prefix="/api/v1", tags=["attendances"])
 app.include_router(researcher_router, prefix="/api/v1", tags=["researchers"])
 app.include_router(covenant_router, prefix="/api/v1", tags=["covenants"])
+app.include_router(participation_router, prefix="/api/v1", tags=["participations"])
 app.include_router(public_router, prefix="/api/v1/publico", tags=["public"])
 
 if __name__ == "__main__":
