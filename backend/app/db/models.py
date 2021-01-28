@@ -51,6 +51,7 @@ class Course(Base):
     name = Column(String, nullable=False)
     id_sigaa = Column(Integer, unique=True, nullable=False)
     course_type = Column(Enum(CourseType), nullable=False)
+    deleted = Column(Boolean, default=False)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="courses")
 
@@ -62,6 +63,7 @@ class Attendance(Base):
     email = Column(String)
     location = Column(String)
     schedule = Column(String)
+    deleted = Column(Boolean, default=False)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="attendance")
 

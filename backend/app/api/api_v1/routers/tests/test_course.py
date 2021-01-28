@@ -39,4 +39,4 @@ def test_delete_course(client, test_superuser, test_course, superuser_token_head
         headers=superuser_token_headers
     )
     assert response.status_code == 200
-    assert list(test_db.query(models.Course)) == []
+    assert list(test_db.query(models.Course).filter(models.Course.deleted == False)) == []

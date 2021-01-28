@@ -94,3 +94,40 @@ def create_researcher(db: Session, pg_id: int, researcher: pg_information_schema
         name=researcher.name,
     )
     return add_information(db, db_researcher)
+
+def create_covenant(db: Session, pg_id: int, covenant: pg_information_schemas.CovenantCreate):
+    db_covenant = models.Covenant(
+        owner_id=pg_id,
+        initials=covenant.initials,
+        logo_file=covenant.logo_file,
+        name=covenant.name,
+    )
+    return add_information(db, db_covenant)
+
+def create_participation(db: Session, pg_id: int, participation: pg_information_schemas.ParticipationCreate):
+    db_participation = models.Participation(
+        owner_id=pg_id,
+        title=participation.title,
+        description=participation.description,
+        year=participation.year,
+        international=participation.international,
+    )
+    return add_information(db, db_participation)
+
+def create_course(db: Session, course: base_schemas.CourseCreate):
+    db_course = models.Course(
+        name=course.name,
+        owner_id=course.owner_id,
+        id_sigaa=course.id_sigaa,
+        course_type=course.course_type
+    )
+    return add_information(db, db_course)
+
+def create_attendance(db: Session, attendance: base_schemas.AttendanceCreate):
+    db_attendance = models.Attendance(
+        owner_id=attendance.owner_id,
+        email=attendance.email,
+        location=attendance.location,
+        schedule=attendance.schedule,
+    )
+    return add_information(db, db_attendance)

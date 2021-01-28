@@ -5,12 +5,9 @@ import typing as t
 import boto3
 
 from app.db.session import get_db
-from app.db.crud.participations import (
-    create_participation,
-    get_participation,
-    delete_participation,
-    edit_participation
-)
+from app.db.crud.post_graduations import delete_information, edit_information, get_information, create_participation
+from app.db import models as m
+
 from app.schemas.pg_information_schemas import ParticipationCreate, Participation, ParticipationEdit
 from app.core.auth import get_current_active_user
 
@@ -38,7 +35,7 @@ async def participation_delete(
     """
     Delete participation
     """
-    return delete_participation(db, get_participation(db, participation_id).id)
+    return delete_information(db, get_information(db, participation_id, m.Participation).id, m.Participation)
 
 @p.put("/participacao/{participation_id}", response_model=Participation, response_model_exclude_none=True)
 async def participation_edit(
@@ -51,4 +48,4 @@ async def participation_edit(
     """
     Edit participation
     """
-    return edit_participation(db, get_participation(db, participation_id).id, participation)
+    return edit_information(db, get_information(db, participation_id, m.Participation).id, participation, m.Participation)

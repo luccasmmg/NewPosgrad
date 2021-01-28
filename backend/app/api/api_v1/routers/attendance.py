@@ -4,11 +4,10 @@ from fastapi import APIRouter, Request, Depends, Response, encoders
 import typing as t
 
 from app.db.session import get_db
-from app.db.crud.attendance import (
-    get_attendance,
-    create_attendance,
-    edit_attendance,
-)
+
+from app.db.crud.post_graduations import edit_information, get_informations, create_attendance
+from app.db import models as m
+
 from app.schemas.base_schemas import AttendanceCreate, Attendance, AttendanceEdit
 from app.core.auth import get_current_active_superuser, get_current_active_user
 
@@ -36,5 +35,5 @@ async def attendance_edit(
     """
     Edit attendance
     """
-    owner_id = get_attendance(db, current_user.owner_id).owner_id
-    return edit_attendance(db, owner_id, attendance)
+    attendance_id = get_informations(db, current_user.owner_id, m.Attendance)[0].id
+    return edit_information(db, attendance_id, attendance, m.Attendance)
