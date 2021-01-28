@@ -3,9 +3,11 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 import typing as t
+import enum
 
 from .. import models
 from app.schemas import base_schemas
+from app.schemas import pg_information_schemas
 
 def get_post_graduation(db: Session, post_graduation_id: int) -> base_schemas.PostGraduation:
     post_graduation = db.query(models.PostGraduation).filter(models.PostGraduation.id == post_graduation_id).first()
@@ -47,3 +49,48 @@ def edit_post_graduation(
     db.commit()
     db.refresh(db_post_graduation)
     return db_post_graduation
+
+def get_informations(db: Session, pg_id: int, model):
+    informations = db.query(model).filter(
+        model.owner_id == pg_id).filter(model.deleted == False)
+    return informations
+
+def get_information(db: Session, information_id: int, model):
+    information = db.query(model).filter(
+        model.id == information_id).filter(model.deleted == False).first()
+    return information
+
+def delete_information(db: Session, information_id: int, model):
+    information = get_information(db, information_id, model)
+    if not information:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="information not found")
+    setattr(information, "deleted", True)
+    db.add(information)
+    db.commit()
+    db.refresh(information)
+    return information
+
+def edit_information(db: Session, information_id: int, information, model):
+    db_information = get_information(db, information_id, model)
+    update_data = information.dict(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(db_information, key, value)
+
+    db.add(db_information)
+    db.commit()
+    db.refresh(db_information)
+    return db_information
+
+def add_information(db: Session, model):
+    db.add(model)
+    db.commit()
+    db.refresh(model)
+    return model
+
+def create_researcher(db: Session, pg_id: int, researcher: pg_information_schemas.ResearcherCreate):
+    db_researcher = models.Researcher(
+        owner_id=pg_id,
+        cpf=researcher.cpf,
+        name=researcher.name,
+    )
+    return add_information(db, db_researcher)

@@ -9,13 +9,13 @@ import datetime
 
 from app.db.session import get_db
 
-from app.db.crud.post_graduations import get_post_graduation_by_initials
-from app.db.crud.researchers import get_researchers
-from app.db.crud.covenants import get_covenants
+from app.db.crud.post_graduations import get_post_graduation_by_initials, get_informations, get_information
+
+from app.db import models as m
 
 from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter
 from app.schemas.base_schemas import PostGraduation
-from app.schemas.pg_information_schemas import Researcher, Covenant
+from app.schemas.pg_information_schemas import Researcher, Covenant, Participation
 from app.core.api_ufrn import get_public_data, create_headers, get_public_data_async
 
 public_router = p = APIRouter()
@@ -29,7 +29,7 @@ async def get_publications(initials: str, enum_to_use: UrlEnum, db):
     headers: dict = create_headers()
 
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    researchers = list(get_researchers(db, post_graduation.id))
+    researchers = list(get_informations(db, post_graduation.id, m.researcher))
     list_of_corroutines = [get_public_data_async(f"{enum_to_use}cpf-cnpj={i.cpf}", client, headers) for i in researchers]
 
     return [item for sublist in await asyncio.gather(*list_of_corroutines) for item in sublist]
@@ -149,7 +149,7 @@ async def researchers(
     Get the researchers
     """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(get_researchers(db, post_graduation.id))
+    return list(get_informations(db, post_graduation.id, m.Researcher))
 
 @p.get(
     "/{initials}/convenios",
@@ -164,4 +164,19 @@ async def covenants(
     Get the covenants
     """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(get_covenants(db, post_graduation.id))
+    return list(get_informations(db, post_graduation.id, m.Covenant))
+
+@p.get(
+    "/{initials}/participacoes",
+    response_model=t.List[Participation]
+)
+async def participations(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get the participations
+    """
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    return list(get_informations(db, post_graduation.id, m.Participation))

@@ -9,6 +9,7 @@ from app.schemas import pg_information_schemas
 
 
 def get_participations(db: Session, pg_id: int):
+    print(type(models.Participation), flush=True)
     participations = db.query(models.Participation).filter(
         models.Participation.owner_id == pg_id).filter(models.Participation.deleted == False)
     return participations
