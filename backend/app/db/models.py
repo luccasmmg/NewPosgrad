@@ -1,6 +1,6 @@
 import enum
 
-from sqlalchemy import Boolean, Column, Integer, String, Text, ForeignKey, Enum
+from sqlalchemy import Boolean, Column, Integer, String, Text, ForeignKey, Enum, DateTime, func
 from sqlalchemy.orm import relationship
 
 from .session import Base
@@ -22,8 +22,9 @@ class PostGraduation(Base):
     courses = relationship("Course", back_populates="post_graduation_owner")
     researchers = relationship("Researcher", back_populates="post_graduation_owner")
     covenants = relationship("Covenant", back_populates="post_graduation_owner")
-    participation = relationship("Participation", back_populates="post_graduation_owner")
+    participations = relationship("Participation", back_populates="post_graduation_owner")
     attendance = relationship("Attendance", uselist=False, back_populates="post_graduation_owner")
+    official_documents = relationship("OfficialDocument", back_populates="post_graduation_owner")
 
 class User(Base):
     __tablename__ = "user"
@@ -101,4 +102,25 @@ class Participation(Base):
     international = Column(Boolean)
     deleted = Column(Boolean, default=False)
 
-    post_graduation_owner = relationship("PostGraduation", back_populates="participation")
+    post_graduation_owner = relationship("PostGraduation", back_populates="participations")
+
+class DocumentCategory(str, enum.Enum):
+    regiments = 'regiments'
+    records = 'records'
+    resolutions = 'resolutions'
+    plans = 'plans'
+    others = 'others'
+
+class OfficialDocument(Base):
+    __tablename__ = "official_document"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    title = Column(String, nullable=False)
+    file = Column(String, nullable=False)
+    cod = Column(String, nullable=False)
+    category = Column(Enum(DocumentCategory), nullable=False)
+    deleted = Column(Boolean, default=False)
+    inserted_on = Column(DateTime(timezone=True), server_default=func.now())
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="official_documents")

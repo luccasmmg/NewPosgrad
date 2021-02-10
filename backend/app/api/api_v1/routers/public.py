@@ -15,7 +15,7 @@ from app.db import models as m
 
 from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter
 from app.schemas.base_schemas import PostGraduation
-from app.schemas.pg_information_schemas import Researcher, Covenant, Participation
+from app.schemas.pg_information_schemas import Researcher, Covenant, Participation, OfficialDocument
 from app.core.api_ufrn import get_public_data, create_headers, get_public_data_async
 
 public_router = p = APIRouter()
@@ -180,3 +180,19 @@ async def participations(
     """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_informations(db, post_graduation.id, m.Participation))
+
+@p.get(
+    "/{initials}/documentos",
+    response_model=t.List[OfficialDocument]
+)
+async def official_documents(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get the Official Documents
+    """
+
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    return list(get_informations(db, post_graduation.id, m.OfficialDocument))

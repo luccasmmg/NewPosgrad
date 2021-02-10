@@ -131,3 +131,13 @@ def create_attendance(db: Session, attendance: base_schemas.AttendanceCreate):
         schedule=attendance.schedule,
     )
     return add_information(db, db_attendance)
+
+def create_official_document(db: Session, pg_id: int, official_document: pg_information_schemas.OfficialDocumentCreate):
+    db_official_document = models.OfficialDocument(
+        owner_id=pg_id,
+        title=official_document.title,
+        category=official_document.category,
+        file=official_document.file,
+        cod=official_document.cod
+    )
+    return add_information(db, db_official_document)

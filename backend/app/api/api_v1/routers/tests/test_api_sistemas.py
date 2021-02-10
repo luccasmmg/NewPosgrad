@@ -21,7 +21,6 @@ def test_get_students(client, test_course):
         "sigla-nivel": "string"
     }
     response = client.get(f"/api/v1/publico/PPGP/discentes/{test_course.id_sigaa}")
-    print(response.json(), flush=True)
     assert response.status_code == 200
     assert all(key in response.json()[0].keys() for key in dummy_dict.keys())
 

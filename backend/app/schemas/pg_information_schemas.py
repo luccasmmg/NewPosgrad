@@ -2,7 +2,11 @@
 
 from pydantic import BaseModel
 
+from app.db.models import DocumentCategory
+
 import typing as t
+
+import datetime
 
 class ResearcherBase(BaseModel):
     cpf: str
@@ -59,6 +63,28 @@ class ParticipationEdit(ParticipationBase):
 class Participation(ParticipationBase):
     id: int
     owner_id: int
+
+    class Config:
+        orm_mode = True
+
+#Official Document
+
+class OfficialDocumentBase(BaseModel):
+    title: str
+    cod: str
+    category: DocumentCategory
+
+class OfficialDocumentCreate(OfficialDocumentBase):
+    file: str
+    pass
+
+class OfficialDocumentEdit(OfficialDocumentBase):
+    pass
+
+class OfficialDocument(OfficialDocumentBase):
+    id: int
+    owner_id: int
+    inserted_on: datetime.datetime
 
     class Config:
         orm_mode = True
