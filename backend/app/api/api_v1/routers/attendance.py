@@ -48,7 +48,7 @@ async def attendance_edit(
     """
     Edit attendance
     """
-    attendance_id = get_informations(db, current_user.owner_id, m.Attendance).first()
+    attendance_id = get_informations(db, current_user.owner_id, m.Attendance).first().id
     return edit_information(db, attendance_id, attendance, m.Attendance)
 
 @a.delete("/contato/telefone/{phone_id}", response_model=Phone, response_model_exclude_none=True)

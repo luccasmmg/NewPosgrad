@@ -18,6 +18,7 @@ def test_edit_attendance(client, test_pg, test_superuser, test_attendance, super
     assert response.status_code == 200
     new_attendance["id"] = test_attendance.id
     new_attendance["owner_id"] = test_attendance.owner_id
+    new_attendance["phones"] = []
     assert response.json() == new_attendance
 
 def test_create_attendance(client, test_superuser, superuser_token_headers):
