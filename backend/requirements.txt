@@ -20,3 +20,4 @@ python-multipart==0.0.5
 pyjwt==1.7.1
 aiohttp==3.7.3
 boto3==1.16.59
+pytest-cov==2.11.1
