@@ -67,6 +67,22 @@ class Attendance(Base):
     deleted = Column(Boolean, default=False)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="attendance")
+    phones = relationship("Phone", back_populates="attendance_owner")
+
+class PhoneType(str, enum.Enum):
+    fixed = 'fixed'
+    cellphone = 'cellphone'
+
+class Phone(Base):
+    __tablename__ = "phone"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_attendance_id = Column(Integer, ForeignKey("attendance.id"))
+    number = Column(Integer, unique=True, nullable=False)
+    phone_type = Column(Enum(PhoneType), nullable=False)
+    deleted = Column(Boolean, default=False)
+
+    attendance_owner = relationship("Attendance", back_populates="phones")
 
 class Researcher(Base):
     __tablename__ = "researcher"

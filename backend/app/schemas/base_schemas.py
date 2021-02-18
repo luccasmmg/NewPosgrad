@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from app.db.models import CourseType
+from app.db.models import CourseType, PhoneType
 import typing as t
 
 # User schemes
@@ -74,6 +74,26 @@ class Course(CourseBase):
     class Config:
         orm_mode = True
 
+# Phone schemes
+
+class PhoneBase(BaseModel):
+    number: int
+    phone_type: PhoneType
+
+class PhoneCreate(PhoneBase):
+    pass
+
+class PhoneEdit(PhoneBase):
+    pass
+
+class Phone(PhoneBase):
+    id: int
+    owner_attendance_id: int
+    deleted: bool
+
+    class Config:
+        orm_mode = True
+
 # Attendance schemes
 
 class AttendanceBase(BaseModel):
@@ -91,6 +111,7 @@ class AttendanceEdit(AttendanceBase):
 class Attendance(AttendanceBase):
     owner_id: int
     id: int
+    phones: t.List[Phone] = []
 
     class Config:
         orm_mode = True

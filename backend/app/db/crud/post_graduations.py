@@ -132,6 +132,14 @@ def create_attendance(db: Session, attendance: base_schemas.AttendanceCreate):
     )
     return add_information(db, db_attendance)
 
+def create_phone(db: Session, attendance_id: int, phone: base_schemas.PhoneCreate):
+    db_phone = models.Phone(
+        owner_attendance_id=attendance_id,
+        number=phone.number,
+        phone_type=phone.phone_type,
+    )
+    return add_information(db, db_phone)
+
 def create_official_document(db: Session, pg_id: int, official_document: pg_information_schemas.OfficialDocumentCreate):
     db_official_document = models.OfficialDocument(
         owner_id=pg_id,

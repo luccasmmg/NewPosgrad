@@ -143,6 +143,24 @@ And fill the empty spaces with your own keys, optained in <https://api.ufrn.br/>
 
 ![The Database Layout can be viewed here](https://github.com/luccasmmg/NewPosgrad/blob/master/db.png?raw=true)
 
+## CRUD Todo
+
+* [x] Post Graduation
+* [x] User
+* [x] Course
+* [x] Attendance
+* [x] Official Document
+* [x] Researcher
+* [x] Covenant
+* [x] Participation
+* [x] Phone
+* [ ] News
+* [ ] Event
+* [ ] Secretariat
+* [ ] Coordination
+* [ ] Scheduled Report
+* [ ] Student Coordinator
+
 ## Project Layout
 
 ```
