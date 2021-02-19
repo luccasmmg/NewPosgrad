@@ -233,6 +233,22 @@ def test_covenant(test_db, test_pg) -> models.Covenant:
     return covenant
 
 @pytest.fixture
+def test_official_document(test_db, test_pg) -> models.OfficialDocument:
+    """
+    official document for testing
+    """
+    official_document = models.OfficialDocument(
+        owner_id=test_pg.id,
+        title="Official document test",
+        file="dummy.pdf",
+        cod="CT",
+        category="regiments"
+    )
+    test_db.add(official_document)
+    test_db.commit()
+    return official_document
+
+@pytest.fixture
 def test_participation(test_db, test_pg) -> models.Participation:
     """
     participation for testing
