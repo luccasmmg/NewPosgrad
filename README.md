@@ -154,7 +154,7 @@ And fill the empty spaces with your own keys, optained in <https://api.ufrn.br/>
 * [x] Covenant
 * [x] Participation
 * [x] Phone
-* [ ] News
+* [x] News
 * [ ] Event
 * [ ] Secretariat
 * [ ] Coordination
