@@ -1,11 +1,11 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 from app.db.models import CourseType, PhoneType
 import typing as t
 
 # User schemes
 
 class UserBase(BaseModel):
-    email: str
+    email: EmailStr
     owner_id: int
     is_active: bool = True
     is_superuser: bool = False
@@ -97,7 +97,7 @@ class Phone(PhoneBase):
 # Attendance schemes
 
 class AttendanceBase(BaseModel):
-    email: str
+    email: EmailStr
     location: str
     schedule: str
 

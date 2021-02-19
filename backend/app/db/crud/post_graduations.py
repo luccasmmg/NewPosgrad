@@ -159,3 +159,13 @@ def create_news(db: Session, pg_id: int, news: pg_information_schemas.NewsCreate
         body=news.body
     )
     return add_information(db, db_news)
+
+def create_event(db: Session, pg_id: int, event: pg_information_schemas.EventCreate):
+    db_event = models.Event(
+        owner_id=pg_id,
+        title=event.title,
+        link=event.link,
+        initial_date=event.initial_date,
+        final_date=event.final_date,
+    )
+    return add_information(db, db_event)

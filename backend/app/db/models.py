@@ -26,6 +26,7 @@ class PostGraduation(Base):
     attendance = relationship("Attendance", uselist=False, back_populates="post_graduation_owner")
     official_documents = relationship("OfficialDocument", back_populates="post_graduation_owner")
     news = relationship("News", back_populates="post_graduation_owner")
+    events = relationship("Event", back_populates="post_graduation_owner")
 
 class User(Base):
     __tablename__ = "user"
@@ -141,6 +142,19 @@ class OfficialDocument(Base):
     inserted_on = Column(DateTime(timezone=True), server_default=func.now())
 
     post_graduation_owner = relationship("PostGraduation", back_populates="official_documents")
+
+class Event(Base):
+    __tablename__ = "event"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    title = Column(String, nullable=False)
+    link = Column(String)
+    initial_date = Column(DateTime(timezone=True))
+    final_date = Column(DateTime(timezone=True))
+    deleted = Column(Boolean, default=False)
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="events")
 
 class News(Base):
     __tablename__ = "news"

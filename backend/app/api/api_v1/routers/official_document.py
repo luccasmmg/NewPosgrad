@@ -29,12 +29,14 @@ async def official_document_create(
     if not file.filename.endswith(('.pdf', '.docx', '.odt')):
         raise HTTPException(status_code=422, detail="The logo file has to be in .pdf .docx or .odt")
 
-    s3_response = boto3.resource('s3').Bucket('juno-minerva').put_object(Key=f'documents/{category}/{file.filename}', Body=file.file, ACL='public-read')
+    filename_normalized = "".join(x for x in file.filename if x.isalnum())
+
+    s3_response = boto3.resource('s3').Bucket('juno-minerva').put_object(Key=f'documents/{category}/{filename_normalized}', Body=file.file, ACL='public-read')
 
     official_document = OfficialDocumentCreate(title=title,
                                                cod=cod,
                                                category=category,
-                                               file=f'https://juno-minerva.s3-sa-east-1.amazonaws.com/documents/{category}/{file.filename}',
+                                               file=f'https://juno-minerva.s3-sa-east-1.amazonaws.com/documents/{category}/{filename_normalized}',
                                                )
 
     return create_official_document(db, current_user.owner_id, official_document)

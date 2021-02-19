@@ -26,9 +26,11 @@ async def covenant_create(
     if not logo_file.filename.endswith(('.jpg', '.jpeg', '.png')):
         raise HTTPException(status_code=422, detail="The logo file has to be in .jpg .jpeg or .png")
 
-    s3_response = boto3.resource('s3').Bucket('juno-minerva').put_object(Key=f'logo_covenants/{logo_file.filename}', Body=logo_file.file, ACL='public-read')
+    filename_normalized = "".join(x for x in logo_file.filename if x.isalnum())
 
-    covenant = CovenantCreate(name=name, initials=initials, logo_file=f'https://juno-minerva.s3-sa-east-1.amazonaws.com/logo_covenants/{logo_file.filename}')
+    s3_response = boto3.resource('s3').Bucket('juno-minerva').put_object(Key=f'logo_covenants/{filename_normalized}', Body=logo_file.file, ACL='public-read')
+
+    covenant = CovenantCreate(name=name, initials=initials, logo_file=f'https://juno-minerva.s3-sa-east-1.amazonaws.com/logo_covenants/{filename_normalized}')
 
     return create_covenant(db, current_user.owner_id, covenant, m.Covenant)
 

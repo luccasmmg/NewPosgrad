@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl, PositiveInt
 
 from app.db.models import DocumentCategory
 
@@ -51,7 +51,7 @@ class Covenant(CovenantBase):
 class ParticipationBase(BaseModel):
     title: str
     description: str = ""
-    year: int = None
+    year: PositiveInt = None
     international: bool = False
 
 class ParticipationCreate(ParticipationBase):
@@ -104,6 +104,27 @@ class NewsEdit(NewsBase):
     pass
 
 class News(NewsBase):
+    id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True
+
+#Event
+
+class EventBase(BaseModel):
+    title: str
+    link: HttpUrl
+    initial_date: datetime.date
+    final_date: datetime.date
+
+class EventCreate(EventBase):
+    pass
+
+class EventEdit(EventBase):
+    pass
+
+class Event(EventBase):
     id: int
     owner_id: int
 

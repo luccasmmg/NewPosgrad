@@ -21,3 +21,4 @@ pyjwt==1.7.1
 aiohttp==3.7.3
 boto3==1.16.59
 pytest-cov==2.11.1
+email-validator==1.1.1
