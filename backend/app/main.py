@@ -12,6 +12,7 @@ from app.api.api_v1.routers.researcher import researcher_router
 from app.api.api_v1.routers.covenant import covenant_router
 from app.api.api_v1.routers.official_document import document_router
 from app.api.api_v1.routers.participation import participation_router
+from app.api.api_v1.routers.news import news_router
 
 from app.core import config
 from app.db.session import SessionLocal
@@ -46,6 +47,7 @@ app.include_router(researcher_router, prefix="/api/v1", tags=["researchers"])
 app.include_router(covenant_router, prefix="/api/v1", tags=["covenants"])
 app.include_router(participation_router, prefix="/api/v1", tags=["participations"])
 app.include_router(document_router, prefix="/api/v1", tags=["documents"])
+app.include_router(news_router, prefix="/api/v1", tags=["news"])
 app.include_router(public_router, prefix="/api/v1/publico", tags=["public"])
 
 if __name__ == "__main__":

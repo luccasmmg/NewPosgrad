@@ -1,6 +1,6 @@
 import enum
 
-from sqlalchemy import Boolean, Column, Integer, String, Text, ForeignKey, Enum, DateTime, func
+from sqlalchemy import Boolean, Column, Integer, String, Text, ForeignKey, Enum, Date, DateTime, func
 from sqlalchemy.orm import relationship
 
 from .session import Base
@@ -25,6 +25,7 @@ class PostGraduation(Base):
     participations = relationship("Participation", back_populates="post_graduation_owner")
     attendance = relationship("Attendance", uselist=False, back_populates="post_graduation_owner")
     official_documents = relationship("OfficialDocument", back_populates="post_graduation_owner")
+    news = relationship("News", back_populates="post_graduation_owner")
 
 class User(Base):
     __tablename__ = "user"
@@ -140,3 +141,16 @@ class OfficialDocument(Base):
     inserted_on = Column(DateTime(timezone=True), server_default=func.now())
 
     post_graduation_owner = relationship("PostGraduation", back_populates="official_documents")
+
+class News(Base):
+    __tablename__ = "news"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    title = Column(String, nullable=False)
+    headline = Column(String)
+    body = Column(Text)
+    deleted = Column(Boolean, default=False)
+    date = Column(Date)
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="news")

@@ -88,3 +88,24 @@ class OfficialDocument(OfficialDocumentBase):
 
     class Config:
         orm_mode = True
+
+#News
+
+class NewsBase(BaseModel):
+    title: str
+    headline: str
+    date: datetime.date
+    body: str
+
+class NewsCreate(NewsBase):
+    pass
+
+class NewsEdit(NewsBase):
+    pass
+
+class News(NewsBase):
+    id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True

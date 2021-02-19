@@ -149,3 +149,13 @@ def create_official_document(db: Session, pg_id: int, official_document: pg_info
         cod=official_document.cod
     )
     return add_information(db, db_official_document)
+
+def create_news(db: Session, pg_id: int, news: pg_information_schemas.NewsCreate):
+    db_news = models.News(
+        owner_id=pg_id,
+        title=news.title,
+        date=news.date,
+        headline=news.headline,
+        body=news.body
+    )
+    return add_information(db, db_news)
