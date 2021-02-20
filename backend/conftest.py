@@ -265,6 +265,22 @@ def test_participation(test_db, test_pg) -> models.Participation:
     return participation
 
 @pytest.fixture
+def test_event(test_db, test_pg) -> models.Event:
+    """
+    event for testing
+    """
+    event = models.Event(
+        owner_id=test_pg.id,
+        title="Teste",
+        link="https://google.com.br",
+        initial_date="2021-02-20",
+        final_date="2021-02-21",
+    )
+    test_db.add(event)
+    test_db.commit()
+    return event
+
+@pytest.fixture
 def test_attendance(test_db, test_pg) -> models.Attendance:
     """
     attendance for testing
