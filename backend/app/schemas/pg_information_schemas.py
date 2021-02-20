@@ -115,8 +115,8 @@ class News(NewsBase):
 class EventBase(BaseModel):
     title: str
     link: HttpUrl
-    initial_date: datetime.date
-    final_date: datetime.date
+    initial_date: datetime.datetime
+    final_date: datetime.datetime
 
 class EventCreate(EventBase):
     pass
@@ -125,6 +125,27 @@ class EventEdit(EventBase):
     pass
 
 class Event(EventBase):
+    id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True
+
+#ScheduledReport
+
+class ScheduledReportBase(BaseModel):
+    title: str
+    author: str
+    location: str
+    datetime: datetime.datetime
+
+class ScheduledReportCreate(ScheduledReportBase):
+    pass
+
+class ScheduledReportEdit(ScheduledReportBase):
+    pass
+
+class ScheduledReport(ScheduledReportBase):
     id: int
     owner_id: int
 

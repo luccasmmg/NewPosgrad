@@ -169,3 +169,13 @@ def create_event(db: Session, pg_id: int, event: pg_information_schemas.EventCre
         final_date=event.final_date,
     )
     return add_information(db, db_event)
+
+def create_scheduled_report(db: Session, pg_id: int, scheduled_report: pg_information_schemas.ScheduledReportCreate):
+    db_scheduled_report = models.ScheduledReport(
+        owner_id=pg_id,
+        title=scheduled_report.title,
+        author=scheduled_report.author,
+        location=scheduled_report.location,
+        datetime=scheduled_report.datetime,
+    )
+    return add_information(db, db_scheduled_report)

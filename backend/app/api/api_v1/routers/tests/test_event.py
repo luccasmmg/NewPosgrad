@@ -6,8 +6,8 @@ def test_add_event_no_url(client, test_user, user_token_headers):
     new_event = {
         "title": "string",
         "link": "string",
-        "initial_date": "2021-02-20",
-        "final_date": "2021-02-20"
+        "initial_date": "2021-02-20T15:31:19.739000+00:00",
+        "final_date": "2021-02-20T15:31:19.739000+00:00"
     }
     response = client.post(
         f"api/v1/evento",
@@ -20,8 +20,8 @@ def test_add_event(client, test_user, user_token_headers):
     new_event = {
         "title": "string",
         "link": "https://google.com",
-        "initial_date": "2021-02-20",
-        "final_date": "2021-02-20"
+        "initial_date": "2021-02-20T15:31:19.739000+00:00",
+        "final_date": "2021-02-20T15:31:19.739000+00:00"
     }
     response = client.post(
         f"api/v1/evento",
@@ -37,8 +37,8 @@ def test_edit_event(client, test_user, test_event, user_token_headers):
     new_event = {
         "title": "string 2",
         "link": "https://duckduckgo.com",
-        "initial_date": "2021-04-20",
-        "final_date": "2021-04-20"
+        "initial_date": "2021-02-20T15:31:19.739000+00:00",
+        "final_date": "2021-02-20T15:31:19.739000+00:00"
     }
     response = client.put(
         f"api/v1/evento/{test_event.id}",
