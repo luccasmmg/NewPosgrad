@@ -218,6 +218,20 @@ def test_researcher(test_db, test_pg) -> models.Researcher:
     return researcher
 
 @pytest.fixture
+def test_student_advisor(test_db, test_pg) -> models.StudentAdvisor:
+    """
+    student advisor for testing
+    """
+    student_advisor = models.StudentAdvisor(
+        owner_id=test_pg.id,
+        advisor_name="Maria Arlete",
+        registration="12345678910"
+    )
+    test_db.add(student_advisor)
+    test_db.commit()
+    return student_advisor
+
+@pytest.fixture
 def test_covenant(test_db, test_pg) -> models.Covenant:
     """
     covenant for testing

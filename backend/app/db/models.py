@@ -28,6 +28,7 @@ class PostGraduation(Base):
     news = relationship("News", back_populates="post_graduation_owner")
     events = relationship("Event", back_populates="post_graduation_owner")
     scheduled_reports = relationship("ScheduledReport", back_populates="post_graduation_owner")
+    advisors = relationship("StudentAdvisor", back_populates="post_graduation_owner")
 
 class User(Base):
     __tablename__ = "user"
@@ -182,3 +183,14 @@ class News(Base):
     date = Column(Date)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="news")
+
+class StudentAdvisor(Base):
+    __tablename__ = "student_advisor"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    registration = Column(String, nullable=False)
+    advisor_name = Column(String, nullable=False)
+    deleted = Column(Boolean, default=False)
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="advisors")

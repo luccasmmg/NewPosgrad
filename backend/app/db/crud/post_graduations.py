@@ -179,3 +179,11 @@ def create_scheduled_report(db: Session, pg_id: int, scheduled_report: pg_inform
         datetime=scheduled_report.datetime,
     )
     return add_information(db, db_scheduled_report)
+
+def create_student_advisor(db: Session, pg_id: int, student_advisor: pg_information_schemas.StudentAdvisorCreate):
+    db_student_advisor = models.StudentAdvisor(
+        owner_id=pg_id,
+        registration=student_advisor.registration,
+        advisor_name=student_advisor.advisor_name,
+    )
+    return add_information(db, db_student_advisor)

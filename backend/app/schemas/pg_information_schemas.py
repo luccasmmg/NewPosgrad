@@ -25,6 +25,25 @@ class Researcher(ResearcherBase):
     class Config:
         orm_mode = True
 
+#Student advisor
+
+class StudentAdvisorBase(BaseModel):
+    registration: int
+    advisor_name: str
+
+class StudentAdvisorCreate(StudentAdvisorBase):
+    pass
+
+class StudentAdvisorEdit(StudentAdvisorBase):
+    pass
+
+class StudentAdvisor(StudentAdvisorBase):
+    id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True
+
 #Covenant schemas
 
 class CovenantBase(BaseModel):
