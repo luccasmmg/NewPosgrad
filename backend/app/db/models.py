@@ -29,6 +29,7 @@ class PostGraduation(Base):
     events = relationship("Event", back_populates="post_graduation_owner")
     scheduled_reports = relationship("ScheduledReport", back_populates="post_graduation_owner")
     advisors = relationship("StudentAdvisor", back_populates="post_graduation_owner")
+    staff = relationship("Staff", back_populates="post_graduation_owner")
 
 class User(Base):
     __tablename__ = "user"
@@ -144,6 +145,25 @@ class OfficialDocument(Base):
     inserted_on = Column(DateTime(timezone=True), server_default=func.now())
 
     post_graduation_owner = relationship("PostGraduation", back_populates="official_documents")
+
+class Rank(str, enum.Enum):
+    coordinator = 'coordinator'
+    vice_coordinator = 'vice_coordinator'
+    secretariat = 'secretariat'
+    intern = 'intern'
+
+class Staff(Base):
+    __tablename__ = "staff"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    name = Column(String, nullable=False)
+    rank = Column(Enum(Rank), nullable=False)
+    description = Column(Text)
+    photo = Column(String)
+    deleted = Column(Boolean, default=False)
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="staff")
 
 class Event(Base):
     __tablename__ = "event"

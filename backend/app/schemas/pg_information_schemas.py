@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel, HttpUrl, PositiveInt
 
-from app.db.models import DocumentCategory
+from app.db.models import DocumentCategory, Rank
 
 import typing as t
 
@@ -104,6 +104,29 @@ class OfficialDocument(OfficialDocumentBase):
     id: int
     owner_id: int
     inserted_on: datetime.datetime
+    file: str
+
+    class Config:
+        orm_mode = True
+
+#Staff
+
+class StaffBase(BaseModel):
+    name: str
+    rank: Rank
+    description: str
+
+class StaffCreate(StaffBase):
+    photo: str
+    pass
+
+class StaffEdit(StaffBase):
+    pass
+
+class Staff(StaffBase):
+    id: int
+    owner_id: int
+    photo: str
 
     class Config:
         orm_mode = True

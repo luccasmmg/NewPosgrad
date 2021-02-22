@@ -3,6 +3,7 @@
 from fastapi import APIRouter, Request, Depends, Response, encoders, Form, File, UploadFile, HTTPException
 import typing as t
 import boto3
+from os.path import splitext
 
 from app.db.session import get_db
 from app.db.crud.post_graduations import delete_information, edit_information, get_information, create_official_document
@@ -29,7 +30,7 @@ async def official_document_create(
     if not file.filename.endswith(('.pdf', '.docx', '.odt')):
         raise HTTPException(status_code=422, detail="The logo file has to be in .pdf .docx or .odt")
 
-    filename_normalized = "".join(x for x in file.filename if x.isalnum())
+    filename_normalized = "".join(x for x in splitext(file.filename)[0] if x.isalnum()) + splitext(file.filename)[1]
 
     s3_response = boto3.resource('s3').Bucket('juno-minerva').put_object(Key=f'documents/{category}/{filename_normalized}', Body=file.file, ACL='public-read')
 

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Request, Depends, Response, encoders, Form, File, UploadFile, HTTPException
 import typing as t
 import boto3
+from os.path import splitext
 
 from app.db.session import get_db
 from app.db.crud.post_graduations import delete_information, edit_information, get_information, create_covenant
@@ -26,7 +27,7 @@ async def covenant_create(
     if not logo_file.filename.endswith(('.jpg', '.jpeg', '.png')):
         raise HTTPException(status_code=422, detail="The logo file has to be in .jpg .jpeg or .png")
 
-    filename_normalized = "".join(x for x in logo_file.filename if x.isalnum())
+    filename_normalized = "".join(x for x in splitext(logo_file.filename)[0] if x.isalnum()) + splitext(logo_file.filename)[1]
 
     s3_response = boto3.resource('s3').Bucket('juno-minerva').put_object(Key=f'logo_covenants/{filename_normalized}', Body=logo_file.file, ACL='public-read')
 

@@ -150,6 +150,16 @@ def create_official_document(db: Session, pg_id: int, official_document: pg_info
     )
     return add_information(db, db_official_document)
 
+def create_staff(db: Session, pg_id: int, staff: pg_information_schemas.StaffCreate):
+    db_staff = models.Staff(
+        owner_id=pg_id,
+        name=staff.name,
+        rank=staff.rank,
+        photo=staff.photo,
+        description=staff.description
+    )
+    return add_information(db, db_staff)
+
 def create_news(db: Session, pg_id: int, news: pg_information_schemas.NewsCreate):
     db_news = models.News(
         owner_id=pg_id,
