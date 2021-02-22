@@ -281,6 +281,22 @@ def test_event(test_db, test_pg) -> models.Event:
     return event
 
 @pytest.fixture
+def test_scheduled_report(test_db, test_pg) -> models.ScheduledReport:
+    """
+    scheduled report for testing
+    """
+    scheduled_report = models.ScheduledReport(
+        owner_id=test_pg.id,
+        title="Teste",
+        author="Luccas",
+        location="Nepsa 2",
+        datetime="2021-02-20T15:31:19.739000+00:00",
+    )
+    test_db.add(scheduled_report)
+    test_db.commit()
+    return scheduled_report
+
+@pytest.fixture
 def test_news(test_db, test_pg) -> models.News:
     """
     news for testing
