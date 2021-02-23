@@ -311,6 +311,22 @@ def test_scheduled_report(test_db, test_pg) -> models.ScheduledReport:
     return scheduled_report
 
 @pytest.fixture
+def test_staff(test_db, test_pg) -> models.Staff:
+    """
+    staff for testing
+    """
+    staff = models.Staff(
+        owner_id=test_pg.id,
+        name="Luccas",
+        rank="coordinator",
+        photo="test.png",
+        description="Brabo",
+    )
+    test_db.add(staff)
+    test_db.commit()
+    return staff
+
+@pytest.fixture
 def test_news(test_db, test_pg) -> models.News:
     """
     news for testing

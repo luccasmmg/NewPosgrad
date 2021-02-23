@@ -16,6 +16,7 @@ def test_edit_official_document(client, test_user, test_official_document, user_
     assert response.status_code == 200
     new_official_document['id'] = test_official_document.id
     new_official_document['owner_id'] = test_official_document.owner_id
+    new_official_document['file'] = test_official_document.file
     response = {i:response.json()[i] for i in response.json() if i!='inserted_on'}
     assert response == new_official_document
 
