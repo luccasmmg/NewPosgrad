@@ -1,6 +1,24 @@
 #!/usr/bin/env python3
 
 from app.db import models
+import pathlib
+
+def test_add_staff(client, test_user, user_token_headers):
+    new_staff = {
+        "name": "string",
+        "rank": "coordinator",
+        "description": "string"
+    }
+    path = f"{pathlib.Path(__file__).parent.absolute()}/test_files/test_photo.jpg"
+    _files = {'photo': open(path, 'rb')}
+    response = client.post(
+        f"api/v1/equipe",
+        data=new_staff,
+        files=_files,
+        headers=user_token_headers,
+    )
+    assert response.status_code == 200
+    assert all(item in response.json().items() for item in new_staff.items())
 
 def test_edit_staff(client, test_user, test_staff, user_token_headers):
     new_staff = {

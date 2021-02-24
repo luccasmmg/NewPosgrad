@@ -2,6 +2,25 @@
 
 from app.db import models
 
+import pathlib
+from io import StringIO
+
+def test_add_covenant(client, test_user, user_token_headers):
+    new_covenant = {
+        "name": "Covenant 2",
+        "initials": "CCT",
+    }
+    path = f"{pathlib.Path(__file__).parent.absolute()}/test_files/test_logo.jpg"
+    _files = {'logo_file': open(path, 'rb')}
+    response = client.post(
+        f"api/v1/convenio",
+        data=new_covenant,
+        files=_files,
+        headers=user_token_headers,
+    )
+    assert response.status_code == 200
+    assert all(item in response.json().items() for item in new_covenant.items())
+
 def test_edit_covenant(client, test_user, test_covenant, user_token_headers):
     new_covenant = {
         "name": "Covenant 2",

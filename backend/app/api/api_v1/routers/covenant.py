@@ -33,7 +33,7 @@ async def covenant_create(
 
     covenant = CovenantCreate(name=name, initials=initials, logo_file=f'https://juno-minerva.s3-sa-east-1.amazonaws.com/logo_covenants/{filename_normalized}')
 
-    return create_covenant(db, current_user.owner_id, covenant, m.Covenant)
+    return create_covenant(db, current_user.owner_id, covenant)
 
 @c.delete("/convenio/{covenant_id}", response_model=Covenant, response_model_exclude_none=True)
 async def covenant_delete(

@@ -2,6 +2,25 @@
 
 from app.db import models
 
+import pathlib
+
+def test_add_official_document(client, test_user, user_token_headers):
+    new_official_document = {
+        "title": "Official Document 2",
+        "cod": "CCT",
+        "category": "others",
+    }
+    path = f"{pathlib.Path(__file__).parent.absolute()}/test_files/test_document.pdf"
+    _files = {'file': open(path, 'rb')}
+    response = client.post(
+        f"api/v1/documento",
+        data=new_official_document,
+        files=_files,
+        headers=user_token_headers,
+    )
+    assert response.status_code == 200
+    assert all(item in response.json().items() for item in new_official_document.items())
+
 def test_edit_official_document(client, test_user, test_official_document, user_token_headers):
     new_official_document = {
         "title": "Official Document 2",
