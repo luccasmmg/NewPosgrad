@@ -157,7 +157,7 @@ And fill the empty spaces with your own keys, optained in <https://api.ufrn.br/>
 * [x] News
 * [x] Event
 * [x] Scheduled Report
-* [x] Student Coordinator
+* [x] Student Advisor
 * [x] Staff
 
 ## Project Layout

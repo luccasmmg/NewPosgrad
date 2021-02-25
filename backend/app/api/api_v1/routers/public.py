@@ -15,7 +15,7 @@ from app.db import models as m
 
 from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter
 from app.schemas.base_schemas import PostGraduation
-from app.schemas.pg_information_schemas import Researcher, Covenant, Participation, OfficialDocument, News
+from app.schemas.pg_information_schemas import Researcher, Covenant, Participation, OfficialDocument, News, Event, ScheduledReport, StudentAdvisor, Staff
 from app.core.api_ufrn import get_public_data, create_headers, get_public_data_async
 
 public_router = p = APIRouter()
@@ -211,3 +211,63 @@ async def news(
     """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_informations(db, post_graduation.id, m.News))
+
+@p.get(
+    "/{initials}/eventos",
+    response_model=t.List[Event]
+)
+async def events(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get the events
+    """
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    return list(get_informations(db, post_graduation.id, m.Event))
+
+@p.get(
+    "/{initials}/equipe",
+    response_model=t.List[Staff]
+)
+async def staff(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get the staff
+    """
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    return list(get_informations(db, post_graduation.id, m.Staff))
+
+@p.get(
+    "/{initials}/defesas",
+    response_model=t.List[ScheduledReport]
+)
+async def scheduled_reports(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get the scheduled reports
+    """
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    return list(get_informations(db, post_graduation.id, m.ScheduledReport))
+
+@p.get(
+    "/{initials}/orientadores",
+    response_model=t.List[StudentAdvisor]
+)
+async def student_advisors(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get the student advisors
+    """
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    return list(get_informations(db, post_graduation.id, m.StudentAdvisor))
