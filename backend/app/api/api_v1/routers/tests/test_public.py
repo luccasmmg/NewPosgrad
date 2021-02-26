@@ -24,6 +24,17 @@ def test_get_news(client, test_db, test_pg, test_news):
     response = client.get(f"/api/v1/publico/{test_pg.initials}/noticias")
     assert response.status_code == 200
 
+def test_get_news_scraping(client, test_db, test_pg, test_news):
+    response = client.get(f"/api/v1/publico/{test_pg.initials}/noticias_sigaa")
+    assert response.status_code == 200
+    assert len(response.json()) > 9
+    assert len(response.json()) < 11
+
+def test_get_professors(client, test_db, test_pg, test_news):
+    response = client.get(f"/api/v1/publico/{test_pg.initials}/professores")
+    assert response.status_code == 200
+    assert len(response.json()) > 1
+
 def test_get_events(client, test_db, test_pg, test_event):
     response = client.get(f"/api/v1/publico/{test_pg.initials}/eventos")
     assert response.status_code == 200

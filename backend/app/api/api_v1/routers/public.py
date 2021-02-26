@@ -213,24 +213,24 @@ async def news(
     Get the news
     """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    get_news_list(post_graduation, 11)
     return list(get_informations(db, post_graduation.id, m.News))
 
 @p.get(
     "/{initials}/noticias_sigaa",
     response_model=t.List[NewsScraped]
 )
-async def news(
+async def news_sigaa(
         response: Response,
-        limit: int,
         initials: str,
+        limit: int = 10,
+        skip: int = 0,
         db=Depends(get_db)
 ):
     """
     Get the news
     """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return get_news_list(post_graduation, limit)
+    return get_news_list(post_graduation, skip, limit)
 
 @p.get(
     "/{initials}/eventos",
@@ -291,3 +291,18 @@ async def professors(
     """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return get_professors_list(post_graduation)
+
+@p.get(
+    "/{initials}/orientadores",
+    response_model=t.List[StudentAdvisor]
+)
+async def advisors(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    """
+    Get the student advisors
+    """
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    return list(get_informations(db, post_graduation.id, m.StudentAdvisor))

@@ -9,13 +9,13 @@ from bs4.element import Tag
 from app.schemas.base_schemas import PostGraduation
 from app.schemas.scraping_schemas import NewsScraped
 
-def get_news_list(pg: PostGraduation, number: int):
+def get_news_list(pg: PostGraduation, skip: int, limit: int):
 
     url = f'https://sigaa.ufrn.br/sigaa/public/programa/noticias.jsf?lc=pt_BR&id={pg.id_unit}'
 
     response = requests.get(url)
     list_of_news = BeautifulSoup(response.text, 'html.parser').select('#listagem li')
-    return list(map(build_news, list_of_news[0:number]))
+    return list(map(build_news, list_of_news[skip:limit]))
 
 def build_news(li: Tag):
     # Cant just get the link, because for some reason its broken when you select it, so we need to build it manually,
