@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
+from datetime import date
 
 class Professor(BaseModel):
     name: str
@@ -8,3 +9,9 @@ class Professor(BaseModel):
     phone: str
     lattes: str
     email: str
+
+class NewsScraped(BaseModel):
+    title: str
+    date: date
+    body: str
+    url: HttpUrl = None

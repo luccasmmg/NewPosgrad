@@ -1,14 +1,11 @@
-"""Scraping functions lib."""
-import re
-import sys
-
 import requests
+
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from app.schemas.base_schemas import PostGraduation
 from app.schemas.scraping_schemas import Professor
 
-def professors_list(pg: PostGraduation):
+def get_professors_list(pg: PostGraduation):
     """
     Return a list of professors (dicts).
     """
