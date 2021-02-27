@@ -2,6 +2,7 @@
   "name": "fastapi-react",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "ra-data-json-server": "^3.5.2",
     "ra-data-simple-rest": "^3.3.2",

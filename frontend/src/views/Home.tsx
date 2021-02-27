@@ -17,8 +17,8 @@ export const Home: FC = () => {
 
   const queryBackend = async () => {
     try {
-      const message = await getMessage();
-      setMessage(message);
+      const message = await getMessage('/api/v1/publico/PPGP');
+      setMessage(message.id_unit);
     } catch (err) {
       setError(err);
     }
