@@ -7,7 +7,8 @@ def test_create_course(client, test_superuser, superuser_token_headers):
         "owner_id": test_superuser.owner_id,
         "name": "Música 2",
         "id_sigaa": 284,
-        "course_type":models.CourseType.masters
+        "course_type":models.CourseType.masters,
+        "institutional_repository_url": 'https://repositorio.ufrn.br/handle/123456789/12031'
     }
     response = client.post(
         f"api/v1/curso",
@@ -22,6 +23,7 @@ def test_edit_course(client, test_superuser, test_course, superuser_token_header
         "owner_id": test_superuser.owner_id,
         "name": "Música 3",
         "id_sigaa": 285,
+        "institutional_repository_url": 'https://repositorio.ufrn.br/handle/123456789/12031',
         "course_type":models.CourseType.masters
     }
     response = client.put(

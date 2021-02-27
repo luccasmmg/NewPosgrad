@@ -15,3 +15,14 @@ class NewsScraped(BaseModel):
     date: date
     body: str
     url: HttpUrl = None
+
+class InstitutionalRepositoryDoc(BaseModel):
+    title: str
+    authors: str
+    keywords: str
+    issue_date: str
+    publisher: str
+    citation: str
+    portuguese_abstract: str
+    abstract: str
+    uri: HttpUrl

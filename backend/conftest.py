@@ -196,6 +196,7 @@ def test_course(test_db, test_pg) -> models.Course:
     course = models.Course(
         owner_id=test_pg.id,
         name="Musica",
+        institutional_repository_url='https://repositorio.ufrn.br/handle/123456789/12031',
         id_sigaa=84798578,
         course_type=models.CourseType.masters
     )

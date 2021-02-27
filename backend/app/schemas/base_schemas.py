@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, EmailStr, HttpUrl
 from app.db.models import CourseType, PhoneType
 import typing as t
 
@@ -59,6 +59,7 @@ class GoogleMapsKeys(BaseModel):
 class CourseBase(BaseModel):
     owner_id: int
     name: str
+    institutional_repository_url: HttpUrl
     id_sigaa: int
     course_type: CourseType
 

@@ -16,10 +16,11 @@ from app.db import models as m
 from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter
 from app.schemas.base_schemas import PostGraduation
 from app.schemas.pg_information_schemas import Researcher, Covenant, Participation, OfficialDocument, News, Event, ScheduledReport, StudentAdvisor, Staff
-from app.schemas.scraping_schemas import Professor, NewsScraped
+from app.schemas.scraping_schemas import Professor, NewsScraped, InstitutionalRepositoryDoc
 from app.core.api_ufrn import get_public_data, create_headers, get_public_data_async
 from app.scraping.professors_sigaa import get_professors_list
 from app.scraping.news_sigaa import get_news_list
+from app.scraping.institutional_repository import get_final_reports_list
 
 public_router = p = APIRouter()
 
@@ -306,3 +307,19 @@ async def advisors(
     """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_informations(db, post_graduation.id, m.StudentAdvisor))
+
+@p.get(
+    "/{initials}/{course_id}/repositorio_institucional",
+    response_model=t.List[InstitutionalRepositoryDoc]
+)
+async def institutional_repository(
+        response: Response,
+        initials: str,
+        course_id: int,
+        db=Depends(get_db)
+):
+    """
+    Get the institutional repository docs
+    """
+    course = get_information(db, course_id, m.Course)
+    return get_final_reports_list(course)

@@ -55,6 +55,7 @@ class Course(Base):
     id = Column(Integer, primary_key=True, index=True)
     owner_id = Column(Integer, ForeignKey("post_graduation.id"))
     name = Column(String, nullable=False)
+    institutional_repository_url = Column(String, nullable=False)
     id_sigaa = Column(Integer, unique=True, nullable=False)
     course_type = Column(Enum(CourseType), nullable=False)
     deleted = Column(Boolean, default=False)

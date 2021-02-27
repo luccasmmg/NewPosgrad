@@ -117,9 +117,10 @@ def create_participation(db: Session, pg_id: int, participation: pg_information_
 def create_course(db: Session, course: base_schemas.CourseCreate):
     db_course = models.Course(
         name=course.name,
+        institutional_repository_url=course.institutional_repository_url,
         owner_id=course.owner_id,
         id_sigaa=course.id_sigaa,
-        course_type=course.course_type
+        course_type=course.course_type,
     )
     return add_information(db, db_course)
 
