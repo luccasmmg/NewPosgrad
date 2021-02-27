@@ -65,6 +65,10 @@ def delete_post_graduation(db: Session, post_graduation_id: int):
     db.commit()
     return post_graduation
 
+def get_all_informations(db: Session, model, skip: int = 0, limit: int = 100):
+    informations = db.query(model).filter(model.deleted == False).offset(skip).limit(limit).all()
+    return informations
+
 def get_informations(db: Session, pg_id: int, model):
     informations = db.query(model).filter(
         model.owner_id == pg_id).filter(model.deleted == False)

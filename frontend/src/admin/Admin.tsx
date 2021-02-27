@@ -4,6 +4,7 @@ import simpleRestProvider from 'ra-data-simple-rest';
 import authProvider from './authProvider';
 
 import { UserList, UserEdit, UserCreate } from './Users';
+import { CourseList, CourseEdit, CourseCreate } from './Courses';
 import {
   PosGraduationList,
   PosGraduationCreate,
@@ -43,6 +44,15 @@ export const Admin: FC = () => {
             list={PosGraduationList}
             create={PosGraduationCreate}
             edit={PosGraduationEdit}
+          />
+        ) : null,
+        permissions === 'admin' ? (
+          <Resource
+            name="curso"
+            options={{ label: 'Cursos' }}
+            list={CourseList}
+            create={CourseCreate}
+            edit={CourseEdit}
           />
         ) : null,
       ]}

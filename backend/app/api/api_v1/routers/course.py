@@ -3,13 +3,35 @@ import typing as t
 
 from app.db.session import get_db
 
-from app.db.crud.post_graduations import delete_information, edit_information, get_information, create_course
+from app.db.crud.post_graduations import delete_information, edit_information, get_information, create_course, get_all_informations
 from app.db import models as m
 
 from app.schemas.base_schemas import CourseCreate, Course, CourseEdit
 from app.core.auth import get_current_active_superuser, get_current_active_user
 
 course_router = c = APIRouter()
+
+@c.get("/curso", response_model=t.List[Course], response_model_exclude_none=True)
+async def course_list(
+        response: Response,
+        db=Depends(get_db),
+        current_user=Depends(get_current_active_superuser),
+):
+    courses = get_all_informations(db, m.Course)
+    response.headers["Content-Range"] = f"0-9/{len(courses)}"
+    return courses
+
+@c.get("/curso/{course_id}",
+       response_model=Course,
+       response_model_exclude_none=True,
+)
+async def course_details(
+       request: Request,
+       course_id: int,
+       db=Depends(get_db),
+       current_user=Depends(get_current_active_superuser),
+):
+    return get_information(db, course_id, m.Course)
 
 @c.post("/curso", response_model=Course, response_model_exclude_none=True)
 async def course_create(

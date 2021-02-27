@@ -47,7 +47,7 @@ class User(Base):
 
 class CourseType(str, enum.Enum):
     masters = 'masters'
-    doctorate = 'masters'
+    doctorate = 'doctorate'
 
 class Course(Base):
     __tablename__ = "course"
