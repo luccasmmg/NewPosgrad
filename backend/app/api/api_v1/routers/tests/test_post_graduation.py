@@ -44,16 +44,17 @@ def test_create_pg(client, test_superuser, superuser_token_headers):
 
 def test_edit_pg(client, test_pg, test_superuser, superuser_token_headers):
     new_pg = {
-        "id_unit": test_pg.id,
+        "id_unit": test_pg.id_unit,
         "name": "string",
         "initials": test_pg.initials,
         "sigaa_code": test_pg.sigaa_code
     }
     response = client.put(
-        f"/api/v1/posgraduacao/{test_pg.initials}",
+        f"/api/v1/posgraduacao/{test_pg.id}",
         json=new_pg,
         headers=superuser_token_headers
     )
+    print(response.json(), flush=True)
     assert response.status_code == 200
     assert response.json() == {
         "id_unit": test_pg.id_unit,

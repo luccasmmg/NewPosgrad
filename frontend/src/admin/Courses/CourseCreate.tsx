@@ -1,11 +1,5 @@
 import React, { FC } from 'react';
-import {
-  Create,
-  SimpleForm,
-  TextInput,
-  BooleanInput,
-  NumberInput,
-} from 'react-admin';
+import { Create, SimpleForm, TextInput, NumberInput } from 'react-admin';
 
 export const CourseCreate: FC = (props) => (
   <Create {...props} title="Criar Curso">

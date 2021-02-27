@@ -1,12 +1,6 @@
 // in src/users.js
 import React, { FC } from 'react';
-import {
-  List,
-  Datagrid,
-  TextField,
-  BooleanField,
-  EditButton,
-} from 'react-admin';
+import { List, Datagrid, TextField, EditButton } from 'react-admin';
 
 export const CourseList: FC = (props) => (
   <List {...props} title="Listar Cursos">

@@ -69,7 +69,7 @@ async def post_graduation_create(
 )
 async def post_graduation_edit(
         request: Request,
-        id: str,
+        post_id: int,
         post_graduation: PostGraduationEdit,
         db=Depends(get_db),
         current_user=Depends(get_current_active_superuser),
@@ -77,7 +77,7 @@ async def post_graduation_edit(
     """
     Update an existing post graduation
     """
-    return edit_post_graduation(db, id, post_graduation)
+    return edit_post_graduation(db, post_id, post_graduation)
 
 @p.delete(
     "/posgraduacao/{post_id}", response_model=PostGraduation, response_model_exclude_none=True

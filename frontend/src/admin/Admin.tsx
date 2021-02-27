@@ -6,6 +6,11 @@ import authProvider from './authProvider';
 import { UserList, UserEdit, UserCreate } from './Users';
 import { CourseList, CourseEdit, CourseCreate } from './Courses';
 import {
+  ResearcherList,
+  ResearcherEdit,
+  ResearcherCreate,
+} from './Researchers';
+import {
   PosGraduationList,
   PosGraduationCreate,
   PosGraduationEdit,
@@ -55,6 +60,13 @@ export const Admin: FC = () => {
             edit={CourseEdit}
           />
         ) : null,
+        <Resource
+          name="pesquisador"
+          options={{ label: 'Pesquisadores' }}
+          list={ResearcherList}
+          create={ResearcherCreate}
+          edit={ResearcherEdit}
+        />,
       ]}
     </ReactAdmin>
   );
