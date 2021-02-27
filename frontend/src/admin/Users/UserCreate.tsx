@@ -5,17 +5,19 @@ import {
   TextInput,
   PasswordInput,
   BooleanInput,
+  NumberInput,
 } from 'react-admin';
 
 export const UserCreate: FC = (props) => (
   <Create {...props}>
     <SimpleForm>
-      <TextInput source="email" />
-      <TextInput source="first_name" />
-      <TextInput source="last_name" />
+      <TextInput label="Email" source="email" />
+      <TextInput label="Primeiro Nome" source="first_name" />
+      <TextInput label="Sobrenome" source="last_name" />
+      <NumberInput label="Id do grupo" source="owner_id" step={1} />
       <PasswordInput source="password" />
-      <BooleanInput source="is_superuser" />
-      <BooleanInput source="is_active" />
+      <BooleanInput label="É superusuário?" source="is_superuser" />
+      <BooleanInput label="É ativo?" source="is_active" />
     </SimpleForm>
   </Create>
 );

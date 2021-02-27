@@ -4,6 +4,11 @@ import simpleRestProvider from 'ra-data-simple-rest';
 import authProvider from './authProvider';
 
 import { UserList, UserEdit, UserCreate } from './Users';
+import {
+  PosGraduationList,
+  PosGraduationCreate,
+  PosGraduationEdit,
+} from './PosGraduations';
 
 const httpClient = (url: any, options: any) => {
   if (!options) {
@@ -29,6 +34,15 @@ export const Admin: FC = () => {
             list={UserList}
             edit={UserEdit}
             create={UserCreate}
+          />
+        ) : null,
+        permissions === 'admin' ? (
+          <Resource
+            name="posgraduacao"
+            options={{ label: 'Pos Graduações' }}
+            list={PosGraduationList}
+            create={PosGraduationCreate}
+            edit={PosGraduationEdit}
           />
         ) : null,
       ]}

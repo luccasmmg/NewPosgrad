@@ -15,6 +15,13 @@ def get_post_graduation(db: Session, post_graduation_id: int) -> base_schemas.Po
         raise HTTPException(status_code=404, detail="Post Graduation not found")
     return post_graduation
 
+def get_post_graduations(
+        db: Session,
+        skip: int = 0,
+        limit: int = 100
+) -> t.List[base_schemas.PostGraduation]:
+    return db.query(models.PostGraduation).offset(skip).limit(limit).all()
+
 def get_post_graduation_by_initials(db: Session, initials: str) -> base_schemas.PostGraduation:
     post_graduation = db.query(models.PostGraduation).filter(models.PostGraduation.initials == initials).first()
     if not post_graduation:
@@ -49,6 +56,14 @@ def edit_post_graduation(
     db.commit()
     db.refresh(db_post_graduation)
     return db_post_graduation
+
+def delete_post_graduation(db: Session, post_graduation_id: int):
+    post_graduation = get_post_graduation(db, post_graduation_id)
+    if not post_graduation:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="post_graduation not found")
+    db.delete(post_graduation)
+    db.commit()
+    return post_graduation
 
 def get_informations(db: Session, pg_id: int, model):
     informations = db.query(model).filter(

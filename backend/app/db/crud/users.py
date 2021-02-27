@@ -30,7 +30,7 @@ def create_user(db: Session, user: base_schemas.UserCreate):
         first_name=user.first_name,
         owner_id=user.owner_id,
         last_name=user.last_name,
-        email=user.email,
+        email=user.email.lower(),
         is_active=user.is_active,
         is_superuser=user.is_superuser,
         hashed_password=hashed_password,
