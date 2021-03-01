@@ -4,6 +4,7 @@ import simpleRestProvider from 'ra-data-simple-rest';
 import authProvider from './authProvider';
 
 import { UserList, UserEdit, UserCreate } from './Users';
+import { AttendanceList, AttendanceEdit } from './Attendance';
 import { CourseList, CourseEdit, CourseCreate } from './Courses';
 import {
   ResearcherList,
@@ -66,6 +67,12 @@ export const Admin: FC = () => {
           list={ResearcherList}
           create={ResearcherCreate}
           edit={ResearcherEdit}
+        />,
+        <Resource
+          name="contato"
+          options={{ label: 'Contato' }}
+          list={AttendanceList}
+          edit={AttendanceEdit}
         />,
       ]}
     </ReactAdmin>
