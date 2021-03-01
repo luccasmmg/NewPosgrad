@@ -7,6 +7,7 @@ let rules = {
   'import/extensions': 'off',
   'import/no-unresolved': 'off',
   'operator-linebreak': 'off',
+  'jest/expect-expect': 'off',
   'implicit-arrow-linebreak': 'off',
   'react/destructuring-assignment': 'off',
   'jsx-a11y/click-events-have-key-events': 'off',
@@ -21,7 +22,12 @@ let rules = {
 };
 
 module.exports = {
-  extends: ['airbnb', 'plugin:prettier/recommended', 'prettier/react'],
+  extends: [
+    'airbnb',
+    'plugin:prettier/recommended',
+    'prettier/react',
+    'plugin:cypress/recommended',
+  ],
   parser: 'babel-eslint',
   rules,
   env: {
@@ -31,7 +37,7 @@ module.exports = {
     jest: true,
     es6: true,
   },
-  plugins: ['react', 'react-hooks', 'jsx-a11y'],
+  plugins: ['react', 'react-hooks', 'jsx-a11y', 'cypress'],
   settings: {
     ecmascript: 6,
     jsx: true,

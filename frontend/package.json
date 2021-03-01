@@ -24,8 +24,8 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-	"cy:run": "cypress run",
-	"test:e2e": "start-server-and-test 'yarn start' http://localhost:3000 'yarn cy:run'"
+    "cy:run": "cypress run",
+    "test:e2e": "start-server-and-test 'yarn start' http://localhost:3000 'yarn cy:run'"
   },
   "eslintConfig": {
     "extends": "airbnb"
@@ -61,6 +61,7 @@
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "cypress": "^6.5.0",
+    "cypress-localstorage-commands": "^1.4.1",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-plugin-cypress": "^2.11.2",
