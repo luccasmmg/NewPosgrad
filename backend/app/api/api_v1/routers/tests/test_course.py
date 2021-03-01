@@ -2,6 +2,22 @@
 
 from app.db import models
 
+def test_get_courses(client, test_course, test_superuser, superuser_token_headers):
+    response = client.get(
+        f"api/v1/curso",
+        headers=superuser_token_headers
+    )
+    assert response.status_code == 200
+    assert len(response.json()) > 0
+
+def test_get_one_course(client, test_course, test_superuser, superuser_token_headers):
+    response = client.get(
+        f"api/v1/curso/{test_course.id}",
+        headers=superuser_token_headers
+    )
+    assert response.status_code == 200
+    assert response.json()['id'] == test_course.id
+
 def test_create_course(client, test_superuser, superuser_token_headers):
     new_course = {
         "owner_id": test_superuser.owner_id,

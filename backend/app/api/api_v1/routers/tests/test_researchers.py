@@ -2,6 +2,22 @@
 
 from app.db import models
 
+def test_get_researchers(client, test_researcher, test_superuser, superuser_token_headers):
+    response = client.get(
+        f"api/v1/pesquisador",
+        headers=superuser_token_headers
+    )
+    assert response.status_code == 200
+    assert len(response.json()) > 0
+
+def test_get_one_researcher(client, test_researcher, test_superuser, superuser_token_headers):
+    response = client.get(
+        f"api/v1/pesquisador/{test_researcher.id}",
+        headers=superuser_token_headers
+    )
+    assert response.status_code == 200
+    assert response.json()['id'] == test_researcher.id
+
 def test_add_researcher(client, test_user, user_token_headers):
     new_researcher = {
         "name": "Maria Arlete",
