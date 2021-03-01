@@ -33,8 +33,23 @@ def init() -> None:
         ),
     )
 
+    create_user(
+        db,
+        UserCreate(
+            email="teste@posgrad.com",
+            password="123456",
+            first_name="Teste",
+            last_name="Teste 2",
+            is_active=True,
+            is_superuser=False,
+            owner_id=1,
+        ),
+    )
+
 
 if __name__ == "__main__":
     print("Creating superuser admin@posgrad.com")
+    print("Creating normal user teste@posgrad.com")
     init()
     print("Superuser created")
+    print("Normal user created")

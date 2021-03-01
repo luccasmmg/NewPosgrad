@@ -23,9 +23,6 @@ const authProvider = {
       })
       .then(({ access_token }) => {
         const decodedToken: any = decodeJwt(access_token);
-        if (decodedToken.permissions !== 'admin') {
-          throw new Error('Forbidden');
-        }
         localStorage.setItem('token', access_token);
         localStorage.setItem('permissions', decodedToken.permissions);
       });

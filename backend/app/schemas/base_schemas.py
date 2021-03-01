@@ -124,7 +124,7 @@ class PostGraduationBase(BaseModel):
     name: str
     initials: str
     sigaa_code: int
-    is_signed_in: t.Optional[bool] = True
+    is_signed_in: bool = True
     old_url: t.Optional[str] = ""
     description_small: t.Optional[str] = ""
     description_big: t.Optional[str] = ""

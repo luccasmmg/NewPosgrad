@@ -4,6 +4,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
+from sqlalchemy_utils import create_database, database_exists
 
 from app.db.models import Base
 
@@ -26,6 +27,9 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+def validate_database(url):
+    if not database_exists(url):
+        create_database(url)
 
 def get_url():
     return os.getenv("DATABASE_URL")
@@ -42,6 +46,7 @@ def run_migrations_offline():
     """
     # url = config.get_main_option("sqlalchemy.url")
     url = get_url()
+    validate_database(url)
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -60,6 +65,7 @@ def run_migrations_online():
     """
     configuration = config.get_section(config.config_ini_section)
     configuration["sqlalchemy.url"] = get_url()
+    validate_database(get_url())
     connectable = engine_from_config(
         configuration,
         prefix="sqlalchemy.",

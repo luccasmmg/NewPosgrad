@@ -43,7 +43,7 @@ export const Login: FC = () => {
       const data = await login(email, password);
 
       if (data) {
-        history.push('/');
+        history.push('/admin');
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -139,6 +139,7 @@ export const Login: FC = () => {
           <Button
             variant="outlined"
             color="primary"
+            id="login-button"
             className={classes.button}
             onClick={handleSubmit}
           >
