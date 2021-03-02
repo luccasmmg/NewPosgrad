@@ -7,7 +7,7 @@
 - Postgres
 - SqlAlchemy with Alembic for migrations
 - Pytest for backend tests
-- Jest for frontend tests
+- Cypress for frontend tests
 - Perttier/Eslint (with Airbnb style guide)
 - Docker compose for easier development
 - Nginx as a reverse proxy to allow backend and frontend on the same port
@@ -58,23 +58,24 @@ docker-compose down
 
 ### Frontend Development
 
-Alternatively to running inside docker, it can sometimes be easier
-to use npm directly for quicker reloading. To run using npm:
+I decided to decouple the frontend from the docker-compose containers so for frontend development you need to 
 
 ```
 cd frontend
-npm install
-npm start
+yarn
+yarn start
 ```
 
 This should redirect you to http://localhost:3000
 
-### Frontend Tests
+### Frontend E2E Tests
+
+The frontend tests are done mainly with cypress, for this you should probably use a separate database, you can do that using the alternative docker-compose file
 
 ```
+docker-compose -f docker-compose-e2e.yml up
 cd frontend
-npm install
-npm test
+yarn run cypress open
 ```
 
 ## Migrations
@@ -99,7 +100,7 @@ And fill in `upgrade` and `downgrade` methods. For more information see
 There is a helper script for both frontend and backend tests:
 
 ```
-./scripts/test.sh
+./buid.sh
 ```
 
 ### Backend Tests
@@ -110,14 +111,6 @@ docker-compose run backend pytest
 
 any arguments to pytest can also be passed after this command
 
-### Frontend Tests
-
-```
-docker-compose run frontend test
-```
-
-This is the same as running npm test from within the frontend directory
-
 ## Logging
 
 ```
@@ -127,7 +120,7 @@ docker-compose logs
 Or for a specific service:
 
 ```
-docker-compose logs -f name_of_service # frontend|backend|db
+docker-compose logs -f name_of_service # backend|db
 ```
 
 ## API Sistemas UFRN

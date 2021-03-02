@@ -4,6 +4,11 @@ import simpleRestProvider from 'ra-data-simple-rest';
 import authProvider from './authProvider';
 
 import { UserList, UserEdit, UserCreate } from './Users';
+import {
+  StudentAdvisorList,
+  StudentAdvisorEdit,
+  StudentAdvisorCreate,
+} from './StudentAdvisors';
 import { AttendanceList, AttendanceEdit } from './Attendance';
 import { CourseList, CourseEdit, CourseCreate } from './Courses';
 import {
@@ -73,6 +78,13 @@ export const Admin: FC = () => {
           options={{ label: 'Contato' }}
           list={AttendanceList}
           edit={AttendanceEdit}
+        />,
+        <Resource
+          name="coordenador"
+          options={{ label: 'Orientadores' }}
+          list={StudentAdvisorList}
+          edit={StudentAdvisorEdit}
+          create={StudentAdvisorCreate}
         />,
       ]}
     </ReactAdmin>
