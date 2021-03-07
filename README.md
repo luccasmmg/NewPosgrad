@@ -163,7 +163,7 @@ And fill the empty spaces with your own keys, optained in <https://api.ufrn.br/>
 * [x] Student Advisor
 * [x] Participation
 * [x] Phone
-* [ ] Event
+* [x] Event
 * [ ] Scheduled Report
 * [ ] Official Document
 * [ ] Covenant
