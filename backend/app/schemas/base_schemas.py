@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, EmailStr, HttpUrl
+from pydantic import BaseModel, Field, EmailStr, HttpUrl, validator
 from app.db.models import CourseType, PhoneType
 import typing as t
 
@@ -116,6 +116,10 @@ class Attendance(AttendanceBase):
 
     class Config:
         orm_mode = True
+
+    @validator('phones')
+    def filter_deleted(cls, v):
+        return list(filter(lambda x: x.deleted == False, v))
 
 # PostGraduation schemes
 

@@ -58,6 +58,25 @@ async def attendance_edit(
     """
     return edit_information(db, attendance_id, attendance, m.Attendance)
 
+@a.get("/telefone", response_model=t.List[Phone], response_model_exclude_none=True)
+async def get_phones(
+        response: Response,
+        db=Depends(get_db),
+        current_user=Depends(get_current_active_user),
+):
+    phones = list(filter(lambda x: x.deleted == False, get_informations(db, current_user.owner_id, m.Attendance).first().phones))
+    response.headers["Content-Range"] = f"0-9/{len(phones)}"
+    return phones
+
+@a.get("/telefone/{phone_id}", response_model=Phone, response_model_exclude_none=True)
+async def phone_details(
+        response: Response,
+        phone_id: int,
+        db=Depends(get_db),
+        current_user=Depends(get_current_active_user),
+):
+    return get_information(db, phone_id, m.Phone)
+
 @a.post("/telefone", response_model=Phone, response_model_exclude_none=True)
 async def phone_create(
     request: Request,

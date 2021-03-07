@@ -162,7 +162,7 @@ And fill the empty spaces with your own keys, optained in <https://api.ufrn.br/>
 * [x] Attendance
 * [x] Student Advisor
 * [x] Participation
-* [ ] Phone
+* [x] Phone
 * [ ] Event
 * [ ] Scheduled Report
 * [ ] Official Document

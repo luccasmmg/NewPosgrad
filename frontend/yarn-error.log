@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/bin/yarn add --dev cypress-localstorage-commands
+  /usr/bin/node /usr/bin/yarn add react-admin-date-inputs
 
 PATH: 
   /opt/google-cloud-sdk/bin:/opt/google-cloud-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/lib/smlnj/bin:/var/lib/snapd/snap/bin:/home/urutu-branco/.gem/ruby/2.7.0/bin:~/.local/bin:/usr/lib/jvm/default/bin:/usr/lib/smlnj/bin:/home/urutu-branco/.gem/ruby/2.7.0/bin:~/.local/bin
@@ -43,8 +43,8 @@ npm manifest:
       "eject": "react-scripts eject",
       "storybook": "start-storybook -p 6006 -s public",
       "build-storybook": "build-storybook -s public",
-  	"cy:run": "cypress run",
-  	"test:e2e": "start-server-and-test 'yarn start' http://localhost:3000 'yarn cy:run'"
+      "cy:run": "cypress run",
+      "test:e2e": "start-server-and-test 'yarn start' http://localhost:3000 'yarn cy:run'"
     },
     "eslintConfig": {
       "extends": "airbnb"
@@ -80,6 +80,7 @@ npm manifest:
       "@typescript-eslint/eslint-plugin": "^2.24.0",
       "@typescript-eslint/parser": "^2.24.0",
       "cypress": "^6.5.0",
+      "cypress-localstorage-commands": "^1.4.1",
       "eslint-config-airbnb": "^18.1.0",
       "eslint-config-react-app": "^5.2.1",
       "eslint-plugin-cypress": "^2.11.2",
@@ -5890,6 +5891,11 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
     integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
+  
+  cypress-localstorage-commands@^1.4.1:
+    version "1.4.1"
+    resolved "https://registry.yarnpkg.com/cypress-localstorage-commands/-/cypress-localstorage-commands-1.4.1.tgz#3df86b88b98919332af7720be2d10314bdb1222d"
+    integrity sha512-rO8/hWu04o9w+gv8l70ew8QWBy3bGUiablQQzm4l3bWkGBVa4+kWXTuokrq6AZdO1/xv4rs4OBjN7sKDRl1JhQ==
   
   cypress@^6.5.0:
     version "6.5.0"

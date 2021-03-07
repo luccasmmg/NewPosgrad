@@ -4,13 +4,32 @@ from fastapi import APIRouter, Request, Depends, Response, encoders
 import typing as t
 
 from app.db.session import get_db
-from app.db.crud.post_graduations import delete_information, edit_information, get_information, create_event
+from app.db.crud.post_graduations import get_informations, delete_information, edit_information, get_information, create_event
 from app.db import models as m
 
 from app.schemas.pg_information_schemas import EventCreate, Event, EventEdit
 from app.core.auth import get_current_active_user
 
 event_router = e = APIRouter()
+
+@e.get("/evento", response_model=t.List[Event], response_model_exclude_none=True)
+async def get_events(
+        response: Response,
+        db=Depends(get_db),
+        current_user=Depends(get_current_active_user),
+):
+    events = get_informations(db, current_user.owner_id, m.Event).all()
+    response.headers["Content-Range"] = f"0-9/{len(events)}"
+    return events
+
+@e.get("/evento/{event_id}", response_model=Event, response_model_exclude_none=True)
+async def event_details(
+        response: Response,
+        event_id: int,
+        db=Depends(get_db),
+        current_user=Depends(get_current_active_user),
+):
+    return get_information(db, event_id, m.Event)
 
 @e.post("/evento", response_model=Event, response_model_exclude_none=True)
 async def event_create(

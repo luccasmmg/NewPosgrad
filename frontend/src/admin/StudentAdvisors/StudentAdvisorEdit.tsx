@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Edit, SimpleForm, TextInput, NumberInput } from 'react-admin';
+import { Edit, SimpleForm, TextInput } from 'react-admin';
 
 export const StudentAdvisorEdit: FC = (props) => (
   <Edit {...props} title="Editar orientador">

@@ -24,7 +24,7 @@ async def get_participations(
     return participations
 
 @p.get("/participacao/{participation_id}", response_model=Participation, response_model_exclude_none=True)
-async def student_advisor_details(
+async def participation_details(
         response: Response,
         participation_id: int,
         db=Depends(get_db),

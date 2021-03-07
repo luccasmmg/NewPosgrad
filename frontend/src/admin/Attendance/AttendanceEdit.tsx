@@ -1,17 +1,25 @@
 import React, { FC } from 'react';
-import { TopToolbar, Toolbar, SaveButton, Edit, SimpleForm, ListButton, TextInput, NumberInput } from 'react-admin';
+import {
+  TopToolbar,
+  Toolbar,
+  SaveButton,
+  Edit,
+  SimpleForm,
+  ListButton,
+  TextInput,
+} from 'react-admin';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 
-const CustomToolbar: FC = props => (
-	<Toolbar {...props}>
-        <SaveButton />
-    </Toolbar>
-)
+const CustomToolbar: FC = (props) => (
+  <Toolbar {...props}>
+    <SaveButton />
+  </Toolbar>
+);
 
 const CustomEditActions: any = ({ basePath }: any) => (
-	<TopToolbar>
-		<ListButton basePath={basePath} label="Voltar" icon={<ChevronLeft />} />
-	</TopToolbar>
+  <TopToolbar>
+    <ListButton basePath={basePath} label="Voltar" icon={<ChevronLeft />} />
+  </TopToolbar>
 );
 
 export const AttendanceEdit: FC = (props) => (
