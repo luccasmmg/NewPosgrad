@@ -1,6 +1,6 @@
 import decodeJwt from 'jwt-decode';
 
-describe('The Dashboard Page', () => {
+describe('The Student advisor CRUD', () => {
   beforeEach(() => {
     cy.request({
       method: 'POST',
@@ -58,6 +58,6 @@ describe('The Dashboard Page', () => {
     cy.get('[aria-label="Delete"]').click();
     cy.visit('/admin#/coordenador');
     cy.get('[href*="#/coordenador"]').first().click();
-    cy.get('.RaEmpty-message-141').should('exist');
+    cy.get('div[class^="RaEmpty-message-"]').should('exist');
   });
 });

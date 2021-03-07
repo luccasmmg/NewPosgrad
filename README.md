@@ -160,14 +160,14 @@ And fill the empty spaces with your own keys, optained in <https://api.ufrn.br/>
 * [x] Course
 * [x] Researcher
 * [x] Attendance
-* [ ] Student Advisor
-* [ ] Participation
-* [ ] Official Document
-* [ ] Covenant
+* [x] Student Advisor
+* [x] Participation
 * [ ] Phone
-* [ ] News
 * [ ] Event
 * [ ] Scheduled Report
+* [ ] Official Document
+* [ ] Covenant
+* [ ] News
 * [ ] Staff
 
 ## Project Layout

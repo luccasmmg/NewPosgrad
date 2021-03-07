@@ -1,6 +1,6 @@
 import decodeJwt from 'jwt-decode';
 
-describe('The Dashboard Page', () => {
+describe('The Attendance', () => {
   before(() => {
     cy.request({
       method: 'POST',

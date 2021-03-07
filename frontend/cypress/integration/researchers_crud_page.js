@@ -58,6 +58,6 @@ describe('The Dashboard Page', () => {
     cy.get('[aria-label="Delete"]').click();
     cy.visit('/admin#/pesquisador');
     cy.get('[href*="#/pesquisador"]').first().click();
-    cy.get('.RaEmpty-message-141').should('exist');
+    cy.get('div[class^="RaEmpty-message-"]').should('exist');
   });
 });

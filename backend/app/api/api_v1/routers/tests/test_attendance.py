@@ -11,7 +11,7 @@ def test_edit_attendance(client, test_pg, test_superuser, test_attendance, super
         "schedule": "Schedule test",
     }
     response = client.put(
-        f"api/v1/contato",
+        f"api/v1/contato/{test_attendance.id}",
         json=new_attendance,
         headers=superuser_token_headers
     )

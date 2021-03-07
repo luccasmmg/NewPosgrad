@@ -5,6 +5,11 @@ import authProvider from './authProvider';
 
 import { UserList, UserEdit, UserCreate } from './Users';
 import {
+  ParticipationList,
+  ParticipationEdit,
+  ParticipationCreate,
+} from './Participations';
+import {
   StudentAdvisorList,
   StudentAdvisorEdit,
   StudentAdvisorCreate,
@@ -85,6 +90,13 @@ export const Admin: FC = () => {
           list={StudentAdvisorList}
           edit={StudentAdvisorEdit}
           create={StudentAdvisorCreate}
+        />,
+        <Resource
+          name="participacao"
+          options={{ label: 'Participações' }}
+          list={ParticipationList}
+          edit={ParticipationEdit}
+          create={ParticipationCreate}
         />,
       ]}
     </ReactAdmin>
