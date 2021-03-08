@@ -164,10 +164,10 @@ And fill the empty spaces with your own keys, optained in <https://api.ufrn.br/>
 * [x] Participation
 * [x] Phone
 * [x] Event
-* [ ] Scheduled Report
+* [x] Scheduled Report
+* [x] News
 * [ ] Official Document
 * [ ] Covenant
-* [ ] News
 * [ ] Staff
 
 ## Project Layout

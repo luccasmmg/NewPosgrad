@@ -4,6 +4,7 @@ import simpleRestProvider from 'ra-data-simple-rest';
 import authProvider from './authProvider';
 
 import { UserList, UserEdit, UserCreate } from './Users';
+import { NewsList, NewsEdit, NewsCreate } from './News';
 import { EventList, EventEdit, EventCreate } from './Events';
 import {
   ParticipationList,
@@ -17,6 +18,11 @@ import {
 } from './StudentAdvisors';
 import { AttendanceList, AttendanceEdit } from './Attendance';
 import { CourseList, CourseEdit, CourseCreate } from './Courses';
+import {
+  ScheduledReportList,
+  ScheduledReportEdit,
+  ScheduledReportCreate,
+} from './ScheduledReports';
 import { PhoneList, PhoneEdit, PhoneCreate } from './Phones';
 import {
   ResearcherList,
@@ -113,6 +119,20 @@ export const Admin: FC = () => {
           list={EventList}
           edit={EventEdit}
           create={EventCreate}
+        />,
+        <Resource
+          name="defesa"
+          options={{ label: 'Defesas' }}
+          list={ScheduledReportList}
+          edit={ScheduledReportEdit}
+          create={ScheduledReportCreate}
+        />,
+        <Resource
+          name="noticia"
+          options={{ label: 'Noticias' }}
+          list={NewsList}
+          edit={NewsEdit}
+          create={NewsCreate}
         />,
       ]}
     </ReactAdmin>
