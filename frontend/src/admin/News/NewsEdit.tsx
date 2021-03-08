@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Edit, SimpleForm, TextInput, DateInput } from 'react-admin';
-import { RichTextField } from 'react-admin';
 import RichTextInput from 'ra-input-rich-text';
 
 export const NewsEdit: FC = (props) => (

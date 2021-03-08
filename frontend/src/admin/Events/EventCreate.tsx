@@ -1,11 +1,5 @@
 import React, { FC } from 'react';
-import {
-  Create,
-  DateTimeInput,
-  SimpleForm,
-  TextInput,
-  SelectInput,
-} from 'react-admin';
+import { Create, DateTimeInput, SimpleForm, TextInput } from 'react-admin';
 
 export const EventCreate: FC = (props) => (
   <Create {...props} title="Criar evento">

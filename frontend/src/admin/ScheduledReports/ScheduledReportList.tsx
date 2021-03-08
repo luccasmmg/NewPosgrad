@@ -9,7 +9,7 @@ export const ScheduledReportList: FC = (props) => (
       <TextField label="Titulo" source="title" />
       <TextField label="Autor" source="author" />
       <TextField label="Localização" source="location" />
-      <TextField label="Data - Horário" source="datetime" />
+      <DateField label="Data - Horário" source="datetime" />
       <EditButton />
     </Datagrid>
   </List>

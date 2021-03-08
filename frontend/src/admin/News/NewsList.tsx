@@ -18,7 +18,7 @@ export const NewsList: FC = (props) => (
       <TextField source="id" />
       <TextField label="Titulo" source="title" />
       <TextField label="Subtítulo" source="headline" />
-      <TextField label="Data" source="date" />
+      <DateField label="Data" source="date" />
       <EditButton />
     </Datagrid>
   </List>

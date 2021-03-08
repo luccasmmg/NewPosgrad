@@ -1,11 +1,5 @@
 import React, { FC } from 'react';
-import {
-  Create,
-  DateInput,
-  SimpleForm,
-  TextInput,
-  SelectInput,
-} from 'react-admin';
+import { Create, DateInput, SimpleForm, TextInput } from 'react-admin';
 import RichTextInput from 'ra-input-rich-text';
 
 export const NewsCreate: FC = (props) => (
