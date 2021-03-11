@@ -1,30 +1,20 @@
 Arguments: 
-  /usr/bin/node /usr/bin/yarn add --dev @types/ra-input-rich-text
+  /usr/bin/node /usr/bin/yarn add form-data
 
 PATH: 
-  /opt/google-cloud-sdk/bin:/opt/google-cloud-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/lib/smlnj/bin:/var/lib/snapd/snap/bin:/home/urutu-branco/.gem/ruby/2.7.0/bin:~/.local/bin:/usr/lib/jvm/default/bin:/usr/lib/smlnj/bin:/home/urutu-branco/.gem/ruby/2.7.0/bin:~/.local/bin
+  /opt/google-cloud-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/lib/smlnj/bin:/var/lib/snapd/snap/bin:/home/urutu-branco/.gem/ruby/2.7.0/bin:~/.local/bin
 
 Yarn version: 
   1.22.10
 
 Node version: 
-  15.10.0
+  15.11.0
 
 Platform: 
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fra-input-rich-text: Not found
-      at Request.params.callback [as _callback] (/usr/lib/node_modules/yarn/lib/cli.js:66988:18)
-      at Request.self.callback (/usr/lib/node_modules/yarn/lib/cli.js:140749:22)
-      at Request.emit (node:events:378:20)
-      at Request.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:141721:10)
-      at Request.emit (node:events:378:20)
-      at IncomingMessage.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:141643:12)
-      at Object.onceWrapper (node:events:484:28)
-      at IncomingMessage.emit (node:events:390:22)
-      at endReadableNT (node:internal/streams/readable:1307:12)
-      at processTicksAndRejections (node:internal/process/task_queues:81:21)
+  Error: EACCES: permission denied, unlink '/home/urutu-branco/Projetos/fast-api-posgrad/frontend/node_modules/.yarn-integrity'
 
 npm manifest: 
   {

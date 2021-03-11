@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 import { fetchUtils, Admin as ReactAdmin, Resource } from 'react-admin';
-import simpleRestProvider from 'ra-data-simple-rest';
+import myDataProvider from './myDataProvider';
 import authProvider from './authProvider';
 
 import { UserList, UserEdit, UserCreate } from './Users';
+import { CovenantCreate, CovenantList } from './Covenants';
 import { NewsList, NewsEdit, NewsCreate } from './News';
 import { EventList, EventEdit, EventCreate } from './Events';
 import {
@@ -35,23 +36,9 @@ import {
   PosGraduationEdit,
 } from './PosGraduations';
 
-const httpClient = (url: any, options: any) => {
-  if (!options) {
-    options = {};
-  }
-  if (!options.headers) {
-    options.headers = new Headers({ Accept: 'application/json' });
-  }
-  const token = localStorage.getItem('token');
-  options.headers.set('Authorization', `Bearer ${token}`);
-  return fetchUtils.fetchJson(url, options);
-};
-
-const dataProvider = simpleRestProvider('api/v1', httpClient);
-
 export const Admin: FC = () => {
   return (
-    <ReactAdmin dataProvider={dataProvider} authProvider={authProvider}>
+    <ReactAdmin dataProvider={myDataProvider} authProvider={authProvider}>
       {(permissions: 'admin' | 'user') => [
         permissions === 'admin' ? (
           <Resource
@@ -133,6 +120,12 @@ export const Admin: FC = () => {
           list={NewsList}
           edit={NewsEdit}
           create={NewsCreate}
+        />,
+        <Resource
+          name="convenio"
+          options={{ label: 'Convênios' }}
+          create={CovenantCreate}
+          list={CovenantList}
         />,
       ]}
     </ReactAdmin>
