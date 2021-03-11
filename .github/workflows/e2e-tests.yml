@@ -1,0 +1,64 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+          SINFO_CLIENT_ID: ${{ secrets.SINFO_CLIENT_ID }}
+          SINFO_CLIENT_SECRET: ${{ secrets.SINFO_CLIENT_SECRET }}
+          SINFO_X_API_KEY: ${{ secrets.SINFO_X_API_KEY }}
+      run: docker-compose up -d
+  run-migrations:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run migrations
+      env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+          SINFO_CLIENT_ID: ${{ secrets.SINFO_CLIENT_ID }}
+          SINFO_CLIENT_SECRET: ${{ secrets.SINFO_CLIENT_SECRET }}
+          SINFO_X_API_KEY: ${{ secrets.SINFO_X_API_KEY }}
+      run: docker-compose run --rm backend alembic upgrade head
+  create-data:
+    needs: [build, run-migrations]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create initial data
+      env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+          SINFO_CLIENT_ID: ${{ secrets.SINFO_CLIENT_ID }}
+          SINFO_CLIENT_SECRET: ${{ secrets.SINFO_CLIENT_SECRET }}
+          SINFO_X_API_KEY: ${{ secrets.SINFO_X_API_KEY }}
+      run: docker-compose run --rm backend python3 app/initial_data.py
+  cypress:
+    needs: [build, run-migrations, create-data]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Change directory
+      run: cd frontend
+    - name: Install dependencies
+      run: yarn
+    - name: Run tests
+      run: yarn run test:e2e
