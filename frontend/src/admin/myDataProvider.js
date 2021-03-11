@@ -18,7 +18,7 @@ const dataProvider = simpleRestProvider(apiUrl, httpClient);
 const myDataProvider = {
   ...dataProvider,
   create: (resource, params) => {
-    if (!['convenio', 'documentos', 'equipe'].includes(resource)) {
+    if (!['convenio', 'documento', 'equipe'].includes(resource)) {
       return dataProvider.create(resource, params);
     }
 

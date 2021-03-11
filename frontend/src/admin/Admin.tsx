@@ -5,6 +5,11 @@ import authProvider from './authProvider';
 
 import { UserList, UserEdit, UserCreate } from './Users';
 import { CovenantCreate, CovenantList, CovenantEdit } from './Covenants';
+import {
+  OfficialDocumentCreate,
+  OfficialDocumentList,
+  OfficialDocumentEdit,
+} from './OfficialDocuments';
 import { StaffCreate, StaffList, StaffEdit } from './Staff';
 import { NewsList, NewsEdit, NewsCreate } from './News';
 import { EventList, EventEdit, EventCreate } from './Events';
@@ -135,6 +140,13 @@ export const Admin: FC = () => {
           create={StaffCreate}
           list={StaffList}
           edit={StaffEdit}
+        />,
+        <Resource
+          name="documento"
+          options={{ label: 'Documentos' }}
+          create={OfficialDocumentCreate}
+          list={OfficialDocumentList}
+          edit={OfficialDocumentEdit}
         />,
       ]}
     </ReactAdmin>

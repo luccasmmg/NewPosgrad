@@ -166,9 +166,9 @@ And fill the empty spaces with your own keys, optained in <https://api.ufrn.br/>
 * [x] Event
 * [x] Scheduled Report
 * [x] News
-* [ ] Official Document
-* [ ] Covenant
-* [ ] Staff
+* [x] Official Document
+* [x] Covenant
+* [x] Staff
 
 ## Project Layout
 
