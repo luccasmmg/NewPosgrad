@@ -4,7 +4,6 @@ import {
   SimpleForm,
   TextInput,
   FileInput,
-  NumberInput,
   FileField,
 } from 'react-admin';
 

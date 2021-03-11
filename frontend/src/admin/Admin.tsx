@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
-import { fetchUtils, Admin as ReactAdmin, Resource } from 'react-admin';
+import { Admin as ReactAdmin, Resource } from 'react-admin';
 import myDataProvider from './myDataProvider';
 import authProvider from './authProvider';
 
 import { UserList, UserEdit, UserCreate } from './Users';
-import { CovenantCreate, CovenantList } from './Covenants';
+import { CovenantCreate, CovenantList, CovenantEdit } from './Covenants';
+import { StaffCreate, StaffList, StaffEdit } from './Staff';
 import { NewsList, NewsEdit, NewsCreate } from './News';
 import { EventList, EventEdit, EventCreate } from './Events';
 import {
@@ -126,6 +127,14 @@ export const Admin: FC = () => {
           options={{ label: 'Convênios' }}
           create={CovenantCreate}
           list={CovenantList}
+          edit={CovenantEdit}
+        />,
+        <Resource
+          name="equipe"
+          options={{ label: 'Equipe' }}
+          create={StaffCreate}
+          list={StaffList}
+          edit={StaffEdit}
         />,
       ]}
     </ReactAdmin>
