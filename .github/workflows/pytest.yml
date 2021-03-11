@@ -10,4 +10,8 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+          SINFO_CLIENT_ID: ${{ secrets.SINFO_CLIENT_ID }}
+          SINFO_CLIENT_SECRET: ${{ secrets.SINFO_CLIENT_SECRET }}
+          SINFO_X_API_KEY: ${{ secrets.SINFO_X_API_KEY }}
         run: docker-compose run --rm backend pytest

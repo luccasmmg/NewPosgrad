@@ -3,7 +3,6 @@ import json, time, os, requests
 from fastapi import Depends, HTTPException, status
 from app.schemas.base_schemas import TokenUFRN, SinfoKeys
 from app.core.config import API_URL_ROOT, API_TOKEN_ROOT, AUTHORIZATION_ENDPOINT, TOKEN_ENDPOINT
-from .utils.keyring import get_model, SINFO_API
 
 from aiohttp import ClientSession
 
@@ -21,7 +20,7 @@ def get_public_data(resource_url: str):
 def create_headers():
     return {
         'Authorization' : 'Bearer ' + retrieve_token().access_token,
-        'x-api-key': get_model(SINFO_API).x_api_key
+        'x-api-key': os.getenv('SINFO_X_API_KEY')
     }
 
 async def get_json(client: ClientSession, url: str, headers: dict) -> bytes:
@@ -59,8 +58,10 @@ def retrieve_token():
         )
 
 def user_authorization_url():
-    keys = get_model(SINFO_API)
-    url: str = f"{TOKEN_ENDPOINT}?client_id={keys.client_id}&client_secret={keys.client_secret}&grant_type=client_credentials"
+    client_id = os.getenv('SINFO_CLIENT_ID')
+    client_secret = os.getenv('SINFO_CLIENT_SECRET')
+    url: str = f"{TOKEN_ENDPOINT}?client_id={client_id}&client_secret={client_secret}&grant_type=client_credentials"
+    print(url, flush=True)
     return url
 
 def get_token_from_os():

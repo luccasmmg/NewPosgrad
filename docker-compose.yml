@@ -53,6 +53,10 @@ services:
       DATABASE_URL: 'postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres'
       AWS_ACCESS_KEY_ID: '${AWS_ACCESS_KEY_ID}'
       AWS_SECRET_ACCESS_KEY: '${AWS_SECRET_ACCESS_KEY}'
+      GOOGLE_MAPS_KEY: '${GOOGLE_MAPS_KEY}'
+      SINFO_CLIENT_ID: '${SINFO_CLIENT_ID}'
+      SINFO_CLIENT_SECRET: '${SINFO_CLIENT_SECRET}'
+      SINFO_X_API_KEY: '${SINFO_X_API_KEY}'
     depends_on:
       - "postgres"
 
