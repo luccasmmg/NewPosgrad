@@ -42,8 +42,8 @@ jobs:
           SINFO_X_API_KEY: ${{ secrets.SINFO_X_API_KEY }}
       run: docker-compose run --rm backend python3 app/initial_data.py
     - name: Install dependencies
+      working-directory: frontend
       run: yarn
-        working-directory: frontend
     - name: Run tests
+      working-directory: frontend
       run: yarn run test:e2e
-        working-directory: frontend
