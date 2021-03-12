@@ -18,10 +18,12 @@ describe('The Student advisor CRUD', () => {
   });
 
   it('Add student advisor', () => {
+	cy.intercept('POST', 'coordenador').as('addAdvisor');
     cy.visit('/admin#/coordenador/create');
     cy.get('#registration').type('123456789');
     cy.get('#advisor_name').type('Luccas Mateus de Medeiros Gomes');
     cy.get('[aria-label="Save"]').click();
+	cy.wait('@addAdvisor');
     cy.visit('/admin#/coordenador');
     cy.get('#main-content').should('contain', '123456789');
     cy.get('#main-content').should(
@@ -31,7 +33,9 @@ describe('The Student advisor CRUD', () => {
   });
 
   it('List student advisors', () => {
+	cy.intercept('GET', 'coordenador').as('getAdvisors');
     cy.visit('/admin#/coordenador');
+	cy.wait('@getAdvisors');
     cy.get('#main-content').should('contain', '123456789');
     cy.get('#main-content').should(
       'contain',
@@ -40,11 +44,13 @@ describe('The Student advisor CRUD', () => {
   });
 
   it('Edit student advisor', () => {
+	cy.intercept('PUT', 'coordenador').as('editAdvisor');
     cy.visit('/admin#/coordenador');
     cy.get('[aria-label="Edit"]').first().click();
     cy.get('#registration').clear().type('987654321');
     cy.get('#advisor_name').clear().type('Leticia Gabriela de Medeiros Gomes');
     cy.get('[aria-label="Save"]').click();
+	cy.wait('@editAdvisor');
     cy.get('#main-content').should('contain', '987654321');
     cy.get('#main-content').should(
       'contain',
@@ -53,9 +59,11 @@ describe('The Student advisor CRUD', () => {
   });
 
   it('Delete student advisor', () => {
+	cy.intercept('DELETE', 'coordenador').as('deleteAdvisor');
     cy.visit('/admin#/coordenador');
     cy.get('[aria-label="Edit"]').first().click();
     cy.get('[aria-label="Delete"]').click();
+	cy.wait('@deleteAdvisor');
     cy.visit('/admin#/coordenador');
     cy.get('[href*="#/coordenador"]').first().click();
     cy.get('div[class^="RaEmpty-message-"]').should('exist');
