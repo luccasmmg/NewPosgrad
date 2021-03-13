@@ -28,7 +28,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "cy:run": "cypress run",
+    "cy:run": "cypress run --record --key $CYPRESS_DASHBOARD_KEY",
     "test:e2e": "start-server-and-test 'yarn start' http://localhost:3000 'yarn cy:run'"
   },
   "eslintConfig": {

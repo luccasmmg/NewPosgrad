@@ -46,4 +46,6 @@ jobs:
       run: yarn
     - name: Run tests
       working-directory: frontend
+      env:
+        CYPRESS_DASHBOARD_KEY: ${{ secrets.CYPRESS_DASHBOARD_KEY }}
       run: yarn run test:e2e
