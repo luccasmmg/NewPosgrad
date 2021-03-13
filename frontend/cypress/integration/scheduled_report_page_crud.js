@@ -31,7 +31,8 @@ describe('Scheduled report CRUD', () => {
     cy.get('#main-content').should('contain', 'Titulo');
     cy.get('#main-content').should('contain', 'Autor');
     cy.get('#main-content').should('contain', 'Nepsa 2');
-    cy.get('#main-content').should('contain', '15/07/2020 18:00:00');
+    cy.get('#main-content').should('contain', '15/07/2020');
+    cy.get('#main-content').should('contain', '18:00:00');
   });
 
   it('List scheduled report', () => {
@@ -42,7 +43,8 @@ describe('Scheduled report CRUD', () => {
     cy.get('#main-content').should('contain', 'Titulo');
     cy.get('#main-content').should('contain', 'Autor');
     cy.get('#main-content').should('contain', 'Nepsa 2');
-    cy.get('#main-content').should('contain', '15/07/2020 18:00:00');
+    cy.get('#main-content').should('contain', '15/07/2020');
+    cy.get('#main-content').should('contain', '18:00:00');
   });
 
   it('Edit Scheduled report', () => {
@@ -59,7 +61,7 @@ describe('Scheduled report CRUD', () => {
     cy.get('#main-content').should('contain', 'Titulo 2');
     cy.get('#main-content').should('contain', 'Autor 2');
     cy.get('#main-content').should('contain', 'Nepsa 1');
-    cy.get('#main-content').should('contain', '15/07/2020 19:00:00');
+    cy.get('#main-content').should('contain', '19:00:00');
   });
 
   it('Delete Scheduled report', () => {

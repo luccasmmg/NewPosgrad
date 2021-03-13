@@ -30,8 +30,9 @@ describe('Event CRUD', () => {
     cy.get('[href*="#/evento"]').first().click();
     cy.get('#main-content').should('contain', 'Titulo');
     cy.get('#main-content').should('contain', 'https://google.com');
-    cy.get('#main-content').should('contain', '15/07/2020 18:00:00');
-    cy.get('#main-content').should('contain', '16/07/2020 18:00:00');
+    cy.get('#main-content').should('contain', '15/07/2020');
+    cy.get('#main-content').should('contain', '18:00:00');
+    cy.get('#main-content').should('contain', '16/07/2020');
   });
 
   it('List events', () => {
@@ -41,8 +42,9 @@ describe('Event CRUD', () => {
     cy.get('[href*="#/evento"]').first().click();
     cy.get('#main-content').should('contain', 'Titulo');
     cy.get('#main-content').should('contain', 'https://google.com');
-    cy.get('#main-content').should('contain', '15/07/2020 18:00:00');
-    cy.get('#main-content').should('contain', '16/07/2020 18:00:00');
+    cy.get('#main-content').should('contain', '15/07/2020');
+    cy.get('#main-content').should('contain', '18:00:00');
+    cy.get('#main-content').should('contain', '16/07/2020');
   });
 
   it('Edit event', () => {
@@ -58,8 +60,8 @@ describe('Event CRUD', () => {
     cy.get('[href*="#/evento"]').first().click();
     cy.get('#main-content').should('contain', 'Titulo 2');
     cy.get('#main-content').should('contain', 'https://duckduckgo.com');
-    cy.get('#main-content').should('contain', '15/07/2020 19:00:00');
-    cy.get('#main-content').should('contain', '16/07/2020 20:00:00');
+    cy.get('#main-content').should('contain', '19:00:00');
+    cy.get('#main-content').should('contain', '20:00:00');
   });
 
   it('Delete event', () => {
