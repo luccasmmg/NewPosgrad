@@ -11,12 +11,14 @@ export const EventList: FC = (props) => (
       <DateField
         showTime
         type="datetime"
+		locales="pt-BR"
         label="Data inicial"
         source="initial_date"
       />
       <DateField
         showTime
         type="datetime"
+		locales="pt-BR"
         label="Data final"
         source="final_date"
       />
