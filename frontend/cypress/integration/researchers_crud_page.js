@@ -25,6 +25,7 @@ describe('The Dashboard Page', () => {
     cy.get('[aria-label="Save"]').click();
 	cy.wait('@addResearcher');
     cy.visit('/admin#/pesquisador');
+    cy.get('[href*="#/pesquisador"]').first().click();
     cy.get('#main-content').should('contain', '123456789');
     cy.get('#main-content').should(
       'contain',
@@ -36,6 +37,7 @@ describe('The Dashboard Page', () => {
 	cy.intercept('GET', 'pesquisador').as('getResearchers');
     cy.visit('/admin#/pesquisador');
 	cy.wait('@getResearchers');
+    cy.get('[href*="#/pesquisador"]').first().click();
     cy.get('#main-content').should('contain', '123456789');
     cy.get('#main-content').should(
       'contain',
@@ -51,6 +53,7 @@ describe('The Dashboard Page', () => {
     cy.get('#name').clear().type('Leticia Gabriela de Medeiros Gomes');
     cy.get('[aria-label="Save"]').click();
 	cy.wait('@editResearcher');
+    cy.get('[href*="#/pesquisador"]').first().click();
     cy.get('#main-content').should('contain', '987654321');
     cy.get('#main-content').should(
       'contain',

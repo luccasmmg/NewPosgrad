@@ -27,6 +27,7 @@ describe('Event CRUD', () => {
     cy.get('[aria-label="Save"]').click();
 	cy.wait('@addEvent');
     cy.visit('/admin#/evento');
+    cy.get('[href*="#/evento"]').first().click();
     cy.get('#main-content').should('contain', 'Titulo');
     cy.get('#main-content').should('contain', 'https://google.com');
     cy.get('#main-content').should('contain', '15/07/2020 18:00:00');
@@ -37,6 +38,7 @@ describe('Event CRUD', () => {
 	cy.intercept('GET', 'evento').as('getEvents');
     cy.visit('/admin#/evento');
 	cy.wait('@getEvents');
+    cy.get('[href*="#/evento"]').first().click();
     cy.get('#main-content').should('contain', 'Titulo');
     cy.get('#main-content').should('contain', 'https://google.com');
     cy.get('#main-content').should('contain', '15/07/2020 18:00:00');
@@ -53,6 +55,7 @@ describe('Event CRUD', () => {
     cy.get('#final_date').clear().type('2020-07-16T20:00');
     cy.get('[aria-label="Save"]').click();
 	cy.wait('@editEvents');
+    cy.get('[href*="#/evento"]').first().click();
     cy.get('#main-content').should('contain', 'Titulo 2');
     cy.get('#main-content').should('contain', 'https://duckduckgo.com');
     cy.get('#main-content').should('contain', '15/07/2020 19:00:00');

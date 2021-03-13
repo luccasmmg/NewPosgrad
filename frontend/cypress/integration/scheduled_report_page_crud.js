@@ -27,6 +27,7 @@ describe('Scheduled report CRUD', () => {
     cy.get('[aria-label="Save"]').click();
 	cy.wait('@addScheduledReport');
     cy.visit('/admin#/defesa');
+    cy.get('[href*="#/defesa"]').first().click();
     cy.get('#main-content').should('contain', 'Titulo');
     cy.get('#main-content').should('contain', 'Autor');
     cy.get('#main-content').should('contain', 'Nepsa 2');
@@ -37,6 +38,7 @@ describe('Scheduled report CRUD', () => {
 	cy.intercept('GET', 'defesa').as('getScheduledReports');
     cy.visit('/admin#/defesa');
 	cy.wait('@getScheduledReports');
+    cy.get('[href*="#/defesa"]').first().click();
     cy.get('#main-content').should('contain', 'Titulo');
     cy.get('#main-content').should('contain', 'Autor');
     cy.get('#main-content').should('contain', 'Nepsa 2');
@@ -53,6 +55,7 @@ describe('Scheduled report CRUD', () => {
     cy.get('#datetime').clear().type('2020-07-15T19:00');
     cy.get('[aria-label="Save"]').click();
 	cy.wait('@editScheduledReport');
+    cy.get('[href*="#/defesa"]').first().click();
     cy.get('#main-content').should('contain', 'Titulo 2');
     cy.get('#main-content').should('contain', 'Autor 2');
     cy.get('#main-content').should('contain', 'Nepsa 1');

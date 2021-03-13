@@ -25,6 +25,7 @@ describe('The Student advisor CRUD', () => {
     cy.get('[aria-label="Save"]').click();
 	cy.wait('@addAdvisor');
     cy.visit('/admin#/coordenador');
+    cy.get('[href*="#/coordenador"]').first().click();
     cy.get('#main-content').should('contain', '123456789');
     cy.get('#main-content').should(
       'contain',
@@ -36,6 +37,7 @@ describe('The Student advisor CRUD', () => {
 	cy.intercept('GET', 'coordenador').as('getAdvisors');
     cy.visit('/admin#/coordenador');
 	cy.wait('@getAdvisors');
+    cy.get('[href*="#/coordenador"]').first().click();
     cy.get('#main-content').should('contain', '123456789');
     cy.get('#main-content').should(
       'contain',
@@ -51,6 +53,7 @@ describe('The Student advisor CRUD', () => {
     cy.get('#advisor_name').clear().type('Leticia Gabriela de Medeiros Gomes');
     cy.get('[aria-label="Save"]').click();
 	cy.wait('@editAdvisor');
+    cy.get('[href*="#/coordenador"]').first().click();
     cy.get('#main-content').should('contain', '987654321');
     cy.get('#main-content').should(
       'contain',

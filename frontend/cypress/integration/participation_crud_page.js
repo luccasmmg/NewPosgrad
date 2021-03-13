@@ -27,6 +27,7 @@ describe('Participation CRUD', () => {
     cy.get('[aria-label="Save"]').click();
 	cy.wait('@addParticipation');
     cy.visit('/admin#/participacao');
+    cy.get('[href*="#/participacao"]').first().click();
     cy.get('#main-content').should('contain', 'Participacao');
     cy.get('#main-content').should('contain', 'Descricao teste');
     cy.get('#main-content').should('contain', '2021');
@@ -37,6 +38,7 @@ describe('Participation CRUD', () => {
 	cy.intercept('GET', 'participacao').as('getParticipations');
     cy.visit('/admin#/participacao');
 	cy.wait('@getParticipations');
+    cy.get('[href*="#/participacao"]').first().click();
     cy.get('#main-content').should('contain', 'Participacao');
     cy.get('#main-content').should('contain', 'Descricao teste');
     cy.get('#main-content').should('contain', '2021');
@@ -52,6 +54,7 @@ describe('Participation CRUD', () => {
     cy.get('#international').click();
     cy.get('[aria-label="Save"]').click();
 	cy.wait('@editParticipation');
+    cy.get('[href*="#/participacao"]').first().click();
     cy.get('#main-content').should('contain', 'Participacao 2');
     cy.get('#main-content').should('contain', 'Descricao teste 2');
     cy.get('#main-content').should('contain', '2021');

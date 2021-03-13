@@ -26,6 +26,7 @@ describe('Phone CRUD', () => {
     cy.get('[aria-label="Save"]').click();
 	cy.wait('@addPhone');
     cy.visit('/admin#/telefone');
+    cy.get('[href*="#/telefone"]').first().click();
     cy.get('#main-content').should('contain', '123456');
     cy.get('#main-content').should('contain', 'Celular');
   });
@@ -34,6 +35,7 @@ describe('Phone CRUD', () => {
 	cy.intercept('GET', 'telefone').as('getPhones');
     cy.visit('/admin#/telefone');
 	cy.wait('@getPhones');
+    cy.get('[href*="#/telefone"]').first().click();
     cy.get('#main-content').should('contain', '123456');
     cy.get('#main-content').should('contain', 'Celular');
   });
@@ -47,6 +49,7 @@ describe('Phone CRUD', () => {
     cy.get('[data-value="fixed"]').click();
     cy.get('[aria-label="Save"]').click();
 	cy.wait('@editPhone');
+    cy.get('[href*="#/telefone"]').first().click();
     cy.get('#main-content').should('contain', '134');
     cy.get('#main-content').should('contain', 'Fixo');
   });
