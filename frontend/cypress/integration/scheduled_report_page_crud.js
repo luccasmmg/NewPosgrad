@@ -18,12 +18,14 @@ describe('Scheduled report CRUD', () => {
   });
 
   it('Add Scheduled report', () => {
+	cy.intercept('POST', 'defesa').as('addScheduledReport');
     cy.visit('/admin#/defesa/create');
     cy.get('#title').type('Titulo');
     cy.get('#author').type('Autor');
     cy.get('#location').type('Nepsa 2');
     cy.get('#datetime').type('2020-07-15T18:00');
     cy.get('[aria-label="Save"]').click();
+	cy.wait('@addScheduledReport');
     cy.visit('/admin#/defesa');
     cy.get('#main-content').should('contain', 'Titulo');
     cy.get('#main-content').should('contain', 'Autor');
@@ -32,7 +34,9 @@ describe('Scheduled report CRUD', () => {
   });
 
   it('List scheduled report', () => {
+	cy.intercept('GET', 'defesa').as('getScheduledReports');
     cy.visit('/admin#/defesa');
+	cy.wait('@getScheduledReports');
     cy.get('#main-content').should('contain', 'Titulo');
     cy.get('#main-content').should('contain', 'Autor');
     cy.get('#main-content').should('contain', 'Nepsa 2');
@@ -40,6 +44,7 @@ describe('Scheduled report CRUD', () => {
   });
 
   it('Edit Scheduled report', () => {
+	cy.intercept('PUT', 'defesa').as('editScheduledReport');
     cy.visit('/admin#/defesa');
     cy.get('[aria-label="Edit"]').first().click();
     cy.get('#title').clear().type('Titulo 2');
@@ -47,6 +52,7 @@ describe('Scheduled report CRUD', () => {
     cy.get('#location').clear().type('Nepsa 1');
     cy.get('#datetime').clear().type('2020-07-15T19:00');
     cy.get('[aria-label="Save"]').click();
+	cy.wait('@editScheduledReport');
     cy.get('#main-content').should('contain', 'Titulo 2');
     cy.get('#main-content').should('contain', 'Autor 2');
     cy.get('#main-content').should('contain', 'Nepsa 1');
@@ -54,9 +60,11 @@ describe('Scheduled report CRUD', () => {
   });
 
   it('Delete Scheduled report', () => {
+	cy.intercept('DELETE', 'defesa').as('deleteScheduledReport');
     cy.visit('/admin#/defesa');
     cy.get('[aria-label="Edit"]').first().click();
     cy.get('[aria-label="Delete"]').click();
+	cy.wait('@deleteScheduledReport');
     cy.visit('/admin#/defesa');
     cy.get('[href*="#/defesa"]').first().click();
     cy.get('div[class^="RaEmpty-message-"]').should('exist');

@@ -47,19 +47,23 @@ describe('The Attendance', () => {
   });
 
   it('Check attendance exists', () => {
+	cy.intercept('GET', 'contato').as('getAttendance');
     cy.visit('/admin#/contato');
+	cy.wait('@getAttendance');
     cy.get('#main-content').should('contain', 'ppgp@example.com');
     cy.get('#main-content').should('contain', 'Nepsa 2');
     cy.get('#main-content').should('contain', '8:30 as 18:30');
   });
 
   it('Edit attendance', () => {
+	cy.intercept('PUT', 'contato').as('editAttendance');
     cy.visit('/admin#/contato');
     cy.get('[aria-label="Edit"]').first().click();
     cy.get('#email').clear().type('ppgp@ccsa.ufrn.br');
     cy.get('#location').clear().type('Nepsa 1');
     cy.get('#schedule').clear().type('Horarios novos');
     cy.get('[aria-label="Save"]').click();
+	cy.wait('@editAttendance');
     cy.get('#main-content').should('contain', 'ppgp@ccsa.ufrn.br');
     cy.get('#main-content').should('contain', 'Nepsa 1');
     cy.get('#main-content').should('contain', 'Horarios novos');
