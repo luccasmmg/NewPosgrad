@@ -1,8 +1,9 @@
 import { fetchUtils } from 'react-admin';
 import simpleRestProvider from 'ra-data-simple-rest';
 import FormData from 'form-data';
+import BASE_URL from '../config';
 
-const apiUrl = '/api/v1';
+const apiUrl = `${BASE_URL}/api/v1`;
 
 const httpClient = (url, options = {}) => {
   if (!options.headers) {
