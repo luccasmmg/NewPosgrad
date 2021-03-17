@@ -24,7 +24,12 @@ from app.db.session import SessionLocal
 from app.core.auth import get_current_active_user
 from app.core.celery_app import celery_app
 from app.core.api_ufrn import get_public_data
+from app.core.utils.cache import new_key_builder
 from app import tasks
+
+import aioredis
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
 
 app = FastAPI(
     title=config.PROJECT_NAME, docs_url="/api/docs", openapi_url="/api"
@@ -50,6 +55,11 @@ async def db_session_middleware(request: Request, call_next):
     response = await call_next(request)
     request.state.db.close()
     return response
+
+@app.on_event("startup")
+async def startup():
+    redis = await aioredis.create_redis_pool("redis://redis", encoding="utf8")
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache", key_builder=new_key_builder)
 
 # Routers
 app.include_router(

@@ -15,8 +15,8 @@ def test_add_scheduled_report(client, test_user, user_token_headers):
         headers=user_token_headers
     )
     assert response.status_code == 200
-    new_scheduled_report['id'] = 2
     new_scheduled_report['owner_id'] = test_user.owner_id
+    new_scheduled_report['id'] = response.json()['id']
     assert response.json() == new_scheduled_report
 
 def test_edit_scheduled_report(client, test_user, test_scheduled_report, user_token_headers):

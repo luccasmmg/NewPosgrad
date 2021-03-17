@@ -1,4 +1,5 @@
 import pytest
+import asyncio
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database, drop_database
@@ -9,10 +10,21 @@ from app.core import config, security
 from app.db.session import Base, get_db
 from app.db import models
 from app.main import app
+from app.core.utils.cache import new_key_builder
 
+import aioredis
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
 
 def get_test_db_url() -> str:
     return f"{config.SQLALCHEMY_DATABASE_URI}_test"
+
+@pytest.fixture(scope="session")
+def event_loop():
+    """Creates new event loop."""
+    loop = asyncio.get_event_loop_policy().new_event_loop()
+    yield loop
+    loop.close()
 
 @pytest.fixture
 def test_db():
@@ -48,6 +60,15 @@ def test_db():
     trans.rollback()
     connection.close()
 
+@pytest.fixture()
+async def redis_db(_closable, request):
+    # Instantiate redis server
+    async def f(*args, **kw):
+        redis = await aioredis.create_redis_pool("redis://redis", encoding="utf8")
+        FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache", key_builder=new_key_builder)
+        return redis
+
+    return f
 
 @pytest.fixture(scope="session", autouse=True)
 def create_test_db():

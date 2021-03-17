@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-from fastapi import APIRouter, Request, Depends, Response, encoders
+from fastapi import APIRouter, Depends, Response, encoders
+from starlette.requests import Request
 import typing as t
 from pydantic import parse_obj_as
 import asyncio
@@ -22,6 +23,9 @@ from app.scraping.professors_sigaa import get_professors_list
 from app.scraping.news_sigaa import get_news_list
 from app.scraping.institutional_repository import get_final_reports_list
 
+from fastapi_cache.decorator import cache
+from fastapi_cache.coder import JsonCoder
+
 public_router = p = APIRouter()
 
 async def get_teacher(class_dict: dict, client: aiohttp.ClientSession, headers: dict):
@@ -33,7 +37,7 @@ async def get_publications(initials: str, enum_to_use: UrlEnum, db):
     headers: dict = create_headers()
 
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    researchers = list(get_informations(db, post_graduation.id, m.researcher))
+    researchers = list(get_informations(db, post_graduation.id, m.Researcher))
     list_of_corroutines = [get_public_data_async(f"{enum_to_use}cpf-cnpj={i.cpf}", client, headers) for i in researchers]
 
     return [item for sublist in await asyncio.gather(*list_of_corroutines) for item in sublist]
@@ -43,20 +47,23 @@ async def get_publications(initials: str, enum_to_use: UrlEnum, db):
     response_model=PostGraduation,
     response_model_exclude_none=True,
 )
+@cache(expire=60)
 async def post_graduation_details(
         initials: str,
-        db=Depends(get_db)
+        request: Request = None,
+        db=Depends(get_db),
 ):
-    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    post_graduation = PostGraduation.from_orm(get_post_graduation_by_initials(db, initials.upper())).dict()
     return post_graduation
 
 @p.get(
     "/{initials}/artigos",
     response_model=t.List[PublishedArticle]
 )
+@cache(expire=60, coder=JsonCoder)
 async def articles(
-        response: Response,
         initials: str,
+        request: Request = None,
         db=Depends(get_db)
 ):
     articles = await get_publications(initials, UrlEnum.published_articles, db)
@@ -108,8 +115,8 @@ async def students(
     response_model=t.List[SyllabusComponent],
 )
 async def syllabus_components(
-        response: Response,
         initials: str,
+        request: Request = None,
         db=Depends(get_db)
 ):
     client: ClientSession = aiohttp.ClientSession()
@@ -118,7 +125,7 @@ async def syllabus_components(
     id_unit = get_post_graduation_by_initials(db, initials.upper()).id_unit
     syllabus_components = get_public_data(f'{UrlEnum.syllabus}?id-unidade={id_unit}&limit=100')
 
-    return parse_obj_as(t.List[SyllabusComponent], syllabus_components)
+    return syllabus_components
 
 @p.get(
     "/{initials}/turmas/{id_course}",
@@ -143,145 +150,157 @@ async def classes(
     "/{initials}/pesquisadores",
     response_model=t.List[Researcher]
 )
+@cache(expire=60)
 async def researchers(
-        response: Response,
         initials: str,
+        request: Request = None,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(get_informations(db, post_graduation.id, m.Researcher))
+    return list(map(lambda x: Researcher.from_orm(x).dict(), get_informations(db, post_graduation.id, m.Researcher)))
 
 @p.get(
     "/{initials}/convenios",
     response_model=t.List[Covenant]
 )
+@cache(expire=60)
 async def covenants(
-        response: Response,
         initials: str,
+        request: Request = None,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(get_informations(db, post_graduation.id, m.Covenant))
+    return list(map(lambda x: Covenant.from_orm(x).dict(), get_informations(db, post_graduation.id, m.Covenant)))
 
 @p.get(
     "/{initials}/participacoes",
     response_model=t.List[Participation]
 )
+@cache(expire=60)
 async def participations(
-        response: Response,
         initials: str,
+        request: Request = None,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(get_informations(db, post_graduation.id, m.Participation))
+    return list(map(lambda x: Participation.from_orm(x).dict(), get_informations(db, post_graduation.id, m.Participation)))
 
 @p.get(
     "/{initials}/documentos",
     response_model=t.List[OfficialDocument]
 )
+@cache(expire=60)
 async def official_documents(
-        response: Response,
         initials: str,
+        request: Request = None,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(get_informations(db, post_graduation.id, m.OfficialDocument))
+    return list(map(lambda x: OfficialDocument.from_orm(x).dict(), get_informations(db, post_graduation.id, m.OfficialDocument)))
 
 @p.get(
     "/{initials}/noticias",
     response_model=t.List[News]
 )
+@cache(expire=60)
 async def news(
-        response: Response,
         initials: str,
+        request: Request = None,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(get_informations(db, post_graduation.id, m.News))
+    return list(map(lambda x: News.from_orm(x).dict(), get_informations(db, post_graduation.id, m.News)))
 
 @p.get(
     "/{initials}/noticias_sigaa",
     response_model=t.List[NewsScraped]
 )
+@cache(expire=60)
 async def news_sigaa(
-        response: Response,
         initials: str,
+        request: Request = None,
         limit: int = 10,
         skip: int = 0,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return get_news_list(post_graduation, skip, limit)
+    return list(map(lambda x: x.dict(), get_news_list(post_graduation, skip, limit)))
 
 @p.get(
     "/{initials}/eventos",
     response_model=t.List[Event]
 )
+@cache(expire=60)
 async def events(
-        response: Response,
         initials: str,
+        request: Request = None,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(get_informations(db, post_graduation.id, m.Event))
+    return list(map(lambda x: Event.from_orm(x).dict(), get_informations(db, post_graduation.id, m.Event)))
 
 @p.get(
     "/{initials}/equipe",
     response_model=t.List[Staff]
 )
+@cache(expire=60)
 async def staff(
-        response: Response,
         initials: str,
+        request: Request = None,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(get_informations(db, post_graduation.id, m.Staff))
+    return list(map(lambda x: Staff.from_orm(x).dict(), get_informations(db, post_graduation.id, m.Staff)))
 
 @p.get(
     "/{initials}/defesas",
     response_model=t.List[ScheduledReport]
 )
+@cache(expire=60)
 async def scheduled_reports(
-        response: Response,
         initials: str,
+        request: Request = None,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(get_informations(db, post_graduation.id, m.ScheduledReport))
+    return list(map(lambda x: ScheduledReport.from_orm(x).dict(), get_informations(db, post_graduation.id, m.ScheduledReport)))
 
 @p.get(
     "/{initials}/professores",
     response_model=t.List[Professor]
 )
+@cache(expire=60)
 async def professors(
-        response: Response,
         initials: str,
+        request: Request = None,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return get_professors_list(post_graduation)
+    return list(map(lambda x: x.dict(), get_professors_list(post_graduation)))
 
 @p.get(
     "/{initials}/orientadores",
     response_model=t.List[StudentAdvisor]
 )
+@cache(expire=60)
 async def advisors(
-        response: Response,
         initials: str,
+        request: Request = None,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(get_informations(db, post_graduation.id, m.StudentAdvisor))
+    return list(map(lambda x: StudentAdvisor.from_orm(x).dict(), get_informations(db, post_graduation.id, m.StudentAdvisor)))
 
 @p.get(
     "/{initials}/{course_id}/repositorio_institucional",
     response_model=t.List[InstitutionalRepositoryDoc]
 )
+@cache(expire=60)
 async def institutional_repository(
-        response: Response,
         initials: str,
         course_id: int,
+        request: Request = None,
         db=Depends(get_db)
 ):
     course = get_information(db, course_id, m.Course)
-    return get_final_reports_list(course)
+    return list(map(lambda x: x.dict(), get_final_reports_list(course)))
