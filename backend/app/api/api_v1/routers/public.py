@@ -13,7 +13,7 @@ from app.db.crud.post_graduations import get_post_graduation_by_initials, get_in
 
 from app.db import models as m
 
-from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter
+from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter, SyllabusComponent
 from app.schemas.base_schemas import PostGraduation
 from app.schemas.pg_information_schemas import Researcher, Covenant, Participation, OfficialDocument, News, Event, ScheduledReport, StudentAdvisor, Staff
 from app.schemas.scraping_schemas import Professor, NewsScraped, InstitutionalRepositoryDoc
@@ -47,9 +47,6 @@ async def post_graduation_details(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get any post graduation details
-    """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return post_graduation
 
@@ -62,9 +59,6 @@ async def articles(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the articles published by researchers of a given course
-    """
     articles = await get_publications(initials, UrlEnum.published_articles, db)
     return parse_obj_as(t.List[PublishedArticle], articles)
 
@@ -77,9 +71,6 @@ async def books(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the books published by researchers of a given course
-    """
     books = await get_publications(initials, UrlEnum.organized_books, db)
     return parse_obj_as(t.List[OrganizedBook], books)
 
@@ -92,9 +83,6 @@ async def chapters(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the chapters of books published by researchers of a given course
-    """
     chapters = await get_publications(initials, UrlEnum.published_chapters , db)
     return parse_obj_as(t.List[PublishedChapter], chapters)
 
@@ -108,15 +96,29 @@ async def students(
         id_course: int,
         db=Depends(get_db)
 ):
-    """
-    Get the students of a postgraduation
-    """
     client: ClientSession = aiohttp.ClientSession()
     headers: dict = create_headers()
 
     students = get_public_data(f'{UrlEnum.students}?id-curso={id_course}')
 
     return parse_obj_as(t.List[Student], students)
+
+@p.get(
+    "/{initials}/disciplinas",
+    response_model=t.List[SyllabusComponent],
+)
+async def syllabus_components(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    client: ClientSession = aiohttp.ClientSession()
+    headers: dict = create_headers()
+
+    id_unit = get_post_graduation_by_initials(db, initials.upper()).id_unit
+    syllabus_components = get_public_data(f'{UrlEnum.syllabus}?id-unidade={id_unit}&limit=100')
+
+    return parse_obj_as(t.List[SyllabusComponent], syllabus_components)
 
 @p.get(
     "/{initials}/turmas/{id_course}",
@@ -128,9 +130,6 @@ async def classes(
         id_course: int,
         year: int = datetime.datetime.now().year,
 ):
-    """
-    Get the classes of a given course
-    """
     client: ClientSession = aiohttp.ClientSession()
     headers: dict = create_headers()
 
@@ -149,9 +148,6 @@ async def researchers(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the researchers
-    """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_informations(db, post_graduation.id, m.Researcher))
 
@@ -164,9 +160,6 @@ async def covenants(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the covenants
-    """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_informations(db, post_graduation.id, m.Covenant))
 
@@ -179,9 +172,6 @@ async def participations(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the participations
-    """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_informations(db, post_graduation.id, m.Participation))
 
@@ -194,10 +184,6 @@ async def official_documents(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the Official Documents
-    """
-
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_informations(db, post_graduation.id, m.OfficialDocument))
 
@@ -210,9 +196,6 @@ async def news(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the news
-    """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_informations(db, post_graduation.id, m.News))
 
@@ -227,9 +210,6 @@ async def news_sigaa(
         skip: int = 0,
         db=Depends(get_db)
 ):
-    """
-    Get the news
-    """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return get_news_list(post_graduation, skip, limit)
 
@@ -242,9 +222,6 @@ async def events(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the events
-    """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_informations(db, post_graduation.id, m.Event))
 
@@ -257,9 +234,6 @@ async def staff(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the staff
-    """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_informations(db, post_graduation.id, m.Staff))
 
@@ -272,9 +246,6 @@ async def scheduled_reports(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the scheduled reports
-    """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_informations(db, post_graduation.id, m.ScheduledReport))
 
@@ -287,9 +258,6 @@ async def professors(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the professors
-    """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return get_professors_list(post_graduation)
 
@@ -302,9 +270,6 @@ async def advisors(
         initials: str,
         db=Depends(get_db)
 ):
-    """
-    Get the student advisors
-    """
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(get_informations(db, post_graduation.id, m.StudentAdvisor))
 
@@ -318,8 +283,5 @@ async def institutional_repository(
         course_id: int,
         db=Depends(get_db)
 ):
-    """
-    Get the institutional repository docs
-    """
     course = get_information(db, course_id, m.Course)
     return get_final_reports_list(course)

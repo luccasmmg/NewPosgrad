@@ -19,6 +19,7 @@ class UrlEnum(str, Enum):
     organized_books = f'{API_URL_ROOT}curriculo-pesquisador/v1/livros-publicados-organizados?'
     students = f'{API_URL_ROOT}discente/v1/discentes'
     classes = f'{API_URL_ROOT}turma/v1/turmas'
+    syllabus = f'{API_URL_ROOT}curso/v1/componentes-curriculares'
 
 class PublishedArticle(BaseModel):
     ano_producao: int = None
@@ -110,6 +111,27 @@ class Class(BaseModel):
     sigla_nivel: str = None
     subturma: bool = None
     docentes: t.List[Teacher] = []
+
+    class Config:
+        alias_generator = to_kebab
+
+class SyllabusComponent(BaseModel):
+    carga_horaria_total: int = None
+    co_requisitos: str = None
+    codigo: str  = None
+    departamento: str  = None
+    descricao_tipo_atividade: str  = None
+    disciplina_obrigatoria: bool = None
+    equivalentes: str  = None
+    id_componente:  int = None
+    id_matriz_curricular:  int = None
+    id_tipo_atividade:  int = None
+    id_tipo_componente:  int = None
+    id_unidade:  int = None
+    nivel: str  = None
+    nome: str  = None
+    pre_requisitos: str  = None
+    semestre_oferta:  int = None
 
     class Config:
         alias_generator = to_kebab

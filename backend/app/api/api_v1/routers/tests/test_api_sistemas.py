@@ -57,3 +57,25 @@ def test_get_classes(client):
     response = client.get(f'api/v1/publico/PPGP/turmas/284?year=2020')
     assert response.status_code == 200
     assert all(key in response.json()[0].keys() for key in dummy_dict.keys())
+
+def test_get_syllabus(client, test_pg):
+    dummy_dict = {
+        "carga-horaria-total": 0,
+        "co-requisitos": "string",
+        "codigo": "string",
+        "departamento": "string",
+        "descricao-tipo-atividade": "string",
+        "equivalentes": "string",
+        "id-componente": 0,
+        "id-matriz-curricular": 0,
+        "id-tipo-atividade": 0,
+        "id-tipo-componente": 0,
+        "id-unidade": 0,
+        "nivel": "string",
+        "nome": "string",
+        "pre-requisitos": "string",
+        "semestre-oferta": 0
+    }
+    response = client.get(f'api/v1/publico/PPGP/disciplinas')
+    assert response.status_code == 200
+    assert all(key in response.json()[0].keys() for key in dummy_dict.keys())
