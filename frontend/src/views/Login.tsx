@@ -4,8 +4,6 @@ import {
   Grid,
   TextField,
   Button,
-  FormControlLabel,
-  Checkbox,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Face, Fingerprint } from '@material-ui/icons';
@@ -87,7 +85,7 @@ export const Login: FC = () => {
           <Grid item md={true} sm={true} xs={true}>
             <TextField
               id="password"
-              label="Password"
+              label="Senha"
               type="password"
               value={password}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -108,33 +106,10 @@ export const Login: FC = () => {
         </Grid>
         <Grid container alignItems="center" justify="space-between">
           <Grid item>
-            <FormControlLabel
-              control={<Checkbox color="primary" />}
-              label="Remember me"
-            />
-          </Grid>
-          <Grid item>
-            <Button
-              disableFocusRipple
-              disableRipple
-              className={classes.button}
-              variant="text"
-              color="primary"
-            >
-              Forgot password ?
-            </Button>
           </Grid>
         </Grid>
         <Grid container justify="center" className={classes.marginTop}>
           {' '}
-          <Button
-            variant="outlined"
-            color="primary"
-            className={classes.button}
-            onClick={() => history.push('/signup')}
-          >
-            Sign Up
-          </Button>{' '}
           &nbsp;
           <Button
             variant="outlined"

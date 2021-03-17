@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Home, Login, Protected, PrivateRoute } from './views';
+import { Login } from './views';
 import { Admin } from './admin';
 import { logout } from './utils/auth';
 
@@ -44,8 +44,7 @@ export const Routes: FC = () => {
               return null;
             }}
           />
-          <PrivateRoute path="/protected" component={Protected} />
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={Login} />
         </header>
       </div>
     </Switch>
