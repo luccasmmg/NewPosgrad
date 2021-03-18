@@ -10,7 +10,7 @@ import datetime
 
 from app.db.session import get_db
 
-from app.db.crud.post_graduations import get_post_graduation_by_initials, get_informations, get_information
+from app.db.crud.post_graduations import get_post_graduations, get_post_graduation_by_initials, get_informations, get_information
 
 from app.db import models as m
 
@@ -43,6 +43,17 @@ async def get_publications(initials: str, enum_to_use: UrlEnum, db):
     return [item for sublist in await asyncio.gather(*list_of_corroutines) for item in sublist]
 
 @p.get(
+    "/",
+    response_model=t.List[PostGraduation],
+    response_model_exclude_none=True,
+)
+async def post_graduations(
+        db=Depends(get_db),
+):
+    post_graduations = get_post_graduations(db)
+    return post_graduations
+
+@p.get(
     "/{initials}",
     response_model=PostGraduation,
     response_model_exclude_none=True,
@@ -60,7 +71,6 @@ async def post_graduation_details(
     "/{initials}/artigos",
     response_model=t.List[PublishedArticle]
 )
-@cache(expire=60, coder=JsonCoder)
 async def articles(
         initials: str,
         request: Request = None,
