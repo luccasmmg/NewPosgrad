@@ -136,7 +136,7 @@ async def chapters(
     list_of_corroutines = [get_authors(i, UrlEnum.published_chapters, client, headers) for i in filteredChapters]
     chaptersWithAuthors = await asyncio.gather(*list_of_corroutines)
 
-    return parse_obj_as(t.List[PublishedChapter], chaptesWithAuthors)
+    return parse_obj_as(t.List[PublishedChapter], chaptersWithAuthors)
 
 @p.get(
     "/{initials}/discentes/{id_course}",
