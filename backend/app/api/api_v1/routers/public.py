@@ -32,13 +32,26 @@ async def get_teacher(class_dict: dict, client: aiohttp.ClientSession, headers: 
     class_dict['docentes'] = await get_public_data_async(f'{UrlEnum.classes}/{class_dict["id-turma"]}/docentes', client, headers)
     return parse_obj_as(Class, class_dict)
 
+async def get_authors(publication_dict: dict, enum_to_use: UrlEnum, client: aiohttp.ClientSession, headers: dict):
+    publication_dict['autores'] = await get_public_data_async(f'{enum_to_use}/{publication_dict["sequencia-producao"]}/autores?cpf-cnpj-pesquisador={publication_dict["autores"]}', client, headers)
+    return publication_dict
+
 async def get_publications(initials: str, enum_to_use: UrlEnum, db):
+    async def get_publications_by_cpf(enum_to_use: UrlEnum, cpf: str, client: aiohttp.ClientSession, headers: dict):
+        def add_cpf(x, cpf):
+            new_dict = x
+            new_dict['autores'] = cpf
+            return new_dict
+
+        publications = await get_public_data_async(f"{enum_to_use}?cpf-cnpj={cpf}&limit=100", client, headers)
+        publications_with_cpf = map(lambda x: add_cpf(x, cpf), publications)
+        return publications_with_cpf
     client: ClientSession = aiohttp.ClientSession()
     headers: dict = create_headers()
 
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     researchers = list(get_informations(db, post_graduation.id, m.Researcher))
-    list_of_corroutines = [get_public_data_async(f"{enum_to_use}cpf-cnpj={i.cpf}", client, headers) for i in researchers]
+    list_of_corroutines = [get_publications_by_cpf(enum_to_use, i.cpf, client, headers) for i in researchers]
 
     return [item for sublist in await asyncio.gather(*list_of_corroutines) for item in sublist]
 
@@ -76,8 +89,16 @@ async def articles(
         request: Request = None,
         db=Depends(get_db)
 ):
+
+    client: ClientSession = aiohttp.ClientSession()
+    headers: dict = create_headers()
+
     articles = await get_publications(initials, UrlEnum.published_articles, db)
-    return parse_obj_as(t.List[PublishedArticle], articles)
+    filteredArticles = list(filter(lambda x: int(x['ano-producao']) > (datetime.datetime.now().year - 4), articles))
+    list_of_corroutines = [get_authors(i, UrlEnum.published_articles, client, headers) for i in filteredArticles]
+    articlesWithAuthors = await asyncio.gather(*list_of_corroutines)
+
+    return parse_obj_as(t.List[PublishedArticle], articlesWithAuthors)
 
 @p.get(
     "/{initials}/livros",
@@ -88,20 +109,34 @@ async def books(
         initials: str,
         db=Depends(get_db)
 ):
+    client: ClientSession = aiohttp.ClientSession()
+    headers: dict = create_headers()
+
     books = await get_publications(initials, UrlEnum.organized_books, db)
-    return parse_obj_as(t.List[OrganizedBook], books)
+    filteredBooks = list(filter(lambda x: int(x['ano-producao']) > (datetime.datetime.now().year - 4), books))
+    list_of_corroutines = [get_authors(i, UrlEnum.organized_books, client, headers) for i in filteredBooks]
+    booksWithAuthors = await asyncio.gather(*list_of_corroutines)
+
+    return parse_obj_as(t.List[OrganizedBook], booksWithAuthors)
 
 @p.get(
     "/{initials}/capitulos",
-    response_model=t.List[OrganizedBook]
+    response_model=t.List[PublishedChapter]
 )
 async def chapters(
         response: Response,
         initials: str,
         db=Depends(get_db)
 ):
-    chapters = await get_publications(initials, UrlEnum.published_chapters , db)
-    return parse_obj_as(t.List[PublishedChapter], chapters)
+    client: ClientSession = aiohttp.ClientSession()
+    headers: dict = create_headers()
+
+    chapters = await get_publications(initials, UrlEnum.published_chapters, db)
+    filteredChapters = list(filter(lambda x: int(x['ano-producao']) > (datetime.datetime.now().year - 4), chapters))
+    list_of_corroutines = [get_authors(i, UrlEnum.published_chapters, client, headers) for i in filteredChapters]
+    chaptersWithAuthors = await asyncio.gather(*list_of_corroutines)
+
+    return parse_obj_as(t.List[PublishedChapter], chaptesWithAuthors)
 
 @p.get(
     "/{initials}/discentes/{id_course}",

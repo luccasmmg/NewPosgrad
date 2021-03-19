@@ -14,12 +14,20 @@ def to_kebab(string: str) -> str:
     return string.replace('_', '-')
 
 class UrlEnum(str, Enum):
-    published_articles = f'{API_URL_ROOT}curriculo-pesquisador/v1/artigos-publicados?'
-    published_chapters = f'{API_URL_ROOT}curriculo-pesquisador/v1/capitulos-livros?'
-    organized_books = f'{API_URL_ROOT}curriculo-pesquisador/v1/livros-publicados-organizados?'
+    published_articles = f'{API_URL_ROOT}curriculo-pesquisador/v1/artigos-publicados'
+    published_chapters = f'{API_URL_ROOT}curriculo-pesquisador/v1/capitulos-livros'
+    organized_books = f'{API_URL_ROOT}curriculo-pesquisador/v1/livros-publicados-organizados'
     students = f'{API_URL_ROOT}discente/v1/discentes'
     classes = f'{API_URL_ROOT}turma/v1/turmas'
     syllabus = f'{API_URL_ROOT}curso/v1/componentes-curriculares'
+
+class Author(BaseModel):
+    nome: str = None
+    nome_citacao: str = None
+    ordem_autoria: str = None
+
+    class Config:
+        alias_generator = to_kebab
 
 class PublishedArticle(BaseModel):
     ano_producao: int = None
@@ -32,6 +40,7 @@ class PublishedArticle(BaseModel):
     sequencia_producao: int = None
     titulo_periodico_revista: str = None
     volume: str = None
+    autores: t.List[Author] = None
 
     class Config:
         alias_generator = to_kebab
@@ -49,6 +58,7 @@ class Book(BaseModel):
     pais_publicacao: str = None
     sequencia_producao: int = None
     tipo_producao: str = None
+    autores: t.List[Author] = None
 
     class Config:
         alias_generator = to_kebab
