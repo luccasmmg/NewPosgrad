@@ -139,19 +139,19 @@ async def chapters(
     return parse_obj_as(t.List[PublishedChapter], chaptersWithAuthors)
 
 @p.get(
-    "/{initials}/discentes/{id_course}",
+    "/{initials}/discentes/{id_sigaa}",
     response_model=t.List[Student],
 )
 async def students(
         response: Response,
         initials: str,
-        id_course: int,
+        id_sigaa: int,
         db=Depends(get_db)
 ):
     client: ClientSession = aiohttp.ClientSession()
     headers: dict = create_headers()
 
-    students = get_public_data(f'{UrlEnum.students}?id-curso={id_course}')
+    students = get_public_data(f'{UrlEnum.students}?id-curso={id_sigaa}')
 
     return parse_obj_as(t.List[Student], students)
 
