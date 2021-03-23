@@ -173,19 +173,20 @@ async def syllabus_components(
     return syllabus_components
 
 @p.get(
-    "/{initials}/turmas/{id_course}",
+    "/{initials}/turmas",
     response_model=t.List[Class]
 )
 async def classes(
         response: Response,
         initials: str,
-        id_course: int,
         year: int = datetime.datetime.now().year,
+        db=Depends(get_db)
 ):
     client: ClientSession = aiohttp.ClientSession()
     headers: dict = create_headers()
 
-    classes_without_teachers = list(get_public_data(f'{UrlEnum.classes}?id-unidade={id_course}&ano={year}'))
+    id_unit = get_post_graduation_by_initials(db, initials.upper()).id_unit
+    classes_without_teachers = list(get_public_data(f'{UrlEnum.classes}?id-unidade={id_unit}&ano={year}'))
     list_of_corroutines = [get_teacher(i, client, headers) for i in classes_without_teachers]
 
     classes = await asyncio.gather(*list_of_corroutines)
