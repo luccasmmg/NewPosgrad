@@ -24,7 +24,7 @@ def test_get_students(client, test_course):
     assert response.status_code == 200
     assert all(key in response.json()[0].keys() for key in dummy_dict.keys())
 
-def test_get_classes(client):
+def test_get_classes(client, test_pg):
     dummy_dict = {
         "ano": 0,
         "capacidade-aluno": 0,
@@ -54,7 +54,7 @@ def test_get_classes(client):
         }
         ]
     }
-    response = client.get(f'api/v1/publico/PPGP/turmas/284?year=2020')
+    response = client.get(f'api/v1/publico/PPGP/turmas')
     assert response.status_code == 200
     assert all(key in response.json()[0].keys() for key in dummy_dict.keys())
 
