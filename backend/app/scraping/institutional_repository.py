@@ -5,9 +5,9 @@ from bs4 import BeautifulSoup
 from app.schemas.base_schemas import Course
 from app.schemas.scraping_schemas import InstitutionalRepositoryDoc
 
-def get_final_reports_list(course: Course, offset: int = 0):
+def get_final_reports_list(course: Course, offset: int):
 
-    url = f'{course.institutional_repository_url}'
+    url = f'{course.institutional_repository_url}?offset={offset}'
 
     response = requests.get(url)
     list_of_docs = BeautifulSoup(response.text, 'html.parser').select('.table tr')[1:]

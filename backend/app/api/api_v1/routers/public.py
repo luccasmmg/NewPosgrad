@@ -261,16 +261,16 @@ async def news(
     "/{initials}/noticias_sigaa",
     response_model=t.List[NewsScraped]
 )
-@cache(expire=60)
 async def news_sigaa(
         initials: str,
         request: Request = None,
         limit: int = 10,
         skip: int = 0,
+        all_news: bool = False,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(map(lambda x: x.dict(), get_news_list(post_graduation, skip, limit)))
+    return list(map(lambda x: x.dict(), get_news_list(post_graduation, skip, limit, all_news)))
 
 @p.get(
     "/{initials}/eventos",
@@ -345,8 +345,9 @@ async def advisors(
 async def institutional_repository(
         initials: str,
         course_id: int,
+        offset: int = 0, 
         request: Request = None,
         db=Depends(get_db)
 ):
     course = get_information(db, course_id, m.Course)
-    return list(map(lambda x: x.dict(), get_final_reports_list(course)))
+    return list(map(lambda x: x.dict(), get_final_reports_list(course, offset)))

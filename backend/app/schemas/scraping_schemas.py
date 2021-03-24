@@ -11,6 +11,7 @@ class Professor(BaseModel):
     email: str
 
 class NewsScraped(BaseModel):
+    index: int
     title: str
     date: date
     body: str

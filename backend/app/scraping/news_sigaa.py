@@ -9,17 +9,19 @@ from bs4.element import Tag
 from app.schemas.base_schemas import PostGraduation
 from app.schemas.scraping_schemas import NewsScraped
 
-def get_news_list(pg: PostGraduation, skip: int, limit: int):
+def get_news_list(pg: PostGraduation, skip: int, limit: int, all_news: bool):
 
     url = f'https://sigaa.ufrn.br/sigaa/public/programa/noticias.jsf?lc=pt_BR&id={pg.id_unit}'
 
     response = requests.get(url)
     list_of_news = BeautifulSoup(response.text, 'html.parser').select('#listagem li')
-    return list(map(build_news, list_of_news[skip:limit]))
+    limit = len(list_of_news) if all_news == True else limit
+    return list(map(build_news, enumerate(list_of_news[skip:limit], start=skip)))
 
-def build_news(li: Tag):
+def build_news(tuple_li):
     # Cant just get the link, because for some reason its broken when you select it, so we need to build it manually,
     # this will extract the id of the unit and of the news
+    (index, li) = tuple_li
     numbers_in_href = re.findall(r'\b\d+\b', li.find('a').get('href'))
     id_unit, id_news  = numbers_in_href[0], numbers_in_href[1]
 
@@ -34,4 +36,5 @@ def build_news(li: Tag):
     return NewsScraped(title=text.h2.extract().text,
                        date=datetime.date(int(dates[2]), int(dates[1]), int(dates[0])),
                        body=text.prettify(),
-                       url=download_link)
+                       url=download_link,
+                       index=id_news)
