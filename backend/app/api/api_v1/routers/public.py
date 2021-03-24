@@ -17,10 +17,10 @@ from app.db import models as m
 from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter, SyllabusComponent
 from app.schemas.base_schemas import PostGraduation
 from app.schemas.pg_information_schemas import Researcher, Covenant, Participation, OfficialDocument, News, Event, ScheduledReport, StudentAdvisor, Staff
-from app.schemas.scraping_schemas import Professor, NewsScraped, InstitutionalRepositoryDoc
+from app.schemas.scraping_schemas import Professor, NewsScraped, InstitutionalRepositoryDoc, NewsShort
 from app.core.api_ufrn import get_public_data, create_headers, get_public_data_async
 from app.scraping.professors_sigaa import get_professors_list
-from app.scraping.news_sigaa import get_news_list
+from app.scraping.news_sigaa import get_news, get_news_short, build_single_news
 from app.scraping.institutional_repository import get_final_reports_list
 
 from fastapi_cache.decorator import cache
@@ -258,19 +258,30 @@ async def news(
     return list(map(lambda x: News.from_orm(x).dict(), get_informations(db, post_graduation.id, m.News)))
 
 @p.get(
-    "/{initials}/noticias_sigaa",
-    response_model=t.List[NewsScraped]
+    "/{initials}/lista_noticias_sigaa",
+    response_model=t.List[NewsShort]
 )
-async def news_sigaa(
+async def news_list_sigaa(
         initials: str,
-        request: Request = None,
         limit: int = 10,
         skip: int = 0,
         all_news: bool = False,
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return list(map(lambda x: x.dict(), get_news_list(post_graduation, skip, limit, all_news)))
+    return list(map(lambda x: x.dict(), get_news_short(post_graduation, skip, limit, all_news)))
+
+@p.get(
+    "/{initials}/noticia_sigaa/{id_news}",
+    response_model=NewsScraped
+)
+async def news_sigaa(
+        initials: str,
+        id_news:int,
+        db=Depends(get_db)
+):
+    id_unit = get_post_graduation_by_initials(db, initials.upper()).id_unit
+    return build_single_news(id_unit, id_news)
 
 @p.get(
     "/{initials}/eventos",

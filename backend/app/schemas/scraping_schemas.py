@@ -17,6 +17,11 @@ class NewsScraped(BaseModel):
     body: str
     url: HttpUrl = None
 
+class NewsShort(BaseModel):
+    index: int
+    title: str
+    date: date
+
 class InstitutionalRepositoryDoc(BaseModel):
     title: str
     authors: str
