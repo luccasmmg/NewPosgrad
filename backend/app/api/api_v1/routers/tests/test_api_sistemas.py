@@ -1,5 +1,29 @@
 #!/usr/bin/env python3
 
+def test_get_event_works(client, test_pg, test_researcher):
+    dummy_dict = {
+        "ano-producao": 0,
+        "isbn": "string",
+        "natureza-producao": "string",
+        "nome-evento": "string",
+        "nome-producao": "string",
+        "pais-evento": "string",
+        "pais-producao": "string",
+        "sequencia-producao": 0,
+        "titulo-anais": "string",
+        "volume": "string",
+        "autores": [
+        {
+            "nome": "string",
+            "nome-citacao": "string",
+            "ordem-autoria": "string"
+        }
+        ]
+    }
+    response = client.get(f"/api/v1/publico/PPGP/trabalhos_eventos")
+    assert response.status_code == 200
+    assert all(key in response.json()[0].keys() for key in dummy_dict.keys())
+
 def test_get_students(client, test_course):
     dummy_dict = {
         "ano-ingresso": 0,

@@ -233,7 +233,7 @@ def test_researcher(test_db, test_pg) -> models.Researcher:
     researcher = models.Researcher(
         owner_id=test_pg.id,
         name="Maria Arlete",
-        cpf="12345678910"
+        cpf="10344365549"
     )
     test_db.add(researcher)
     test_db.commit()

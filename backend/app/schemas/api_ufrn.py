@@ -17,6 +17,7 @@ class UrlEnum(str, Enum):
     published_articles = f'{API_URL_ROOT}curriculo-pesquisador/v1/artigos-publicados'
     published_chapters = f'{API_URL_ROOT}curriculo-pesquisador/v1/capitulos-livros'
     organized_books = f'{API_URL_ROOT}curriculo-pesquisador/v1/livros-publicados-organizados'
+    event_works = f'{API_URL_ROOT}curriculo-pesquisador/v1/trabalhos-eventos'
     students = f'{API_URL_ROOT}discente/v1/discentes'
     classes = f'{API_URL_ROOT}turma/v1/turmas'
     syllabus = f'{API_URL_ROOT}curso/v1/componentes-curriculares'
@@ -39,6 +40,22 @@ class PublishedArticle(BaseModel):
     pais_publicacao: str = None
     sequencia_producao: int = None
     titulo_periodico_revista: str = None
+    volume: str = None
+    autores: t.List[Author] = None
+
+    class Config:
+        alias_generator = to_kebab
+
+class EventWork(BaseModel):
+    ano_producao: int = None
+    isbn: str = None
+    natureza_producao: str = None
+    nome_evento: str = None
+    nome_producao: str = None
+    pais_evento: str = None
+    pais_producao: str = None
+    sequencia_producao: int = None
+    titulo_anais: str = None
     volume: str = None
     autores: t.List[Author] = None
 

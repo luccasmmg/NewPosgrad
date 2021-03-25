@@ -14,7 +14,7 @@ from app.db.crud.post_graduations import get_post_graduations, get_post_graduati
 
 from app.db import models as m
 
-from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter, SyllabusComponent
+from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter, SyllabusComponent, EventWork
 from app.schemas.base_schemas import PostGraduation
 from app.schemas.pg_information_schemas import Researcher, Covenant, Participation, OfficialDocument, News, Event, ScheduledReport, StudentAdvisor, Staff
 from app.schemas.scraping_schemas import Professor, NewsScraped, InstitutionalRepositoryDoc, NewsShort
@@ -137,6 +137,25 @@ async def chapters(
     chaptersWithAuthors = await asyncio.gather(*list_of_corroutines)
 
     return parse_obj_as(t.List[PublishedChapter], chaptersWithAuthors)
+
+@p.get(
+    "/{initials}/trabalhos_eventos",
+    response_model=t.List[EventWork]
+)
+async def event_works(
+        response: Response,
+        initials: str,
+        db=Depends(get_db)
+):
+    client: ClientSession = aiohttp.ClientSession()
+    headers: dict = create_headers()
+
+    event_works = await get_publications(initials, UrlEnum.event_works, db)
+    filteredEventWorks = list(filter(lambda x: int(x['ano-producao']) > (datetime.datetime.now().year - 4), event_works))
+    list_of_corroutines = [get_authors(i, UrlEnum.event_works, client, headers) for i in filteredEventWorks]
+    eventWorksWithAuthors = await asyncio.gather(*list_of_corroutines)
+
+    return parse_obj_as(t.List[EventWork], eventWorksWithAuthors)
 
 @p.get(
     "/{initials}/discentes/{id_sigaa}",
