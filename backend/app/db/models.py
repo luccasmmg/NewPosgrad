@@ -110,6 +110,7 @@ class Covenant(Base):
     initials = Column(String, nullable=False)
     logo_file = Column(String)
     deleted = Column(Boolean, default=False)
+    finished = Column(Boolean, default=False)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="covenants")
 

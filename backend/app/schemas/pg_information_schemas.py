@@ -55,12 +55,14 @@ class CovenantCreate(CovenantBase):
     pass
 
 class CovenantEdit(CovenantBase):
+    finished: bool
     pass
 
 class Covenant(CovenantBase):
     logo_file: str
     id: int
     owner_id: int
+    finished: bool
 
     class Config:
         orm_mode = True
