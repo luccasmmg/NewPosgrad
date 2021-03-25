@@ -25,6 +25,7 @@ def test_edit_covenant(client, test_user, test_covenant, user_token_headers):
     new_covenant = {
         "name": "Covenant 2",
         "initials": "CCT",
+        "finished": True,
     }
     response = client.put(
         f"api/v1/convenio/{test_covenant.id}",
