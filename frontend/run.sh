@@ -9,6 +9,9 @@ case $1 in
   build)
     yarn build
     ;;
+  serve)
+	yarn serve -s build
+	;;
   test)
     yarn test $@
     ;;

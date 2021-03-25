@@ -12,5 +12,6 @@ ADD . /app
 EXPOSE 8000
 EXPOSE 35729
 
+RUN yarn build
 ENTRYPOINT ["/bin/bash", "/app/run.sh"]
-CMD ["start"]
+CMD ["serve"]
