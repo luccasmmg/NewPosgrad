@@ -3,6 +3,8 @@ from enum import Enum
 
 from pydantic import BaseModel
 
+from datetime import datetime
+
 from app.core.config import API_URL_ROOT
 
 import typing as t
@@ -18,6 +20,7 @@ class UrlEnum(str, Enum):
     published_chapters = f'{API_URL_ROOT}curriculo-pesquisador/v1/capitulos-livros'
     organized_books = f'{API_URL_ROOT}curriculo-pesquisador/v1/livros-publicados-organizados'
     event_works = f'{API_URL_ROOT}curriculo-pesquisador/v1/trabalhos-eventos'
+    scheduled_reports = f'{API_URL_ROOT}banca/v2/pos-graduacao'
     students = f'{API_URL_ROOT}discente/v1/discentes'
     classes = f'{API_URL_ROOT}turma/v1/turmas'
     syllabus = f'{API_URL_ROOT}curso/v1/componentes-curriculares'
@@ -104,6 +107,17 @@ class Student(BaseModel):
     nome_discente: str = None
     periodo_ingresso: int =  None
     sigla_nivel: str = None
+
+    class Config:
+        alias_generator = to_kebab
+
+class ScheduledReportAPI(BaseModel):
+    id_banca_pos_graduacao: int = None
+    tipo_banca: str = None
+    titulo: str = None
+    local: str = None
+    nome_discente: str = None
+    data_defesa: datetime = None
 
     class Config:
         alias_generator = to_kebab

@@ -14,7 +14,7 @@ from app.db.crud.post_graduations import get_post_graduations, get_post_graduati
 
 from app.db import models as m
 
-from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter, SyllabusComponent, EventWork
+from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter, SyllabusComponent, EventWork, ScheduledReportAPI
 from app.schemas.base_schemas import PostGraduation
 from app.schemas.pg_information_schemas import Researcher, Covenant, Participation, OfficialDocument, News, Event, ScheduledReport, StudentAdvisor, Staff
 from app.schemas.scraping_schemas import Professor, NewsScraped, InstitutionalRepositoryDoc, NewsShort
@@ -173,6 +173,24 @@ async def students(
     students = get_public_data(f'{UrlEnum.students}?id-curso={id_sigaa}')
 
     return parse_obj_as(t.List[Student], students)
+
+@p.get(
+    "/{initials}/bancas_sigaa/",
+    response_model=t.List[ScheduledReportAPI],
+)
+async def presentations_sigaa(
+        response: Response,
+        initials: str,
+        page: int = 0,
+        db=Depends(get_db)
+):
+    client: ClientSession = aiohttp.ClientSession()
+    headers: dict = create_headers()
+
+    id_unit = get_post_graduation_by_initials(db, initials.upper()).id_unit
+    scheduled_reports = get_public_data(f'{UrlEnum.scheduled_reports}?id-unidade-programa={id_unit}&sort=data-defesa,desc&page={page}')['content']
+
+    return parse_obj_as(t.List[ScheduledReportAPI], scheduled_reports)
 
 @p.get(
     "/{initials}/disciplinas",
