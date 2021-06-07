@@ -14,6 +14,11 @@ import { StaffCreate, StaffList, StaffEdit } from './Staff';
 import { NewsList, NewsEdit, NewsCreate } from './News';
 import { EventList, EventEdit, EventCreate } from './Events';
 import {
+  RepositoryDocsList,
+  RepositoryDocsEdit,
+  RepositoryDocsCreate,
+} from './Repository';
+import {
   ParticipationList,
   ParticipationEdit,
   ParticipationCreate,
@@ -112,6 +117,13 @@ export const Admin: FC = () => {
           list={EventList}
           edit={EventEdit}
           create={EventCreate}
+        />,
+        <Resource
+          name="repositorio"
+          options={{ label: 'Repositorio de Documentos' }}
+          list={RepositoryDocsList}
+          edit={RepositoryDocsEdit}
+          create={RepositoryDocsCreate}
         />,
         <Resource
           name="defesa"
