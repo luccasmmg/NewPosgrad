@@ -110,6 +110,7 @@ class Covenant(Base):
     name = Column(String, nullable=False)
     initials = Column(String, nullable=False)
     logo_file = Column(String)
+    object = Column(String)
     deleted = Column(Boolean, default=False)
     finished = Column(Boolean, default=False)
 

@@ -49,6 +49,7 @@ class StudentAdvisor(StudentAdvisorBase):
 class CovenantBase(BaseModel):
     name: str
     initials: str
+    object: str
 
 class CovenantCreate(CovenantBase):
     logo_file: str

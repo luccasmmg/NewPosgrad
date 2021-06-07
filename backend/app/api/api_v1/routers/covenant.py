@@ -36,6 +36,7 @@ async def covenant_create(
     request: Request,
     db=Depends(get_db),
     name: str = Form(...),
+    object: str = Form(...),
     initials: str = Form(...),
     logo_file: UploadFile = File(...),
     current_user=Depends(get_current_active_user),
@@ -50,7 +51,7 @@ async def covenant_create(
 
     s3_response = boto3.resource('s3').Bucket('juno-minerva').put_object(Key=f'logo_covenants/{filename_normalized}', Body=logo_file.file, ACL='public-read')
 
-    covenant = CovenantCreate(name=name, initials=initials, logo_file=f'https://juno-minerva.s3-sa-east-1.amazonaws.com/logo_covenants/{filename_normalized}')
+    covenant = CovenantCreate(object=object, name=name, initials=initials, logo_file=f'https://juno-minerva.s3-sa-east-1.amazonaws.com/logo_covenants/{filename_normalized}')
 
     return create_covenant(db, current_user.owner_id, covenant)
 

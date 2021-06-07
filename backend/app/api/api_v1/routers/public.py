@@ -16,7 +16,7 @@ from app.db import models as m
 
 from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter, SyllabusComponent, EventWork, ScheduledReportAPI
 from app.schemas.base_schemas import PostGraduation
-from app.schemas.pg_information_schemas import Researcher, Covenant, Participation, OfficialDocument, News, Event, ScheduledReport, StudentAdvisor, Staff
+from app.schemas.pg_information_schemas import Researcher, Covenant, Participation, OfficialDocument, News, Event, ScheduledReport, RepositoryDoc, StudentAdvisor, Staff
 from app.schemas.scraping_schemas import Professor, NewsScraped, InstitutionalRepositoryDoc, NewsShort
 from app.core.api_ufrn import get_public_data, create_headers, get_public_data_async
 from app.scraping.professors_sigaa import get_professors_list
@@ -224,6 +224,7 @@ async def classes(
 
     id_unit = get_post_graduation_by_initials(db, initials.upper()).id_unit
     classes_without_teachers = list(get_public_data(f'{UrlEnum.classes}?id-unidade={id_unit}&ano={year}'))
+    print(classes_without_teachers, flush=True)
     list_of_corroutines = [get_teacher(i, client, headers) for i in classes_without_teachers]
 
     classes = await asyncio.gather(*list_of_corroutines)
@@ -371,6 +372,19 @@ async def professors(
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
     return list(map(lambda x: x.dict(), get_professors_list(post_graduation)))
+
+@p.get(
+    "/{initials}/repositorio",
+    response_model=t.List[RepositoryDoc]
+)
+@cache(expire=60)
+async def repository_docs(
+        initials: str,
+        request: Request = None,
+        db=Depends(get_db)
+):
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    return list(map(lambda x: RepositoryDoc.from_orm(x).dict(), get_informations(db, post_graduation.id, m.Repository)))
 
 @p.get(
     "/{initials}/orientadores",

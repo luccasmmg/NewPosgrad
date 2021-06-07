@@ -118,6 +118,7 @@ def create_covenant(db: Session, pg_id: int, covenant: pg_information_schemas.Co
     db_covenant = models.Covenant(
         owner_id=pg_id,
         initials=covenant.initials,
+        object=covenant.object,
         logo_file=covenant.logo_file,
         name=covenant.name,
     )

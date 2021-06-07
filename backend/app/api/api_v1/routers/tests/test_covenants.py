@@ -9,6 +9,7 @@ def test_add_covenant(client, test_user, user_token_headers):
     new_covenant = {
         "name": "Covenant 2",
         "initials": "CCT",
+        "object": "Object",
     }
     path = f"{pathlib.Path(__file__).parent.absolute()}/test_files/test_logo.jpg"
     _files = {'logo_file': open(path, 'rb')}
@@ -26,6 +27,7 @@ def test_edit_covenant(client, test_user, test_covenant, user_token_headers):
         "name": "Covenant 2",
         "initials": "CCT",
         "finished": True,
+        "object": "Object 3",
     }
     response = client.put(
         f"api/v1/convenio/{test_covenant.id}",

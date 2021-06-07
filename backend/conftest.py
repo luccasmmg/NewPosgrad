@@ -262,6 +262,7 @@ def test_covenant(test_db, test_pg) -> models.Covenant:
         owner_id=test_pg.id,
         name="Covenant test",
         logo_file="dummy.pdf",
+        object="Teste",
         initials="CT"
     )
     test_db.add(covenant)
@@ -299,6 +300,22 @@ def test_participation(test_db, test_pg) -> models.Participation:
     test_db.add(participation)
     test_db.commit()
     return participation
+
+@pytest.fixture
+def test_repository_docs(test_db, test_pg) -> models.Repository:
+    """
+    repository doc for testing
+    """
+    repository_docs = models.Repository(
+        owner_id=test_pg.id,
+        title="Teste",
+        author="Teste",
+        year=2020,
+        link="https://google2.com"
+    )
+    test_db.add(repository_docs)
+    test_db.commit()
+    return repository_docs
 
 @pytest.fixture
 def test_event(test_db, test_pg) -> models.Event:
