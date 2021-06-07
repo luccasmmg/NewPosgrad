@@ -200,6 +200,16 @@ def create_event(db: Session, pg_id: int, event: pg_information_schemas.EventCre
     )
     return add_information(db, db_event)
 
+def create_repository_doc(db: Session, pg_id: int, repository_doc: pg_information_schemas.RepositoryDocCreate):
+    db_repository_doc = models.Repository(
+        owner_id=pg_id,
+        title=repository_doc.title,
+        link=repository_doc.link,
+        author=repository_doc.author,
+        year=repository_doc.year,
+    )
+    return add_information(db, db_repository_doc)
+
 def create_scheduled_report(db: Session, pg_id: int, scheduled_report: pg_information_schemas.ScheduledReportCreate):
     db_scheduled_report = models.ScheduledReport(
         owner_id=pg_id,

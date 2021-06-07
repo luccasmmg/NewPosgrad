@@ -27,6 +27,7 @@ class PostGraduation(Base):
     official_documents = relationship("OfficialDocument", back_populates="post_graduation_owner")
     news = relationship("News", back_populates="post_graduation_owner")
     events = relationship("Event", back_populates="post_graduation_owner")
+    repository_docs = relationship("Repository", back_populates="post_graduation_owner")
     scheduled_reports = relationship("ScheduledReport", back_populates="post_graduation_owner")
     advisors = relationship("StudentAdvisor", back_populates="post_graduation_owner")
     staff = relationship("Staff", back_populates="post_graduation_owner")
@@ -179,6 +180,19 @@ class Event(Base):
     deleted = Column(Boolean, default=False)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="events")
+
+class Repository(Base):
+    __tablename__ = "repository"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    title = Column(String)
+    link = Column(String)
+    year = Column(Integer)
+    author = Column(String)
+    deleted = Column(Boolean, default=False)
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="repository_docs")
 
 class ScheduledReport(Base):
     __tablename__ = "scheduled_report"

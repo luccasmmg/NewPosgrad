@@ -175,6 +175,27 @@ class Event(EventBase):
     class Config:
         orm_mode = True
 
+#RepositoryDoc
+
+class RepositoryDocBase(BaseModel):
+    title: str
+    author: str
+    year: int
+    link: HttpUrl
+
+class RepositoryDocCreate(RepositoryDocBase):
+    pass
+
+class RepositoryDocEdit(RepositoryDocBase):
+    pass
+
+class RepositoryDoc(RepositoryDocBase):
+    id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True
+
 #ScheduledReport
 
 class ScheduledReportBase(BaseModel):

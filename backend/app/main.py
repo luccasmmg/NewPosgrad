@@ -15,6 +15,7 @@ from app.api.api_v1.routers.official_document import document_router
 from app.api.api_v1.routers.participation import participation_router
 from app.api.api_v1.routers.news import news_router
 from app.api.api_v1.routers.event import event_router
+from app.api.api_v1.routers.repository import repository_doc_router
 from app.api.api_v1.routers.scheduled_report import scheduled_report_router
 from app.api.api_v1.routers.student_advisor import student_advisor_router
 from app.api.api_v1.routers.staff import staff_router
@@ -79,6 +80,7 @@ app.include_router(participation_router, prefix="/api/v1", tags=["participations
 app.include_router(document_router, prefix="/api/v1", tags=["documents"])
 app.include_router(news_router, prefix="/api/v1", tags=["news"])
 app.include_router(event_router, prefix="/api/v1", tags=["events"])
+app.include_router(repository_doc_router, prefix="/api/v1", tags=["repository_docs"])
 app.include_router(scheduled_report_router, prefix="/api/v1", tags=["scheduled reports"])
 app.include_router(student_advisor_router, prefix="/api/v1", tags=["student advisor"])
 app.include_router(staff_router, prefix="/api/v1", tags=["staff"])
