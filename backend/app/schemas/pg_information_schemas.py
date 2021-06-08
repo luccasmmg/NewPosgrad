@@ -49,7 +49,7 @@ class StudentAdvisor(StudentAdvisorBase):
 class CovenantBase(BaseModel):
     name: str
     initials: str
-    object: str
+    object: str = None
 
 class CovenantCreate(CovenantBase):
     logo_file: str

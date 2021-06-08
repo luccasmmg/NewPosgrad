@@ -28,8 +28,6 @@
     "build": "react-scripts build",
     "test": "CI=true react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
     "cy:run": "cypress run --record --key $CYPRESS_DASHBOARD_KEY",
     "test:e2e": "start-server-and-test 'yarn start' http://localhost:3000 'yarn cy:run'"
   },
@@ -49,12 +47,6 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.1.20",
-    "@storybook/addon-essentials": "^6.1.20",
-    "@storybook/addon-links": "^6.1.20",
-    "@storybook/node-logger": "^6.1.20",
-    "@storybook/preset-create-react-app": "^3.1.6",
-    "@storybook/react": "^6.1.20",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^11.0.4",
     "@testing-library/user-event": "^12.0.11",

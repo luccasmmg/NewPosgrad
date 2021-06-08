@@ -60,5 +60,6 @@ def test_edit_pg(client, test_pg, test_superuser, superuser_token_headers):
             "id": test_superuser.id
             }
         ],
-        "courses": []
+        "courses": [],
+        "impact": []
     }
