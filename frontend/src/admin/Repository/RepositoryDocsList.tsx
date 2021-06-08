@@ -1,12 +1,6 @@
 // in src/users.js
 import React, { FC } from 'react';
-import {
-  List,
-  Datagrid,
-  TextField,
-  NumberField,
-  EditButton,
-} from 'react-admin';
+import { List, Datagrid, TextField, EditButton } from 'react-admin';
 
 export const RepositoryDocsList: FC = (props) => (
   <List {...props} title="Listar documentos">

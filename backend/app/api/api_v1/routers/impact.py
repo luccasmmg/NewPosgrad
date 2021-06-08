@@ -22,6 +22,15 @@ async def get_impact(
     response.headers["Content-Range"] = f"0-9/{len(impacts)}"
     return impacts
 
+@i.get("/impacto/{impact_id}", response_model=Impact, response_model_exclude_none=True)
+async def impact_details(
+        response: Response,
+        impact_id: int,
+        db=Depends(get_db),
+        current_user=Depends(get_current_active_user),
+):
+    return get_information(db, impact_id, m.Impact)
+
 @i.post("/impacto", response_model=Impact, response_model_exclude_none=True)
 async def impact_create(
     request: Request,

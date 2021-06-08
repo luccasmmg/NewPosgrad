@@ -22,7 +22,7 @@ def upgrade():
         sa.Column("id", sa.Integer, primary_key=True),
         sa.Column("owner_id", sa.Integer, sa.ForeignKey("post_graduation.id")),
         sa.Column("body", sa.Text),
-        sa.Column("inserted_on", sa.Date),
+        sa.Column("inserted_on", sa.DateTime(), server_default=sa.func.current_timestamp()),
         sa.Column("deleted", sa.Boolean, default=False)
     )
 

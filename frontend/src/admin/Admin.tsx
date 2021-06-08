@@ -5,6 +5,7 @@ import authProvider from './authProvider';
 
 import { UserList, UserEdit, UserCreate } from './Users';
 import { CovenantCreate, CovenantList, CovenantEdit } from './Covenants';
+import { ImpactCreate, ImpactList, ImpactEdit } from './Impact';
 import {
   OfficialDocumentCreate,
   OfficialDocumentList,
@@ -110,6 +111,13 @@ export const Admin: FC = () => {
           list={PhoneList}
           edit={PhoneEdit}
           create={PhoneCreate}
+        />,
+        <Resource
+          name="impacto"
+          options={{ label: 'Impacto' }}
+          list={ImpactList}
+          edit={ImpactEdit}
+          create={ImpactCreate}
         />,
         <Resource
           name="evento"

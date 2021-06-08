@@ -416,7 +416,7 @@ async def institutional_repository(
 
 @p.get(
     "/{initials}/impacto",
-    response_model=Impact
+    response_model=t.List[Impact]
 )
 @cache(expire=60)
 async def impact(
@@ -425,4 +425,4 @@ async def impact(
         db=Depends(get_db)
 ):
     post_graduation = get_post_graduation_by_initials(db, initials.upper())
-    return post_graduation.impact[0] if post_graduation.impact else None
+    return list(map(lambda x: Impact.from_orm(x).dict(), get_informations(db, post_graduation.id, m.Impact)))
