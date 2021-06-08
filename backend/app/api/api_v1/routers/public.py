@@ -16,7 +16,7 @@ from app.db import models as m
 
 from app.schemas.api_ufrn import Student, UrlEnum, Class, PublishedArticle, OrganizedBook, PublishedChapter, SyllabusComponent, EventWork, ScheduledReportAPI
 from app.schemas.base_schemas import PostGraduation
-from app.schemas.pg_information_schemas import Researcher, Covenant, Participation, OfficialDocument, News, Event, ScheduledReport, RepositoryDoc, StudentAdvisor, Staff
+from app.schemas.pg_information_schemas import Researcher, Covenant, Participation, OfficialDocument, News, Event, ScheduledReport, RepositoryDoc, StudentAdvisor, Staff, Impact
 from app.schemas.scraping_schemas import Professor, NewsScraped, InstitutionalRepositoryDoc, NewsShort
 from app.core.api_ufrn import get_public_data, create_headers, get_public_data_async
 from app.scraping.professors_sigaa import get_professors_list
@@ -413,3 +413,16 @@ async def institutional_repository(
 ):
     course = get_information(db, course_id, m.Course)
     return list(map(lambda x: x.dict(), get_final_reports_list(course, offset)))
+
+@p.get(
+    "/{initials}/impacto",
+    response_model=Impact
+)
+@cache(expire=60)
+async def impact(
+        initials: str,
+        request: Request = None,
+        db=Depends(get_db)
+):
+    post_graduation = get_post_graduation_by_initials(db, initials.upper())
+    return post_graduation.impact[0] if post_graduation.impact else None

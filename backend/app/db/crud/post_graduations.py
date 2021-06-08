@@ -191,6 +191,13 @@ def create_news(db: Session, pg_id: int, news: pg_information_schemas.NewsCreate
     )
     return add_information(db, db_news)
 
+def create_impact(db: Session, pg_id: int, impact: pg_information_schemas.ImpactCreate):
+    db_impact = models.Impact(
+        owner_id=pg_id,
+        body=impact.body,
+    )
+    return add_information(db, db_impact)
+
 def create_event(db: Session, pg_id: int, event: pg_information_schemas.EventCreate):
     db_event = models.Event(
         owner_id=pg_id,

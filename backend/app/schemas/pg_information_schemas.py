@@ -155,6 +155,25 @@ class News(NewsBase):
     class Config:
         orm_mode = True
 
+#Impact
+
+class ImpactBase(BaseModel):
+    body: str
+
+class ImpactCreate(ImpactBase):
+    pass
+
+class ImpactEdit(ImpactBase):
+    pass
+
+class Impact(ImpactBase):
+    id: int
+    owner_id: int
+    inserted_on: datetime.datetime
+
+    class Config:
+        orm_mode = True
+
 #Event
 
 class EventBase(BaseModel):

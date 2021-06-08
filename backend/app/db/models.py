@@ -20,6 +20,7 @@ class PostGraduation(Base):
 
     users = relationship("User", back_populates="post_graduation_owner")
     courses = relationship("Course", back_populates="post_graduation_owner")
+    impact = relationship("Impact", back_populates="post_graduation_owner")
     researchers = relationship("Researcher", back_populates="post_graduation_owner")
     covenants = relationship("Covenant", back_populates="post_graduation_owner")
     participations = relationship("Participation", back_populates="post_graduation_owner")
@@ -220,6 +221,17 @@ class News(Base):
     date = Column(Date)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="news")
+
+class Impact(Base):
+    __tablename__ = "impact"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    body = Column(Text)
+    deleted = Column(Boolean, default=False)
+    inserted_on = Column(DateTime(timezone=True), server_default=func.now())
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="impact")
 
 class StudentAdvisor(Base):
     __tablename__ = "student_advisor"

@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, EmailStr, HttpUrl, validator
 from app.db.models import CourseType, PhoneType
+from app.schemas.pg_information_schemas import Impact
 import typing as t
 
 # User schemes
@@ -144,6 +145,7 @@ class PostGraduation(PostGraduationBase):
     users: t.List[User] = []
     courses: t.List[Course] = []
     attendance: Attendance = None
+    impact: t.List[Impact] = None
 
     class Config:
         orm_mode = True
