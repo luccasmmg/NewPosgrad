@@ -100,8 +100,9 @@ class Phone(PhoneBase):
 
 class AttendanceBase(BaseModel):
     email: EmailStr
-    location: str
-    schedule: str
+    location: str = None
+    schedule: str = None
+    about: str = None
 
 class AttendanceCreate(AttendanceBase):
     owner_id: int

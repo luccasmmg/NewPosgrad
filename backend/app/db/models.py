@@ -72,6 +72,7 @@ class Attendance(Base):
     email = Column(String)
     location = Column(String)
     schedule = Column(String)
+    about = Column(String)
     deleted = Column(Boolean, default=False)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="attendance")

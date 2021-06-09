@@ -9,6 +9,7 @@ import {
   TextInput,
 } from 'react-admin';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import RichTextInput from 'ra-input-rich-text';
 
 const CustomToolbar: FC = (props) => (
   <Toolbar {...props}>
@@ -28,6 +29,7 @@ export const AttendanceEdit: FC = (props) => (
       <TextInput type="email" label="Email" source="email" />
       <TextInput label="Localização" source="location" />
       <TextInput label="Horários" source="schedule" />
+      <RichTextInput label="Sobre o programa" source="about" />
     </SimpleForm>
   </Edit>
 );
