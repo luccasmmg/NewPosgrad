@@ -75,6 +75,7 @@ class ParticipationBase(BaseModel):
     description: str = ""
     year: PositiveInt = None
     international: bool = False
+    location: str = None
     category: ParternshipCategory
 
 class ParticipationCreate(ParticipationBase):

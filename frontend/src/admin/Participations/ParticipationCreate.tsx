@@ -13,6 +13,7 @@ export const ParticipationCreate: FC = (props) => (
     <SimpleForm>
       <TextInput label="Título participação" source="title" />
       <TextInput label="Descrição participação" source="description" />
+      <TextInput label="Localização da participação" source="location" />
       <NumberInput label="Ano participação" source="year" />
       <BooleanInput
         label="Participação Internacional?"

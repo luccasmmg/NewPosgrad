@@ -134,6 +134,7 @@ class Participation(Base):
     description = Column(String)
     year = Column(Integer)
     international = Column(Boolean)
+    location = Column(String, nullable=False)
     category = Column(Enum(ParternshipCategory), nullable=False)
     deleted = Column(Boolean, default=False)
 

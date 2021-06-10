@@ -14,6 +14,7 @@ export const ParticipationList: FC = (props) => (
     <Datagrid>
       <TextField label="Título participação" source="title" />
       <TextField label="Descrição participação" source="description" />
+      <TextField label="Localização da participação" source="location" />
       <TextField label="Ano participação" source="year" />
       <BooleanField
         label="Participação Internacional?"

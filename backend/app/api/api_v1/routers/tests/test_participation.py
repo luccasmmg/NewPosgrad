@@ -7,6 +7,7 @@ def test_add_participation(client, test_user, user_token_headers):
         "title": "Participação teste",
         "description": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         "year": 2020,
+        "location": "South Africa",
         "category": "prize",
         "international": False
     }
@@ -25,6 +26,7 @@ def test_edit_participation(client, test_user, test_participation, user_token_he
         "title": "Participação teste 2",
         "description": "XXXXXXXXXXXXXX",
         "year": 2020,
+        "location": "Germany",
         "category": "posdoc",
         "international": False
     }

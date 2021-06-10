@@ -128,6 +128,7 @@ def create_participation(db: Session, pg_id: int, participation: pg_information_
     db_participation = models.Participation(
         owner_id=pg_id,
         title=participation.title,
+        location=participation.location,
         description=participation.description,
         year=participation.year,
         category=participation.category,
