@@ -6,6 +6,11 @@ import authProvider from './authProvider';
 import { UserList, UserEdit, UserCreate } from './Users';
 import { CovenantCreate, CovenantList, CovenantEdit } from './Covenants';
 import { ProjectCreate, ProjectList, ProjectEdit } from './Projects';
+import {
+  ProjectMemberEdit,
+  ProjectMemberList,
+  ProjectMemberCreate,
+} from './ProjectMembers';
 import { ImpactCreate, ImpactList, ImpactEdit } from './Impact';
 import {
   OfficialDocumentCreate,
@@ -161,6 +166,13 @@ export const Admin: FC = () => {
           list={ProjectList}
           create={ProjectCreate}
           edit={ProjectEdit}
+        />,
+        <Resource
+          name="membro_projeto"
+          options={{ label: 'Membros de Projetos' }}
+          list={ProjectMemberList}
+          edit={ProjectMemberEdit}
+          create={ProjectMemberCreate}
         />,
         <Resource
           name="equipe"

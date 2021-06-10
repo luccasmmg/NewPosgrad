@@ -174,6 +174,15 @@ def create_phone(db: Session, attendance_id: int, phone: base_schemas.PhoneCreat
     )
     return add_information(db, db_phone)
 
+def create_project_member(db: Session, pg_id: int, project_member: pg_information_schemas.ProjectMemberCreate):
+    db_project_member = models.ProjectMember(
+        owner_id=pg_id,
+        project=project_member.project,
+        name=project_member.name,
+        job_title=project_member.job_title,
+    )
+    return add_information(db, db_project_member)
+
 def create_official_document(db: Session, pg_id: int, official_document: pg_information_schemas.OfficialDocumentCreate):
     db_official_document = models.OfficialDocument(
         owner_id=pg_id,

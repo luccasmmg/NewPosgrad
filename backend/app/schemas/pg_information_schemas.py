@@ -239,6 +239,26 @@ class ScheduledReport(ScheduledReportBase):
     class Config:
         orm_mode = True
 
+#ProjectMember
+
+class ProjectMemberBase(BaseModel):
+    name: str
+    job_title: str
+    project: int
+
+class ProjectMemberCreate(ProjectMemberBase):
+    pass
+
+class ProjectMemberEdit(ProjectMemberBase):
+    pass
+
+class ProjectMember(ProjectMemberBase):
+    id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True
+
 #Project
 
 class ProjectBase(BaseModel):
@@ -259,6 +279,9 @@ class Project(ProjectBase):
     id: int
     owner_id: int
     coordinator_data: Researcher = None
+    members: t.List[ProjectMember] = []
 
     class Config:
         orm_mode = True
+
+Project.update_forward_refs()
