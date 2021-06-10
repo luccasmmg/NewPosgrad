@@ -238,3 +238,27 @@ class ScheduledReport(ScheduledReportBase):
 
     class Config:
         orm_mode = True
+
+#Project
+
+class ProjectBase(BaseModel):
+    name: str
+    status: str
+    year: int
+    email: str
+
+class ProjectCreate(ProjectBase):
+    coordinator: int
+    pass
+
+class ProjectEdit(ProjectBase):
+    coordinator: int
+    pass
+
+class Project(ProjectBase):
+    id: int
+    owner_id: int
+    coordinator_data: Researcher = None
+
+    class Config:
+        orm_mode = True

@@ -226,6 +226,23 @@ def test_course(test_db, test_pg) -> models.Course:
     return course
 
 @pytest.fixture
+def test_project(test_db, test_pg, test_researcher) -> models.Project:
+    """
+    Project for testing
+    """
+    project = models.Project(
+        owner_id=test_pg.id,
+        coordinator=test_researcher.id,
+        name="Projeto teste",
+        email="Email teste",
+        year=2020,
+        status="Em execucao",
+    )
+    test_db.add(project)
+    test_db.commit()
+    return project
+
+@pytest.fixture
 def test_researcher(test_db, test_pg) -> models.Researcher:
     """
     Researcher for testing
@@ -294,6 +311,7 @@ def test_participation(test_db, test_pg) -> models.Participation:
         owner_id=test_pg.id,
         title="Teste",
         description="Teste",
+        location="Parnamirim",
         year=2020,
         category='prize',
         international=False,

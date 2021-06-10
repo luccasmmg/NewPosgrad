@@ -32,6 +32,7 @@ class PostGraduation(Base):
     scheduled_reports = relationship("ScheduledReport", back_populates="post_graduation_owner")
     advisors = relationship("StudentAdvisor", back_populates="post_graduation_owner")
     staff = relationship("Staff", back_populates="post_graduation_owner")
+    projects = relationship("Project", back_populates="post_graduation_owner")
 
 class User(Base):
     __tablename__ = "user"
@@ -46,6 +47,21 @@ class User(Base):
     owner_id = Column(Integer, ForeignKey("post_graduation.id"))
 
     post_graduation_owner = relationship("PostGraduation", back_populates="users")
+
+class Project(Base):
+    __tablename__ = "project"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("post_graduation.id"))
+    coordinator = Column(Integer, ForeignKey("researcher.id"))
+    name = Column(String, nullable=False)
+    status = Column(String, nullable=False)
+    email = Column(String, nullable=False)
+    year = Column(Integer, nullable=False)
+    deleted = Column(Boolean, default=False)
+
+    post_graduation_owner = relationship("PostGraduation", back_populates="projects")
+    coordinator_data = relationship("Researcher", back_populates="projects")
 
 class CourseType(str, enum.Enum):
     masters = 'masters'
@@ -103,6 +119,7 @@ class Researcher(Base):
     deleted = Column(Boolean, default=False)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="researchers")
+    projects = relationship("Project", back_populates="coordinator_data")
 
 class Covenant(Base):
     __tablename__ = "covenant"

@@ -5,6 +5,7 @@ import authProvider from './authProvider';
 
 import { UserList, UserEdit, UserCreate } from './Users';
 import { CovenantCreate, CovenantList, CovenantEdit } from './Covenants';
+import { ProjectCreate, ProjectList, ProjectEdit } from './Projects';
 import { ImpactCreate, ImpactList, ImpactEdit } from './Impact';
 import {
   OfficialDocumentCreate,
@@ -153,6 +154,13 @@ export const Admin: FC = () => {
           create={CovenantCreate}
           list={CovenantList}
           edit={CovenantEdit}
+        />,
+        <Resource
+          name="projeto"
+          options={{ label: 'Projetos' }}
+          list={ProjectList}
+          create={ProjectCreate}
+          edit={ProjectEdit}
         />,
         <Resource
           name="equipe"

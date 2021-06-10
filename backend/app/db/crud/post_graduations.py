@@ -114,6 +114,17 @@ def create_researcher(db: Session, pg_id: int, researcher: pg_information_schema
     )
     return add_information(db, db_researcher)
 
+def create_project(db: Session, pg_id: int, project: pg_information_schemas.ProjectCreate):
+    db_project = models.Project(
+        owner_id=pg_id,
+        coordinator=project.coordinator,
+        email=project.email,
+        name=project.name,
+        status=project.status,
+        year=project.year
+    )
+    return add_information(db, db_project)
+
 def create_covenant(db: Session, pg_id: int, covenant: pg_information_schemas.CovenantCreate):
     db_covenant = models.Covenant(
         owner_id=pg_id,

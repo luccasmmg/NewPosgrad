@@ -19,6 +19,7 @@ from app.api.api_v1.routers.repository import repository_doc_router
 from app.api.api_v1.routers.scheduled_report import scheduled_report_router
 from app.api.api_v1.routers.student_advisor import student_advisor_router
 from app.api.api_v1.routers.staff import staff_router
+from app.api.api_v1.routers.project import project_router
 from app.api.api_v1.routers.impact import impact_router
 
 from app.core import config
@@ -86,6 +87,7 @@ app.include_router(scheduled_report_router, prefix="/api/v1", tags=["scheduled r
 app.include_router(student_advisor_router, prefix="/api/v1", tags=["student advisor"])
 app.include_router(impact_router, prefix="/api/v1", tags=["impact"])
 app.include_router(staff_router, prefix="/api/v1", tags=["staff"])
+app.include_router(project_router, prefix="/api/v1", tags=["project"])
 app.include_router(public_router, prefix="/api/v1/publico", tags=["public"])
 
 if __name__ == "__main__":
