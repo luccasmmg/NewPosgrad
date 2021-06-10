@@ -5,6 +5,7 @@ import {
   TextInput,
   NumberInput,
   BooleanInput,
+  SelectInput,
 } from 'react-admin';
 
 export const ParticipationCreate: FC = (props) => (
@@ -16,6 +17,17 @@ export const ParticipationCreate: FC = (props) => (
       <BooleanInput
         label="Participação Internacional?"
         source="international"
+      />
+      <SelectInput
+        label="Tipo de intercambio"
+        source="category"
+        choices={[
+          { id: 'cooperation_agreement', name: 'Acordo de Cooperação' },
+          { id: 'prize', name: 'Prêmio' },
+          { id: 'event', name: 'Evento' },
+          { id: 'parternship', name: 'Parceria' },
+          { id: 'posdoc', name: 'Pos-Doutorado' },
+        ]}
       />
     </SimpleForm>
   </Create>
