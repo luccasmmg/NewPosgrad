@@ -6,7 +6,7 @@ def test_add_repository_docs(client, test_user, user_token_headers):
     new_repository_docs = {
         "title": "string",
         "author": "string",
-        "year": 0,
+        "year": 1,
         "link": "https://google.com"
     }
     response = client.post(
@@ -23,7 +23,7 @@ def test_edit_repository_docs(client, test_user, test_repository_docs, user_toke
     new_repository_docs = {
         "title": "string 2",
         "author": "string 2",
-        "year": 1,
+        "year": 2,
         "link": "https://google2.com"
     }
     response = client.put(

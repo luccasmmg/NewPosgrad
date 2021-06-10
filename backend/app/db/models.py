@@ -118,6 +118,13 @@ class Covenant(Base):
 
     post_graduation_owner = relationship("PostGraduation", back_populates="covenants")
 
+class ParternshipCategory(str, enum.Enum):
+    cooperation_agreement = 'cooperation_agreement'
+    prize = 'prize'
+    event = 'event'
+    parternship = 'parternship'
+    posdoc = 'posdoc'
+
 class Participation(Base):
     __tablename__ = "participation"
 
@@ -127,6 +134,7 @@ class Participation(Base):
     description = Column(String)
     year = Column(Integer)
     international = Column(Boolean)
+    category = Column(Enum(ParternshipCategory), nullable=False)
     deleted = Column(Boolean, default=False)
 
     post_graduation_owner = relationship("PostGraduation", back_populates="participations")

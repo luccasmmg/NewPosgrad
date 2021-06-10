@@ -295,6 +295,7 @@ def test_participation(test_db, test_pg) -> models.Participation:
         title="Teste",
         description="Teste",
         year=2020,
+        category='prize',
         international=False,
     )
     test_db.add(participation)

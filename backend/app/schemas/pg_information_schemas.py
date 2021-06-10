@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel, HttpUrl, PositiveInt
 
-from app.db.models import DocumentCategory, Rank
+from app.db.models import DocumentCategory, Rank, ParternshipCategory
 
 import typing as t
 
@@ -75,6 +75,7 @@ class ParticipationBase(BaseModel):
     description: str = ""
     year: PositiveInt = None
     international: bool = False
+    category: ParternshipCategory
 
 class ParticipationCreate(ParticipationBase):
     pass
@@ -200,7 +201,7 @@ class Event(EventBase):
 class RepositoryDocBase(BaseModel):
     title: str
     author: str
-    year: int
+    year: PositiveInt
     link: HttpUrl
 
 class RepositoryDocCreate(RepositoryDocBase):

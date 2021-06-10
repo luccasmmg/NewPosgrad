@@ -130,6 +130,7 @@ def create_participation(db: Session, pg_id: int, participation: pg_information_
         title=participation.title,
         description=participation.description,
         year=participation.year,
+        category=participation.category,
         international=participation.international,
     )
     return add_information(db, db_participation)
