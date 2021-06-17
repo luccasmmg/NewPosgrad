@@ -49,6 +49,13 @@ def test_edit_project(client, test_user, test_project, test_researcher, user_tok
     assert response.status_code == 200
     new_project['id'] = test_project.id
     new_project['owner_id'] = test_project.owner_id
+    new_project['coordinator_data'] = {
+      "cpf": test_researcher.cpf,
+      "name": test_researcher.name,
+      "id": test_researcher.id,
+      "owner_id": test_researcher.owner_id
+    }
+    new_project['members'] = []
     assert response.json() == new_project
 
 def test_delete_project(client, test_user, test_researcher, test_project, user_token_headers, test_db):
