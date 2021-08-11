@@ -43,6 +43,9 @@ origins = [
     "http://localhost",
     "http://localhost:5000",
     "http://localhost:3000",
+    "https://new.posgraduacao.ccsa.ufrn.br",
+    "https://posgraduacao.ccsa.ufrn.br",
+    "https://sdp.ccsa.ufrn.br",
 ]
 
 app.add_middleware(

@@ -14,7 +14,7 @@ def get_final_reports_list(course: Course, offset: int):
     return list(map(get_final_report_details, list_of_docs))
 
 def get_final_report_details(tr):
-   response = requests.get(f"https://repositorio.ufrn.br{tr.find(headers='t2').find('a').get('href')}")
+   response = requests.get(f"https://repositorio.ufrn.br{tr.find(headers='t2').find('a').get('href')}", verify=False)
    doc = BeautifulSoup(response.text, 'html.parser')
 
    title=doc.find(class_='metadataFieldValue dc_title').get_text() if doc.find(class_='metadataFieldValue dc_title') else 'Não especificado'
